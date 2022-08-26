@@ -1,55 +1,56 @@
-import { useState } from "react";
-import { Alert, Button, Col, Form, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import AuthService from "../service/AuthService";
+import { useState } from 'react';
+import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import AuthService from '../service/AuthService';
 
 export default function LogIn() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const onLogInSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!username) {
-      setError("Please enter your username");
+      setError('Please enter your username');
       return;
     }
     if (username.length < 3) {
-      setError("Username must be at least 3 characters")
+      setError('Username must be at least 3 characters');
       return;
     }
     if (username.length > 20) {
-      setError("Username must be no more than 20 characters")
+      setError('Username must be no more than 20 characters');
       return;
     }
     if (!password) {
-      setError("Please enter your password");
+      setError('Please enter your password');
       return;
     }
     if (password.length < 6) {
-      setError("Passowrd must be at least 6 characters")
+      setError('Passowrd must be at least 6 characters');
       return;
     }
     if (password.length > 40) {
-      setError("Username must be no more than 40 characters")
+      setError('Username must be no more than 40 characters');
       return;
     }
 
     AuthService.login(username, password).then(
-      data => {
+      (data) => {
         if (data?.token) {
-          navigate("/");
+          navigate('/');
         } else if (data?.code === 102) {
-          setError("Invalid username/password");
+          setError('Invalid username/password');
         } else {
-          setError("An error occured");
+          setError('An error occured');
         }
       },
-      error => {
-        setError("An error occured");
-      });
+      (error) => {
+        setError('An error occured');
+      }
+    );
   };
 
   const onUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +83,11 @@ export default function LogIn() {
               onChange={onPassswordChange}
             />
           </Form.Group>
-          {error ? <Alert className="mt-1 mb-0" variant="danger">{error}</Alert> : null}
+          {error ? (
+            <Alert className="mt-1 mb-0" variant="danger">
+              {error}
+            </Alert>
+          ) : null}
           <Button className="mt-1" variant="primary" type="submit">
             Log In
           </Button>
