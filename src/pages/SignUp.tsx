@@ -48,13 +48,16 @@ export default function SignUp() {
 
     AuthService.signup(email, username, password).then(
       data => {
-        if (data?.code === 101) {
+        const code = data?.code;
+        if (code === 0) {
+          navigate("/");
+        } else if (data?.code === 101) {
           setError("Username already taken")
-        }
-        if (data?.code === 100) {
+        } else if (data?.code === 100) {
           setError("Email already taken")
+        } else {
+          setError("An error occured");
         }
-        navigate("/");
       },
       error => {
         setError("An error occured");
