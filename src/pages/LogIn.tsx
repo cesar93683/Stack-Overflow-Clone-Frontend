@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import AuthService from "../service/AuthService";
 
 export default function LogIn() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -11,20 +12,25 @@ export default function LogIn() {
   const onLogInSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!email) {
-      setError("Please enter your email");
+    if (!username) {
+      setError("Please enter your username");
       return;
     }
     if (!password) {
       setError("Please enter your password");
       return;
     }
-
-    navigate("/");
+    AuthService.login(username, password).then(
+      () => {
+        navigate("/");
+      },
+      error => {
+        setError("Invalid username/password");
+      });
   };
 
-  const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+  const onUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
   };
 
   const onPassswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,12 +42,12 @@ export default function LogIn() {
       <Col xl={6} lg={8}>
         <Form onSubmit={onLogInSubmit}>
           <Form.Group>
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Username</Form.Label>
             <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={onEmailChange}
+              type="text"
+              placeholder="Enter username"
+              value={username}
+              onChange={onUsernameChange}
             />
           </Form.Group>
           <Form.Group>
