@@ -28,7 +28,6 @@ export default function SignUp() {
 
     AuthService.signup(email, username, password).then(
       data => {
-        console.log(data)
         if (data?.code === 101) {
           setError("Username already taken")
         }

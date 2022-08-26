@@ -21,11 +21,17 @@ export default function LogIn() {
       return;
     }
     AuthService.login(username, password).then(
-      () => {
-        navigate("/");
+      data => {
+        if (data?.token) {
+          navigate("/");
+        } else if (data?.code === 102) {
+          setError("Invalid username/password");
+        } else {
+          setError("An error occured");
+        }
       },
       error => {
-        setError("Invalid username/password");
+        setError("An error occured");
       });
   };
 
