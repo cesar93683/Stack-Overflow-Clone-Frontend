@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate  } from "react-router-dom";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
+import AuthService from "../service/AuthService";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -25,7 +26,20 @@ export default function SignUp() {
       return;
     }
 
-    navigate("/");
+    AuthService.signup(email, username, password).then(
+      data => {
+        console.log(data)
+        if (data?.code === 101) {
+          setError("Username already taken")
+        }
+        if (data?.code === 100) {
+          setError("Email already taken")
+        }
+        navigate("/");
+      },
+      error => {
+        setError("An error occured");
+      });
   };
 
   const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
