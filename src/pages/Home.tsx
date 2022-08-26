@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import PostsService from "../service/PostsService";
 import IPost from "../interfaces/IPost";
 import LoadingSpinner from "../components/LoadingSpinner";
+import Post from "../components/Post";
 
 export default function Home() {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -13,7 +14,7 @@ export default function Home() {
       data => {
         setPosts(data)
         setLoading(false)
-      }, error => {
+      }, () => {
         setLoading(false)
         setError(true)
       })
@@ -33,17 +34,7 @@ export default function Home() {
 
   return (
     <div>
-      {posts.map((post, i) => 
-      <div key={i}>
-      <div>{post.id}</div>
-        <div>{post.title}</div>
-        <div>{post.content}</div>
-        <div>{post.votes}</div>
-        <div>{post.user.id}</div>
-        <div>{post.user.username}</div>
-        <div>{post.createdAt}</div>
-        <div>{post.updatedAt}</div>
-      </div>)}
+      {posts.map((post, i) => <Post post={post} key={i}/>)}
     </div>
   );
 }
