@@ -17,12 +17,32 @@ export default function SignUp() {
       setError("Please enter your email");
       return;
     }
+    if (email.length > 50) {
+      setError("Email must be no more than 50 characters")
+      return;
+    }
     if (!username) {
       setError("Please enter your username");
       return;
     }
+    if (username.length < 3) {
+      setError("Username must be at least 3 characters")
+      return;
+    }
+    if (username.length > 20) {
+      setError("Username must be no more than 20 characters")
+      return;
+    }
     if (!password) {
       setError("Please enter your password");
+      return;
+    }
+    if (password.length < 6) {
+      setError("Passowrd must be at least 6 characters")
+      return;
+    }
+    if (password.length > 40) {
+      setError("Username must be no more than 40 characters")
       return;
     }
 
