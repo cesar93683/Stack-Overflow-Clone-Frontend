@@ -28,9 +28,9 @@ export default function BasicExample() {
         <hr />
 
         <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/login" element={<LogIn />}/>
-          <Route path="/signup" element={<SignUp />}/>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </div>
     </Router>

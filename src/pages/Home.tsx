@@ -34,7 +34,7 @@ export default function Home() {
 
   return (
     <div>
-      {posts.map((post, i) => <Post post={post} key={i}/>)}
+      {posts.map((post, i) => <Post post={post} key={i} />)}
     </div>
   );
 }

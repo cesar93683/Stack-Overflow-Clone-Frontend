@@ -36,7 +36,7 @@ export default function LogIn() {
       setError("Username must be no more than 40 characters")
       return;
     }
-    
+
     AuthService.login(username, password).then(
       data => {
         if (data?.token) {

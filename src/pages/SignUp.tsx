@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import AuthService from "../service/AuthService";
 
@@ -8,7 +8,7 @@ export default function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate  = useNavigate ();
+  const navigate = useNavigate();
 
   const onSignUpSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
