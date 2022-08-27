@@ -35,7 +35,7 @@ export default function CustomCard(props: CustomCardProps) {
   const currUserId = 100;
 
   const [currVote, setCurrVote] = useState(
-    initialCurrVote === undefined
+    !initialCurrVote
       ? 0
       : initialCurrVote === 'UP_VOTE'
       ? 1
