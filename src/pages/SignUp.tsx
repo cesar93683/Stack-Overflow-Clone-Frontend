@@ -59,7 +59,7 @@ export default function SignUp() {
           setError('An error occured');
         }
       },
-      (error) => {
+      () => {
         setError('An error occured');
       }
     );
