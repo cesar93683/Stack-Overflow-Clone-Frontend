@@ -31,12 +31,12 @@ class AuthService {
   }
   getAuthHeader() {
     const token = this.getCurrentToken();
-    console.log(token);
-    if (token === null) {
-      // TODO
+    if (!token) {
       return {};
     }
-    return { Cookie: 'token=' + token };
+    return {
+      headers: { Authorization: 'Bearer ' + token },
+    };
   }
 }
 export default new AuthService();

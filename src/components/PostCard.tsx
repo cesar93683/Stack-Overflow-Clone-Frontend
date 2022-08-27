@@ -20,8 +20,10 @@ export default function CustomCard(props: CustomCardProps) {
       id: postId,
       title,
       content,
-      user: { id: postUserId, username },
       votes: initialVotes,
+      numPostResponses,
+      user: { id: postUserId, username },
+      currVote: initialCurrVote,
       createdAt,
       updatedAt,
     },
@@ -30,11 +32,17 @@ export default function CustomCard(props: CustomCardProps) {
     className,
   } = props;
   // TODO
-  const numComments = 1;
   const currUserId = 100;
 
-  // TODO currVote
-  const [currVote, setCurrVote] = useState(0);
+  const [currVote, setCurrVote] = useState(
+    initialCurrVote === undefined
+      ? 0
+      : initialCurrVote === 'UP_VOTE'
+      ? 1
+      : initialCurrVote === 'NEUTRAL'
+      ? 0
+      : -1
+  );
   const [votes, setVotes] = useState(initialVotes);
 
   const onDownVote = () => {
@@ -120,13 +128,15 @@ export default function CustomCard(props: CustomCardProps) {
           <div className="d-flex justify-content-between align-items-center">
             {linkable ? (
               <Link className="text-body" to={'/posts/' + postId}>
-                {numComments} Comment
-                {numComments === 1 ? '' : 's'}
+                {numPostResponses +
+                  ' Response' +
+                  (numPostResponses === 1 ? '' : 's')}
               </Link>
             ) : (
               <div>
-                {numComments} Comment
-                {numComments === 1 ? '' : 's'}
+                {numPostResponses +
+                  ' Response' +
+                  (numPostResponses === 1 ? '' : 's')}
               </div>
             )}
 

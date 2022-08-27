@@ -3,7 +3,10 @@ import AuthService from './AuthService';
 const API_URL = 'http://localhost:8080/api/posts/';
 class PostsService {
   async getAllPosts() {
-    const response = await axios.get(API_URL + 'all');
+    const response = await axios.get(
+      API_URL + 'all',
+      AuthService.getAuthHeader()
+    );
     return response.data;
   }
   async getPost(id: string) {
@@ -14,9 +17,7 @@ class PostsService {
     const response = await axios.post(
       API_URL + 'vote',
       { action, postId },
-      {
-        headers: { Authorization: 'Bearer ' + AuthService.getCurrentToken() },
-      }
+      AuthService.getAuthHeader()
     );
     return response.data;
   }
