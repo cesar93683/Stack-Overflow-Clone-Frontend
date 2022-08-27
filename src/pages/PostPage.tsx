@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
-import Post from '../components/Post';
-import IPost from '../interfaces/IPost';
+import PostCard from '../components/PostCard';
+import IPost from '../utils/interfaces/IPost';
 import PostsService from '../service/PostsService';
 
 export default function PostPage() {
@@ -34,5 +34,5 @@ export default function PostPage() {
     return <div>An error has occured</div>;
   }
 
-  return <div>{<Post post={post as IPost} />}</div>;
+  return <div>{<PostCard post={post as IPost} />}</div>;
 }

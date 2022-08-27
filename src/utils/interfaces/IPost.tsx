@@ -7,7 +7,7 @@ export default interface IPost {
     id: number;
     username: string;
   };
-  createdAt: number;
-  updatedAt: number;
+  createdAt: string;
+  updatedAt: string;
   __typename?: string;
 }

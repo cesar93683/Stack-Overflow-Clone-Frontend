@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import PostsService from '../service/PostsService';
-import IPost from '../interfaces/IPost';
+import IPost from '../utils/interfaces/IPost';
 import LoadingSpinner from '../components/LoadingSpinner';
-import Post from '../components/Post';
+import PostCard from '../components/PostCard';
 
 export default function HomePage() {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -37,7 +37,7 @@ export default function HomePage() {
   return (
     <div>
       {posts.map((post, i) => (
-        <Post post={post} key={i} />
+        <PostCard post={post} key={i} />
       ))}
     </div>
   );

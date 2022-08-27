@@ -29,5 +29,14 @@ class AuthService {
     }
     return null;
   }
+  getAuthHeader() {
+    const token = this.getCurrentToken();
+    console.log(token);
+    if (token === null) {
+      // TODO
+      return {};
+    }
+    return { Cookie: 'token=' + token };
+  }
 }
 export default new AuthService();
