@@ -3,7 +3,7 @@ import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../service/AuthService';
 
-export default function LogIn() {
+export default function LogInPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -47,7 +47,7 @@ export default function LogIn() {
           setError('An error occured');
         }
       },
-      (error) => {
+      () => {
         setError('An error occured');
       }
     );

@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Home from './pages/Home';
-import LogIn from './pages/LogIn';
-import SignUp from './pages/SignUp';
+import HomePage from './pages/HomePage';
+import LogInPage from './pages/LogInPage';
+import PostPage from './pages/PostPage';
+import SignUpPage from './pages/SignUpPage';
 
 export default function BasicExample() {
   return (
@@ -22,9 +23,10 @@ export default function BasicExample() {
         <hr />
 
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LogInPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/posts/:id" element={<PostPage />} />
         </Routes>
       </div>
     </Router>

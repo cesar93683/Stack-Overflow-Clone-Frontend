@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
 import AuthService from '../service/AuthService';
 
-export default function SignUp() {
+export default function SignUpPage() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

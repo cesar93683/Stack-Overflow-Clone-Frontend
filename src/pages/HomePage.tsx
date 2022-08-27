@@ -4,7 +4,7 @@ import IPost from '../interfaces/IPost';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Post from '../components/Post';
 
-export default function Home() {
+export default function HomePage() {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
