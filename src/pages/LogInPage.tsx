@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../service/AuthService';
+import { AuthContext } from '../utils/auth-context';
 
 export default function LogInPage() {
+  const auth = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -40,6 +42,7 @@ export default function LogInPage() {
     AuthService.login(username, password).then(
       (data) => {
         if (data?.token) {
+          auth.login(data.userId, data.token);
           navigate('/');
         } else if (data?.code === 102) {
           setError('Invalid username/password');

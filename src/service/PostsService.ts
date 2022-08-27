@@ -1,23 +1,21 @@
 import axios from 'axios';
-import AuthService from './AuthService';
+import IHeaders from '../utils/interfaces/IHeaders';
+
 const API_URL = 'http://localhost:8080/api/posts/';
 class PostsService {
-  async getAllPosts() {
-    const response = await axios.get(
-      API_URL + 'all',
-      AuthService.getAuthHeader()
-    );
+  async getAllPosts(headers: IHeaders) {
+    const response = await axios.get(API_URL + 'all', headers);
     return response.data;
   }
-  async getPost(id: string) {
+  async getPost(id: string, headers: IHeaders) {
     const response = await axios.get(API_URL + id);
     return response.data;
   }
-  async votePost(postId: string, action: string) {
+  async votePost(postId: string, action: string, headers: IHeaders) {
     const response = await axios.post(
       API_URL + 'vote',
       { action, postId },
-      AuthService.getAuthHeader()
+      headers
     );
     return response.data;
   }

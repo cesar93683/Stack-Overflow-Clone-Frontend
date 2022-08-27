@@ -1,16 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import PostsService from '../service/PostsService';
 import IPost from '../utils/interfaces/IPost';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PostCard from '../components/PostCard';
+import { AuthContext } from '../utils/auth-context';
+import getAuthHeader from '../utils/getAuthHeader';
 
 export default function HomePage() {
+  const { token } = useContext(AuthContext);
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    PostsService.getAllPosts().then(
+    PostsService.getAllPosts(getAuthHeader(token)).then(
       (data) => {
         setPosts(data);
         setLoading(false);

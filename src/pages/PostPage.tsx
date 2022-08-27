@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PostCard from '../components/PostCard';
 import IPost from '../utils/interfaces/IPost';
 import PostsService from '../service/PostsService';
+import { AuthContext } from '../utils/auth-context';
+import getAuthHeader from '../utils/getAuthHeader';
 
 export default function PostPage() {
+  const { token } = useContext(AuthContext);
   const { id } = useParams<{ id: string }>();
 
   const [post, setPost] = useState<IPost | undefined>(undefined);
@@ -16,7 +19,7 @@ export default function PostPage() {
       setLoading(false);
       return;
     }
-    PostsService.getPost(id).then(
+    PostsService.getPost(id, getAuthHeader(token)).then(
       (data) => {
         setPost(data);
         setLoading(false);

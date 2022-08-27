@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PostsService from '../service/PostsService';
+import { AuthContext } from '../utils/auth-context';
+import getAuthHeader from '../utils/getAuthHeader';
 import IPost from '../utils/interfaces/IPost';
 import CustomCardSubtitle from './CustomCardSubtitle';
 import DeleteModalWithButton from './DeleteModalWithButton';
@@ -31,8 +33,7 @@ export default function CustomCard(props: CustomCardProps) {
     onDelete,
     className,
   } = props;
-  // TODO
-  const currUserId = 100;
+  const { userId, token } = useContext(AuthContext);
 
   const [currVote, setCurrVote] = useState(
     !initialCurrVote
@@ -48,7 +49,7 @@ export default function CustomCard(props: CustomCardProps) {
   const onDownVote = () => {
     const value = currVote === -1 ? 0 : -1;
     const action = value === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
-    PostsService.votePost(String(postId), action).then(
+    PostsService.votePost(String(postId), action, getAuthHeader(token)).then(
       () => {
         setCurrVote(value);
         let diff = 0;
@@ -75,7 +76,7 @@ export default function CustomCard(props: CustomCardProps) {
   const onUpVote = () => {
     const value = currVote === -1 ? 0 : -1;
     const action = value === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
-    PostsService.votePost(String(postId), action).then(
+    PostsService.votePost(String(postId), action, getAuthHeader(token)).then(
       () => {
         let diff = 0;
         if (currVote === -1) {
@@ -140,7 +141,7 @@ export default function CustomCard(props: CustomCardProps) {
               </div>
             )}
 
-            {onDelete && currUserId === postUserId ? (
+            {onDelete && userId === postUserId ? (
               <div>
                 <Link className="mr-2" to={`/post/${postId}/edit`}>
                   <Button variant="outline-primary">EDIT</Button>
