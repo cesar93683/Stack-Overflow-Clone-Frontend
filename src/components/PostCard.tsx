@@ -9,14 +9,14 @@ import CustomCardSubtitle from './CustomCardSubtitle';
 import DeleteModalWithButton from './DeleteModalWithButton';
 import VoteSection from './VoteSection';
 
-interface CustomCardProps {
+interface PostCardProps {
   post: IPost;
   linkable?: boolean;
   onDelete?: (() => void) | null;
   className?: string;
 }
 
-export default function CustomCard(props: CustomCardProps) {
+export default function PostCard(props: PostCardProps) {
   const {
     post: {
       id: postId,
@@ -47,14 +47,14 @@ export default function CustomCard(props: CustomCardProps) {
   const [votes, setVotes] = useState(initialVotes);
 
   const onDownVote = () => {
-    const value = currVote === -1 ? 0 : -1;
-    const action = value === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
+    const newVote = currVote === -1 ? 0 : -1;
+    const action = newVote === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
     PostsService.votePost(String(postId), action, getAuthHeader(token)).then(
       () => {
-        setCurrVote(value);
+        setCurrVote(newVote);
         let diff = 0;
         if (currVote === 1) {
-          if (value === 0) {
+          if (newVote === 0) {
             diff = -1;
           } else {
             diff = -2;
@@ -74,13 +74,14 @@ export default function CustomCard(props: CustomCardProps) {
   };
 
   const onUpVote = () => {
-    const value = currVote === -1 ? 0 : -1;
-    const action = value === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
+    const newVote = currVote === 1 ? 0 : 1;
+    const action = newVote === 0 ? 'NEUTRAL' : 'UP_VOTE';
     PostsService.votePost(String(postId), action, getAuthHeader(token)).then(
       () => {
+        setCurrVote(newVote);
         let diff = 0;
         if (currVote === -1) {
-          if (value === 0) {
+          if (newVote === 0) {
             diff = 1;
           } else {
             diff = 2;
@@ -90,7 +91,7 @@ export default function CustomCard(props: CustomCardProps) {
         } else {
           diff = -1;
         }
-        setCurrVote(value + diff);
+        setVotes(votes + diff);
       },
       () => {
         // TODO
