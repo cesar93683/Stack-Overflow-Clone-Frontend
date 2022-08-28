@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PostsService from '../service/PostsService';
@@ -45,6 +45,19 @@ export default function PostCard(props: PostCardProps) {
       : -1
   );
   const [votes, setVotes] = useState(initialVotes);
+
+  useEffect(() => {
+    setCurrVote(
+      !initialCurrVote
+        ? 0
+        : initialCurrVote === 'UP_VOTE'
+        ? 1
+        : initialCurrVote === 'NEUTRAL'
+        ? 0
+        : -1
+    );
+    setVotes(initialVotes);
+  }, [postId]);
 
   const onDownVote = () => {
     const newVote = currVote === -1 ? 0 : -1;
