@@ -130,15 +130,17 @@ export default function PostCard(props: PostCardProps) {
             username={username}
           />
           <Card.Title>
-            <div>{title}</div>
+            <Link className="text-body" to={'/posts/' + postId}>
+              {title}
+            </Link>
           </Card.Title>
           {content ? <Card.Text>{content}</Card.Text> : null}
           <div className="d-flex justify-content-between align-items-center">
-            <div>
+            <Link className="text-body" to={'/posts/' + postId}>
               {numPostResponses +
                 ' Response' +
                 (numPostResponses === 1 ? '' : 's')}
-            </div>
+            </Link>
             {onDelete && userId === postUserId ? (
               <div>
                 <Link className="mr-2" to={`/post/${postId}/edit`}>

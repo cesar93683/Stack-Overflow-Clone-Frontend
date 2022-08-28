@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import PostsService from '../service/PostsService';
 import IPost from '../utils/interfaces/IPost';
 import LoadingSpinner from '../components/LoadingSpinner';
-import PostCard from '../components/PostCard';
+import PostCardSmall from '../components/PostCardSmall';
 import { AuthContext } from '../utils/auth-context';
 import getAuthHeader from '../utils/getAuthHeader';
 import { Dropdown } from 'react-bootstrap';
@@ -56,7 +56,7 @@ export default function HomePage() {
       </Dropdown>
       <div>
         {posts.map((post, i) => (
-          <PostCard post={post} key={i} className="my-2" linkable />
+          <PostCardSmall post={post} key={i} className="my-2" />
         ))}
       </div>
     </div>
