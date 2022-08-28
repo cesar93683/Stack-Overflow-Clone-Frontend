@@ -1,12 +1,12 @@
-Install NodeJs
+Install NodeJs  
 Install VSCode
 
-run 'npm install' in terminal
+run 'npm install' in terminal  
 run 'npm start' in terminal
 
-VSCode setup:
-Install plugins "ESLint" and "Prettier"
-Go to File -> Preferences -> Settings
+VSCode setup:  
+Install plugins "ESLint" and "Prettier"  
+Go to File -> Preferences -> Settings  
 Open settings.json and add
 
 ```
