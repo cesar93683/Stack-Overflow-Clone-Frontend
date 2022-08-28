@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PostCard from '../components/PostCard';
 import PostsService from '../service/PostsService';
@@ -12,6 +12,24 @@ export default function PostPage() {
 
   const [post, setPost] = useState<IPost | undefined>(undefined);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const onDelete = () => {
+    PostsService.deletePost(Number(id), token).then(
+      (data) => {
+        if (data?.code === 0) {
+          navigate('/');
+        } else {
+          // TODO
+          console.log('error');
+        }
+      },
+      () => {
+        // TODO
+        console.log('error');
+      }
+    );
+  };
 
   useEffect(() => {
     if (!id) {
@@ -36,5 +54,5 @@ export default function PostPage() {
     return <div>An error has occured</div>;
   }
 
-  return <div>{<PostCard post={post as IPost} />}</div>;
+  return <div>{<PostCard post={post as IPost} onDelete={onDelete} />}</div>;
 }
