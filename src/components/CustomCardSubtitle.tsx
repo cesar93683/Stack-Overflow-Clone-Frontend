@@ -25,7 +25,7 @@ export default function CustomCardSubtitle(props: CustomCardSubtitleProps) {
 
   return (
     <div className="d-flex">
-      <Link className="text-body font-weight-bold" to={'/users/' + userId}>
+      <Link className="text-decoration-none" to={'/users/' + userId}>
         {username}
       </Link>
       <div className="ms-1">{'asked ' + createdAtLocaleString}</div>

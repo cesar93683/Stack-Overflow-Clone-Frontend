@@ -34,7 +34,7 @@ export default function PostCardSmall(props: PostCardSmallProps) {
         />
         <div>
           <Card.Title>
-            <Link className="text-body" to={'/posts/' + postId}>
+            <Link className="text-decoration-none" to={'/posts/' + postId}>
               {title}
             </Link>
           </Card.Title>

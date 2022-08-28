@@ -41,7 +41,7 @@ export default function HomePage() {
   return (
     <div>
       <Dropdown>
-        <Dropdown.Toggle variant="primary" id="dropdown-basic" className="">
+        <Dropdown.Toggle variant="primary" id="dropdown-basic">
           {sortedByVotes ? 'Score' : 'Newest'}
         </Dropdown.Toggle>
         <Dropdown.Menu>

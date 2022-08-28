@@ -9,7 +9,7 @@ export default function NavBar() {
   return (
     <Navbar bg="light" variant="light">
       <Container>
-        <Link to="/" className="me-auto">
+        <Link to="/" className="me-auto text-decoration-none">
           <Navbar.Brand>Home</Navbar.Brand>
         </Link>
         {userId ? (
