@@ -12,7 +12,7 @@ interface PostCardProps {
   className?: string;
 }
 
-export default function PostCard(props: PostCardProps) {
+export default function PostCardSmall(props: PostCardProps) {
   const {
     post: {
       id: postId,
