@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
 import IPost from '../utils/interfaces/IPost';
@@ -10,8 +10,6 @@ import VoteSection from './VoteSection';
 
 interface PostCardProps {
   post: IPost;
-  onDelete?: (() => void) | null;
-  className?: string;
 }
 
 export default function PostCard(props: PostCardProps) {
@@ -27,10 +25,9 @@ export default function PostCard(props: PostCardProps) {
       createdAt,
       updatedAt,
     },
-    onDelete,
-    className,
   } = props;
   const { userId, token } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [currVote, setCurrVote] = useState(
     !initialCurrVote
@@ -42,6 +39,23 @@ export default function PostCard(props: PostCardProps) {
       : -1
   );
   const [votes, setVotes] = useState(initialVotes);
+
+  const onDelete = () => {
+    PostsService.deletePost(postId, token).then(
+      (data) => {
+        if (data?.code === 0) {
+          navigate('/');
+        } else {
+          // TODO
+          console.log('error');
+        }
+      },
+      () => {
+        // TODO
+        console.log('error');
+      }
+    );
+  };
 
   const onDownVote = () => {
     const newVote = currVote === -1 ? 0 : -1;
@@ -108,7 +122,7 @@ export default function PostCard(props: PostCardProps) {
   };
 
   return (
-    <Card className={className}>
+    <Card>
       <Card.Body className="d-flex">
         <VoteSection
           numVotes={votes}
@@ -135,7 +149,7 @@ export default function PostCard(props: PostCardProps) {
                 ' Response' +
                 (numPostResponses === 1 ? '' : 's')}
             </div>
-            {onDelete && userId === postUserId ? (
+            {userId === postUserId ? (
               <div>
                 <Link className="me-2" to={`/post/${postId}/edit`}>
                   <Button variant="outline-primary">EDIT</Button>
