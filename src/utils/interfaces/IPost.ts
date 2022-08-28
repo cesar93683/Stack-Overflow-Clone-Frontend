@@ -1,3 +1,5 @@
+import IUser from './IUser';
+
 export default interface IPost {
   id: number;
   title: string;
@@ -5,10 +7,7 @@ export default interface IPost {
   votes: number;
   numPostResponses: number;
   comments?: [];
-  user: {
-    id: number;
-    username: string;
-  };
+  user: IUser;
   currVote?: string;
   createdAt: string;
   updatedAt: string;
