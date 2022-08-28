@@ -8,7 +8,7 @@ class PostsService {
     return response.data;
   }
   async getPost(id: string, headers: IHeaders) {
-    const response = await axios.get(API_URL + id);
+    const response = await axios.get(API_URL + id, headers);
     return response.data;
   }
   async votePost(postId: string, action: string, headers: IHeaders) {

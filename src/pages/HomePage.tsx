@@ -40,7 +40,7 @@ export default function HomePage() {
   return (
     <div>
       {posts.map((post, i) => (
-        <PostCard post={post} key={i} />
+        <PostCard post={post} key={i} className="my-2" linkable />
       ))}
     </div>
   );

@@ -93,6 +93,7 @@ export default function CustomCard(props: CustomCardProps) {
         setCurrVote(value + diff);
       },
       () => {
+        // TODO
         console.log('error');
       }
     );
