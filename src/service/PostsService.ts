@@ -3,8 +3,11 @@ import IHeaders from '../utils/interfaces/IHeaders';
 
 const API_URL = 'http://localhost:8080/api/posts/';
 class PostsService {
-  async getAllPosts(headers: IHeaders) {
-    const response = await axios.get(API_URL + 'all', headers);
+  async getAllPosts(page: number, sortedByVotes: boolean, headers: IHeaders) {
+    const response = await axios.get(
+      API_URL + 'all?page=' + page + '&sortedByVotes=' + sortedByVotes,
+      headers
+    );
     return response.data;
   }
   async getPost(id: string, headers: IHeaders) {
