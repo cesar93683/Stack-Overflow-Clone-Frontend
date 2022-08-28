@@ -4,12 +4,12 @@ export default interface IPost {
   content: string;
   votes: number;
   numPostResponses: number;
+  comments?: [];
   user: {
     id: number;
     username: string;
   };
-  currVote: string;
+  currVote?: string;
   createdAt: string;
   updatedAt: string;
-  __typename?: string;
 }
