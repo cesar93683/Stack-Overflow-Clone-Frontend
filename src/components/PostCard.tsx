@@ -5,7 +5,7 @@ import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
 import IPost from '../utils/interfaces/IPost';
 import CustomCardSubtitle from './CustomCardSubtitle';
-import DeleteModalWithButton from './DeleteModalWithButton';
+import DeleteModal from './DeleteModal';
 import VoteSection from './VoteSection';
 
 interface PostCardProps {
@@ -39,10 +39,13 @@ export default function PostCard(props: PostCardProps) {
       : -1
   );
   const [votes, setVotes] = useState(initialVotes);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const onDelete = () => {
+    setDeleteLoading(true);
     PostsService.deletePost(postId, token).then(
       (data) => {
+        setDeleteLoading(false);
         if (data?.code === 0) {
           navigate('/');
         } else {
@@ -51,6 +54,7 @@ export default function PostCard(props: PostCardProps) {
         }
       },
       () => {
+        setDeleteLoading(false);
         // TODO
         console.log('error');
       }
@@ -154,7 +158,11 @@ export default function PostCard(props: PostCardProps) {
                 <Link className="me-2" to={`/post/${postId}/edit`}>
                   <Button variant="outline-primary">EDIT</Button>
                 </Link>
-                <DeleteModalWithButton type="post" onDelete={onDelete} />
+                <DeleteModal
+                  type="post"
+                  onDelete={onDelete}
+                  loading={deleteLoading}
+                />
               </div>
             ) : null}
           </div>

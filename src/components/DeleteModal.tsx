@@ -1,25 +1,20 @@
 import { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import LoadingSpinner from './LoadingSpinner';
 
-interface DeleteModalWithButtonProps {
+interface DeleteModalProps {
   onDelete: () => void;
   type: string;
+  loading: boolean;
 }
 
-export default function DeleteModalWithButton(
-  props: DeleteModalWithButtonProps
-) {
-  const { onDelete, type } = props;
+export default function DeleteModal(props: DeleteModalProps) {
+  const { onDelete, type, loading } = props;
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const onCloseDeleteModal = () => setShowDeleteModal(false);
   const onShowDeleteModal = () => setShowDeleteModal(true);
-
-  const onDeleteConfirm = () => {
-    setShowDeleteModal(false);
-    onDelete();
-  };
 
   return (
     <>
@@ -33,12 +28,18 @@ export default function DeleteModalWithButton(
           </Modal.Title>
         </Modal.Header>
         <Modal.Footer>
-          <Button variant="secondary" onClick={onCloseDeleteModal}>
-            No
-          </Button>
-          <Button variant="danger" onClick={onDeleteConfirm}>
-            Yes
-          </Button>
+          {loading ? (
+            <LoadingSpinner />
+          ) : (
+            <>
+              <Button variant="secondary" onClick={onCloseDeleteModal}>
+                No
+              </Button>
+              <Button variant="danger" onClick={onDelete}>
+                Yes
+              </Button>
+            </>
+          )}
         </Modal.Footer>
       </Modal>
     </>
