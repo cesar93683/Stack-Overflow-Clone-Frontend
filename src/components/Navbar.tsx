@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Button, Container, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../utils/auth-context';
@@ -9,13 +9,13 @@ export default function NavBar() {
   return (
     <Navbar bg="light" variant="light">
       <Container>
-        <Link to="/" className="mr-auto">
+        <Link to="/" className="me-auto">
           <Navbar.Brand>Home</Navbar.Brand>
         </Link>
         {userId ? (
           <>
             <Link to="/post/new">
-              <Button variant="primary" className="mr-1">
+              <Button variant="primary" className="me-1">
                 New Post
               </Button>
             </Link>
@@ -26,7 +26,7 @@ export default function NavBar() {
         ) : (
           <>
             <Link to="/login">
-              <Button variant="primary" className="mr-1">
+              <Button variant="primary" className="me-1">
                 Log In
               </Button>
             </Link>

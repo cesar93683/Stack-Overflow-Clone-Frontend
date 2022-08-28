@@ -46,13 +46,6 @@ export default function PostCardSmall(props: PostCardProps) {
             </Link>
           </Card.Title>
           <Card.Text>{content}</Card.Text>
-          <div className="d-flex justify-content-between align-items-center">
-            <Link className="text-body" to={'/posts/' + postId}>
-              {numPostResponses +
-                ' Response' +
-                (numPostResponses === 1 ? '' : 's')}
-            </Link>
-          </div>
         </div>
       </Card.Body>
     </Card>

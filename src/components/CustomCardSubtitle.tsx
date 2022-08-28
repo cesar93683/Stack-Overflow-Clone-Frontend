@@ -17,9 +17,9 @@ export default function CustomCardSubtitle(props: CustomCardSubtitleProps) {
           {username}
         </Link>
       </div>
-      <div className="ml-1">{createdAt}</div>
+      <div className="ms-1">{createdAt}</div>
       {createdAt !== updatedAt ? (
-        <div className="ml-1 font-italic">{'edited ' + updatedAt}</div>
+        <div className="ms-1 font-italic">{'edited ' + updatedAt}</div>
       ) : null}
     </small>
   );
