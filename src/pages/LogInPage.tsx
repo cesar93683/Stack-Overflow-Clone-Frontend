@@ -41,7 +41,7 @@ export default function LogInPage() {
 
     AuthService.login(username, password).then(
       (data) => {
-        if (data?.token) {
+        if (data?.token && data?.userId) {
           auth.login(data.userId, data.token);
           navigate('/');
         } else if (data?.code === 102) {
