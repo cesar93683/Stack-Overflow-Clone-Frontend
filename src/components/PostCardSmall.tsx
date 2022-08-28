@@ -18,10 +18,8 @@ export default function PostCard(props: PostCardProps) {
       id: postId,
       title,
       content,
-      votes: initialVotes,
       numPostResponses,
       user: { id: postUserId, username },
-      currVote: initialCurrVote,
       createdAt,
       updatedAt,
     },
@@ -54,7 +52,7 @@ export default function PostCard(props: PostCardProps) {
             </Link>
             {onDelete && userId === postUserId ? (
               <div>
-                <Link className="mr-2" to={`/post/${postId}/edit`}>
+                <Link className="me-2" to={`/post/${postId}/edit`}>
                   <Button variant="outline-primary">EDIT</Button>
                 </Link>
                 <DeleteModalWithButton type="post" onDelete={onDelete} />

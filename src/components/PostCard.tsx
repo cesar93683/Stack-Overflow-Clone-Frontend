@@ -103,7 +103,7 @@ export default function PostCard(props: PostCardProps) {
       <Card.Body className="d-flex">
         <VoteSection
           numVotes={votes}
-          className="mr-2"
+          className="me-2"
           onUpVote={onUpVote}
           onDownVote={onDownVote}
           currVote={currVote}
@@ -128,7 +128,7 @@ export default function PostCard(props: PostCardProps) {
             </div>
             {onDelete && userId === postUserId ? (
               <div>
-                <Link className="mr-2" to={`/post/${postId}/edit`}>
+                <Link className="me-2" to={`/post/${postId}/edit`}>
                   <Button variant="outline-primary">EDIT</Button>
                 </Link>
                 <DeleteModalWithButton type="post" onDelete={onDelete} />
