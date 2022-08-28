@@ -2,10 +2,9 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PostCard from '../components/PostCard';
-import IPost from '../utils/interfaces/IPost';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
-import getAuthHeader from '../utils/getAuthHeader';
+import IPost from '../utils/interfaces/IPost';
 
 export default function PostPage() {
   const { token } = useContext(AuthContext);
@@ -19,7 +18,7 @@ export default function PostPage() {
       setLoading(false);
       return;
     }
-    PostsService.getPost(id, getAuthHeader(token)).then(
+    PostsService.getPost(id, token).then(
       (data) => {
         setPost(data);
         setLoading(false);

@@ -4,7 +4,6 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import PostCardSmall from '../components/PostCardSmall';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
-import getAuthHeader from '../utils/getAuthHeader';
 import IPost from '../utils/interfaces/IPost';
 
 export default function HomePage() {
@@ -15,7 +14,7 @@ export default function HomePage() {
   const [sortedByVotes, setSortedByVotes] = useState(false);
 
   useEffect(() => {
-    PostsService.getPosts(0, sortedByVotes, getAuthHeader(token)).then(
+    PostsService.getPosts(0, sortedByVotes, token).then(
       (data) => {
         setPosts(data);
         setLoading(false);

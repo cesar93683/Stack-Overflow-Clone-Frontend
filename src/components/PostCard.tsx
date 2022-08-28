@@ -3,7 +3,6 @@ import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
-import getAuthHeader from '../utils/getAuthHeader';
 import IPost from '../utils/interfaces/IPost';
 import CustomCardSubtitle from './CustomCardSubtitle';
 import DeleteModalWithButton from './DeleteModalWithButton';
@@ -47,7 +46,7 @@ export default function PostCard(props: PostCardProps) {
   const onDownVote = () => {
     const newVote = currVote === -1 ? 0 : -1;
     const action = newVote === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
-    PostsService.votePost(String(postId), action, getAuthHeader(token)).then(
+    PostsService.votePost(String(postId), action, token).then(
       (data) => {
         if (data?.code === 0) {
           setCurrVote(newVote);
@@ -79,7 +78,7 @@ export default function PostCard(props: PostCardProps) {
   const onUpVote = () => {
     const newVote = currVote === 1 ? 0 : 1;
     const action = newVote === 0 ? 'NEUTRAL' : 'UP_VOTE';
-    PostsService.votePost(String(postId), action, getAuthHeader(token)).then(
+    PostsService.votePost(String(postId), action, token).then(
       (data) => {
         if (data?.code === 0) {
           setCurrVote(newVote);
