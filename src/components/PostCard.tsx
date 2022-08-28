@@ -128,7 +128,7 @@ export default function PostCard(props: PostCardProps) {
           <Card.Title>
             <div>{title}</div>
           </Card.Title>
-          {content ? <Card.Text>{content}</Card.Text> : null}
+          <Card.Text>{content}</Card.Text>
           <div className="d-flex justify-content-between align-items-center">
             <div>
               {numPostResponses +
