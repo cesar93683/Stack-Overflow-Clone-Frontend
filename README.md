@@ -5,9 +5,17 @@ run 'npm install' in terminal
 run 'npm start' in terminal
 
 VSCode setup:
-Install plugin "Prettier"
+Install plugins "ESLint" and "Prettier"
 Go to File -> Preferences -> Settings
-Change these settings:
-Uncheck "Editor › Minimap: Enabled"
-Check "Editor: Format On Save"
-Set "Editor: Default Formatter" to "Prettier - Code formatter"
+Open settings.json and add
+
+```
+{
+  "editor.minimap.enabled": false,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  }
+}
+```
