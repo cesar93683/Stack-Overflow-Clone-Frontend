@@ -9,17 +9,32 @@ interface CustomCardSubtitleProps {
 
 export default function CustomCardSubtitle(props: CustomCardSubtitleProps) {
   const { userId, username, createdAt, updatedAt } = props;
+
+  const timeFormat: Intl.DateTimeFormatOptions = {
+    hour: '2-digit',
+    minute: '2-digit',
+  };
+  const createdAtLocaleString = new Date(createdAt).toLocaleDateString(
+    [],
+    timeFormat
+  );
+  const updatedAtLocaleString = new Date(updatedAt).toLocaleDateString(
+    [],
+    timeFormat
+  );
+
   return (
     <small className="d-flex">
       <div>
-        {'Posted by '}
         <Link className="text-body font-weight-bold" to={'/users/' + userId}>
           {username}
         </Link>
       </div>
-      <div className="ms-1">{createdAt}</div>
+      <div className="ms-1">{'asked ' + createdAtLocaleString}</div>
       {createdAt !== updatedAt ? (
-        <div className="ms-1 font-italic">{'edited ' + updatedAt}</div>
+        <div className="ms-1 fst-italic">
+          {'edited ' + updatedAtLocaleString}
+        </div>
       ) : null}
     </small>
   );
