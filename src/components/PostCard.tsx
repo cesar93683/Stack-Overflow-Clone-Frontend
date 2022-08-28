@@ -19,7 +19,6 @@ export default function PostCard(props: PostCardProps) {
       title,
       content,
       votes: initialVotes,
-      numPostResponses,
       user: { id: postUserId, username },
       currVote: initialCurrVote,
       createdAt,
@@ -137,22 +136,15 @@ export default function PostCard(props: PostCardProps) {
           enabled={true}
         />
         <div className="w-100">
-          <CustomCardSubtitle
-            userId={postUserId}
-            createdAt={createdAt}
-            updatedAt={updatedAt}
-            username={username}
-          />
-          <Card.Title>
-            <div>{title}</div>
-          </Card.Title>
+          <Card.Title>{title}</Card.Title>
           <Card.Text>{content}</Card.Text>
-          <div className="d-flex justify-content-between align-items-center">
-            <div>
-              {numPostResponses +
-                ' Response' +
-                (numPostResponses === 1 ? '' : 's')}
-            </div>
+          <div className="d-flex flex-row-reverse justify-content-between align-items-center">
+            <CustomCardSubtitle
+              userId={postUserId}
+              createdAt={createdAt}
+              updatedAt={updatedAt}
+              username={username}
+            />
             {userId === postUserId ? (
               <div>
                 <Link className="me-2" to={`/post/${postId}/edit`}>

@@ -4,13 +4,12 @@ import IPost from '../utils/interfaces/IPost';
 import CustomCardSubtitle from './CustomCardSubtitle';
 import VotesAndAnswers from './VotesAndAnswers';
 
-interface PostCardProps {
+interface PostCardSmallProps {
   post: IPost;
-  onDelete?: (() => void) | null;
   className?: string;
 }
 
-export default function PostCardSmall(props: PostCardProps) {
+export default function PostCardSmall(props: PostCardSmallProps) {
   const {
     post: {
       id: postId,
@@ -18,7 +17,7 @@ export default function PostCardSmall(props: PostCardProps) {
       content,
       votes,
       numPostResponses,
-      user: { id: postUserId, username },
+      user: { id: userId, username },
       createdAt,
       updatedAt,
     },
@@ -33,19 +32,21 @@ export default function PostCardSmall(props: PostCardProps) {
           votes={votes}
           numPostResponses={numPostResponses}
         />
-        <div className="">
-          <CustomCardSubtitle
-            userId={postUserId}
-            createdAt={createdAt}
-            updatedAt={updatedAt}
-            username={username}
-          />
+        <div>
           <Card.Title>
             <Link className="text-body" to={'/posts/' + postId}>
               {title}
             </Link>
           </Card.Title>
-          <Card.Text>{content}</Card.Text>
+          <Card.Text className="mb-1">{content}</Card.Text>
+          <div className="d-flex flex-row-reverse">
+            <CustomCardSubtitle
+              userId={userId}
+              createdAt={createdAt}
+              updatedAt={updatedAt}
+              username={username}
+            />
+          </div>
         </div>
       </Card.Body>
     </Card>
