@@ -29,11 +29,11 @@ export default function PostCardSmall(props: PostCardProps) {
     <Card className={className}>
       <Card.Body className="d-flex flex-md-row flex-column">
         <VotesAndAnswers
-          className="me-2"
+          className="me-2 flex-shrink-0"
           votes={votes}
           numPostResponses={numPostResponses}
         />
-        <div>
+        <div className="">
           <CustomCardSubtitle
             userId={postUserId}
             createdAt={createdAt}
