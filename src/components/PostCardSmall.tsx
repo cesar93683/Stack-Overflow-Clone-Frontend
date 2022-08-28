@@ -1,13 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
-import getAuthHeader from '../utils/getAuthHeader';
 import IPost from '../utils/interfaces/IPost';
 import CustomCardSubtitle from './CustomCardSubtitle';
 import DeleteModalWithButton from './DeleteModalWithButton';
-import VoteSection from './VoteSection';
 
 interface PostCardProps {
   post: IPost;
@@ -31,97 +28,11 @@ export default function PostCard(props: PostCardProps) {
     onDelete,
     className,
   } = props;
-  const { userId, token } = useContext(AuthContext);
-
-  const [currVote, setCurrVote] = useState(
-    !initialCurrVote
-      ? 0
-      : initialCurrVote === 'UP_VOTE'
-      ? 1
-      : initialCurrVote === 'NEUTRAL'
-      ? 0
-      : -1
-  );
-  const [votes, setVotes] = useState(initialVotes);
-
-  useEffect(() => {
-    setCurrVote(
-      !initialCurrVote
-        ? 0
-        : initialCurrVote === 'UP_VOTE'
-        ? 1
-        : initialCurrVote === 'NEUTRAL'
-        ? 0
-        : -1
-    );
-    setVotes(initialVotes);
-  }, [postId]);
-
-  const onDownVote = () => {
-    const newVote = currVote === -1 ? 0 : -1;
-    const action = newVote === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
-    PostsService.votePost(String(postId), action, getAuthHeader(token)).then(
-      () => {
-        setCurrVote(newVote);
-        let diff = 0;
-        if (currVote === 1) {
-          if (newVote === 0) {
-            diff = -1;
-          } else {
-            diff = -2;
-          }
-        } else if (currVote === 0) {
-          diff = -1;
-        } else {
-          diff = 1;
-        }
-        setVotes(votes + diff);
-      },
-      () => {
-        // TODO
-        console.log('error');
-      }
-    );
-  };
-
-  const onUpVote = () => {
-    const newVote = currVote === 1 ? 0 : 1;
-    const action = newVote === 0 ? 'NEUTRAL' : 'UP_VOTE';
-    PostsService.votePost(String(postId), action, getAuthHeader(token)).then(
-      () => {
-        setCurrVote(newVote);
-        let diff = 0;
-        if (currVote === -1) {
-          if (newVote === 0) {
-            diff = 1;
-          } else {
-            diff = 2;
-          }
-        } else if (currVote === 0) {
-          diff = 1;
-        } else {
-          diff = -1;
-        }
-        setVotes(votes + diff);
-      },
-      () => {
-        // TODO
-        console.log('error');
-      }
-    );
-  };
+  const { userId } = useContext(AuthContext);
 
   return (
     <Card className={className}>
       <Card.Body className="d-flex">
-        <VoteSection
-          numVotes={votes}
-          className="mr-2"
-          onUpVote={onUpVote}
-          onDownVote={onDownVote}
-          currVote={currVote}
-          enabled={true}
-        />
         <div className="w-100">
           <CustomCardSubtitle
             userId={postUserId}
