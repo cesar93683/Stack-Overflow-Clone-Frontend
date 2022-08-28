@@ -48,21 +48,26 @@ export default function PostCard(props: PostCardProps) {
     const newVote = currVote === -1 ? 0 : -1;
     const action = newVote === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
     PostsService.votePost(String(postId), action, getAuthHeader(token)).then(
-      () => {
-        setCurrVote(newVote);
-        let diff = 0;
-        if (currVote === 1) {
-          if (newVote === 0) {
+      (data) => {
+        if (data?.code === 0) {
+          setCurrVote(newVote);
+          let diff = 0;
+          if (currVote === 1) {
+            if (newVote === 0) {
+              diff = -1;
+            } else {
+              diff = -2;
+            }
+          } else if (currVote === 0) {
             diff = -1;
           } else {
-            diff = -2;
+            diff = 1;
           }
-        } else if (currVote === 0) {
-          diff = -1;
+          setVotes(votes + diff);
         } else {
-          diff = 1;
+          // TODO
+          console.log('error');
         }
-        setVotes(votes + diff);
       },
       () => {
         // TODO
@@ -75,21 +80,26 @@ export default function PostCard(props: PostCardProps) {
     const newVote = currVote === 1 ? 0 : 1;
     const action = newVote === 0 ? 'NEUTRAL' : 'UP_VOTE';
     PostsService.votePost(String(postId), action, getAuthHeader(token)).then(
-      () => {
-        setCurrVote(newVote);
-        let diff = 0;
-        if (currVote === -1) {
-          if (newVote === 0) {
+      (data) => {
+        if (data?.code === 0) {
+          setCurrVote(newVote);
+          let diff = 0;
+          if (currVote === -1) {
+            if (newVote === 0) {
+              diff = 1;
+            } else {
+              diff = 2;
+            }
+          } else if (currVote === 0) {
             diff = 1;
           } else {
-            diff = 2;
+            diff = -1;
           }
-        } else if (currVote === 0) {
-          diff = 1;
+          setVotes(votes + diff);
         } else {
-          diff = -1;
+          // TODO
+          console.log('error');
         }
-        setVotes(votes + diff);
       },
       () => {
         // TODO

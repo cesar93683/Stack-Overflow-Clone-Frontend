@@ -1,7 +1,9 @@
 import axios from 'axios';
 import IHeaders from '../utils/interfaces/IHeaders';
+import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 
 const API_URL = 'http://localhost:8080/api/posts/';
+
 class PostsService {
   async getAllPosts(page: number, sortedByVotes: boolean, headers: IHeaders) {
     const response = await axios.get(
@@ -15,7 +17,7 @@ class PostsService {
     return response.data;
   }
   async votePost(postId: string, action: string, headers: IHeaders) {
-    const response = await axios.post(
+    const response = await axios.post<IGenericResponse>(
       API_URL + 'vote',
       { action, postId },
       headers
