@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import AuthService from '../service/AuthService';
 
 export default function SignUpPage() {
@@ -51,9 +51,9 @@ export default function SignUpPage() {
         const code = data?.code;
         if (code === 0) {
           navigate('/');
-        } else if (data?.code === 101) {
+        } else if (code === 101) {
           setError('Username already taken');
-        } else if (data?.code === 100) {
+        } else if (code === 100) {
           setError('Email already taken');
         } else {
           setError('An error occured');
