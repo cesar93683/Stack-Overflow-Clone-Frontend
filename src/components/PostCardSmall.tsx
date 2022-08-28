@@ -5,6 +5,7 @@ import { AuthContext } from '../utils/auth-context';
 import IPost from '../utils/interfaces/IPost';
 import CustomCardSubtitle from './CustomCardSubtitle';
 import DeleteModalWithButton from './DeleteModalWithButton';
+import VotesAndAnswers from './VotesAndAnswers';
 
 interface PostCardProps {
   post: IPost;
@@ -18,6 +19,7 @@ export default function PostCardSmall(props: PostCardProps) {
       id: postId,
       title,
       content,
+      votes,
       numPostResponses,
       user: { id: postUserId, username },
       createdAt,
@@ -30,8 +32,13 @@ export default function PostCardSmall(props: PostCardProps) {
 
   return (
     <Card className={className}>
-      <Card.Body className="d-flex">
-        <div className="w-100">
+      <Card.Body className="d-flex flex-md-row flex-column">
+        <VotesAndAnswers
+          className="me-2"
+          votes={votes}
+          numPostResponses={numPostResponses}
+        />
+        <div>
           <CustomCardSubtitle
             userId={postUserId}
             createdAt={createdAt}
