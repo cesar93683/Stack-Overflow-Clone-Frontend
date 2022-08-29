@@ -1,6 +1,5 @@
 import { useContext, useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
 import IComment from '../utils/interfaces/IComment';
@@ -30,7 +29,6 @@ export default function Comment(props: CommentProps) {
   } = props;
 
   const { userId, token } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const [currVote, setCurrVote] = useState(
     VoteUtils.getCurrVoteNum(initialCurrVote)

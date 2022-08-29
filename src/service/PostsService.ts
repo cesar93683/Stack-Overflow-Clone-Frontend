@@ -1,7 +1,7 @@
 import axios from 'axios';
 import getAuthHeader from '../utils/getAuthHeader';
+import IComment from '../utils/interfaces/IComment';
 import IPost from '../utils/interfaces/IPost';
-import ICreateCommentResponse from '../utils/interfaces/service/ICreateCommentResponse';
 import ICreatePostResponse from '../utils/interfaces/service/ICreatePostResponse';
 import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 
@@ -106,7 +106,7 @@ class PostsService {
   }
 
   async createComment(content: string, postId: number, token: string) {
-    const response = await axios.post<ICreateCommentResponse>(
+    const response = await axios.post<IComment>(
       API_URL + 'comments',
       {
         content,

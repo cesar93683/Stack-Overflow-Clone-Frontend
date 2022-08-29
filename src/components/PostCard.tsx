@@ -116,9 +116,13 @@ export default function PostCard(props: PostCardProps) {
     PostsService.createComment(content, postId, token).then(
       (data) => {
         setCommentSubmitLoading(false);
-        if (data?.code === 0 && data?.commentId) {
+        if (data) {
           setShowCommentForm(false);
-          // TODO add comment
+          if (comments) {
+            setComments([...comments, data]);
+          } else {
+            setComments([data]);
+          }
         } else {
           // TODO
           console.log('error');
