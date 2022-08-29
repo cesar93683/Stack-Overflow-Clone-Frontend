@@ -178,14 +178,15 @@ export default function PostCard(props: PostCardProps) {
               onSubmit={onCommentSubmit}
               onCancelClick={onCancelCommentSubmit}
             />
-          ) : null}
-          <a
-            className="text-decoration-underline"
-            role="button"
-            onClick={onAddComment}
-          >
-            Add a comment
-          </a>
+          ) : (
+            <a
+              className="text-decoration-underline"
+              role="button"
+              onClick={onAddComment}
+            >
+              Add a comment
+            </a>
+          )}
         </div>
       </Card.Body>
     </Card>
