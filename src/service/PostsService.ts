@@ -117,9 +117,9 @@ class PostsService {
     return response.data;
   }
 
-  async updateComment(content: string, commentId: number, token: string) {
+  async updateComment(content: string, id: number, token: string) {
     const response = await axios.put<IGenericResponse>(
-      API_URL + 'comments/' + commentId,
+      API_URL + 'comments/' + id,
       {
         content,
       },
@@ -136,10 +136,10 @@ class PostsService {
     return response.data;
   }
 
-  async voteComment(commentId: string, action: string, token: string) {
+  async voteComment(id: number, action: string, token: string) {
     const response = await axios.post<IGenericResponse>(
       API_URL + 'comments/vote',
-      { commentId, action },
+      { id, action },
       getAuthHeader(token)
     );
     return response.data;

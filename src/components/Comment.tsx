@@ -1,34 +1,34 @@
 import { useContext, useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
-import IPost from '../utils/interfaces/IPost';
+import IComment from '../utils/interfaces/IComment';
 import VoteUtils from '../utils/VoteUtils';
-import Comment from './Comment';
 import CommentForm from './CommentForm';
 import CustomCardSubtitle from './CustomCardSubtitle';
 import DeleteModal from './DeleteModal';
 import VoteSection from './VoteSection';
 
-interface PostCardProps {
-  post: IPost;
+interface CommentProps {
+  comment: IComment;
+  className?: string;
 }
 
-export default function PostCard(props: PostCardProps) {
+export default function Comment(props: CommentProps) {
   const {
-    post: {
-      id: postId,
-      title,
-      content,
+    comment: {
+      id,
+      content: contentFromProps,
       votes: initialVotes,
-      comments: initialComments,
-      user: { id: postUserId, username },
+      user: { id: commentUserId, username },
       currVote: initialCurrVote,
       createdAt,
       updatedAt,
     },
+    className,
   } = props;
+
   const { userId, token } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -37,17 +37,18 @@ export default function PostCard(props: PostCardProps) {
   );
   const [votes, setVotes] = useState(initialVotes);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const [commentSubmitLoading, setCommentSubmitLoading] = useState(false);
-  const [showCommentForm, setShowCommentForm] = useState(false);
-  const [comments, setComments] = useState(initialComments);
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [content, setContent] = useState(contentFromProps);
+  const [isCommentDeleted, setIsCommentDeleted] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const onDelete = () => {
     setDeleteLoading(true);
-    PostsService.deletePost(postId, token).then(
+    PostsService.deleteComment(id, token).then(
       (data) => {
         setDeleteLoading(false);
         if (data?.code === 0) {
-          navigate('/');
+          setIsCommentDeleted(true);
         } else {
           // TODO
           console.log('error');
@@ -64,7 +65,7 @@ export default function PostCard(props: PostCardProps) {
   const onDownVote = () => {
     const newVote = currVote === -1 ? 0 : -1;
     const action = newVote === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
-    PostsService.votePost(String(postId), action, token).then(
+    PostsService.voteComment(id, action, token).then(
       (data) => {
         if (data?.code === 0) {
           setCurrVote(newVote);
@@ -85,7 +86,7 @@ export default function PostCard(props: PostCardProps) {
   const onUpVote = () => {
     const newVote = currVote === 1 ? 0 : 1;
     const action = newVote === 0 ? 'NEUTRAL' : 'UP_VOTE';
-    PostsService.votePost(String(postId), action, token).then(
+    PostsService.voteComment(id, action, token).then(
       (data) => {
         if (data?.code === 0) {
           setCurrVote(newVote);
@@ -103,38 +104,42 @@ export default function PostCard(props: PostCardProps) {
     );
   };
 
-  const onAddComment = () => {
-    setShowCommentForm(true);
+  const onEditClick = () => {
+    setIsEditing(true);
   };
 
-  const onCancelCommentSubmit = () => {
-    setShowCommentForm(false);
-  };
-
-  const onCommentSubmit = (content: string) => {
-    setCommentSubmitLoading(true);
-    PostsService.createComment(content, postId, token).then(
+  const onCommentUpdate = (newContent: string) => {
+    setUpdateLoading(true);
+    PostsService.updateComment(newContent, id, token).then(
       (data) => {
-        setCommentSubmitLoading(false);
-        if (data?.code === 0 && data?.commentId) {
-          setShowCommentForm(false);
-          // TODO add comment
+        setUpdateLoading(false);
+        if (data?.code === 0) {
+          setContent(newContent);
+          setIsEditing(false);
         } else {
           // TODO
           console.log('error');
         }
       },
       () => {
-        setCommentSubmitLoading(false);
+        setUpdateLoading(false);
         // TODO
         console.log('error');
       }
     );
   };
 
+  const onCancelClick = () => {
+    setIsEditing(false);
+  };
+
+  if (isCommentDeleted) {
+    return <div className={className}>Comment deleted</div>;
+  }
+
   return (
-    <Card>
-      <Card.Body className="d-flex">
+    <Card className={className}>
+      <Card.Body className="p-2 d-flex">
         <VoteSection
           numVotes={votes}
           className="me-2"
@@ -144,49 +149,38 @@ export default function PostCard(props: PostCardProps) {
           enabled={!!userId}
         />
         <div className="w-100">
-          <Card.Title>{title}</Card.Title>
-          <Card.Text>{content}</Card.Text>
-          <div className="d-flex flex-row-reverse justify-content-between align-items-center">
-            <CustomCardSubtitle
-              userId={postUserId}
-              createdAt={createdAt}
-              updatedAt={updatedAt}
-              username={username}
-            />
-            {userId === postUserId ? (
-              <div>
-                <Link className="me-2" to={`/posts/edit/${postId}`}>
-                  <Button variant="outline-primary">EDIT</Button>
-                </Link>
-                <DeleteModal
-                  type="post"
-                  onDelete={onDelete}
-                  loading={deleteLoading}
-                />
-              </div>
-            ) : null}
-          </div>
-          <div>
-            {comments?.map((comment, i) => (
-              <Comment key={i} comment={comment} />
-            ))}
-          </div>
-          {!userId ? null : showCommentForm ? (
+          <CustomCardSubtitle
+            userId={commentUserId}
+            createdAt={createdAt}
+            updatedAt={updatedAt}
+            username={username}
+          />
+          {isEditing ? (
             <CommentForm
-              className="mt-2"
-              loading={commentSubmitLoading}
-              onSubmit={onCommentSubmit}
-              onCancelClick={onCancelCommentSubmit}
+              loading={updateLoading}
+              onCancelClick={onCancelClick}
+              onSubmit={onCommentUpdate}
+              buttonText="Update"
+              defaultContent={content}
             />
-          ) : (
-            <a
-              className="text-decoration-underline"
-              role="button"
-              onClick={onAddComment}
-            >
-              Add a comment
-            </a>
-          )}
+          ) : null}
+          {!isEditing ? <Card.Text>{content}</Card.Text> : null}
+          {!isEditing && userId === commentUserId ? (
+            <div className="d-flex justify-content-end">
+              <Button
+                onClick={onEditClick}
+                className="me-2"
+                variant="outline-primary"
+              >
+                Edit
+              </Button>
+              <DeleteModal
+                type="comment"
+                onDelete={onDelete}
+                loading={deleteLoading}
+              />
+            </div>
+          ) : null}
         </div>
       </Card.Body>
     </Card>

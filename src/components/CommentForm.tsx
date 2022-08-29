@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
+import LoadingSpinner from './LoadingSpinner';
 
 interface CommentFormProps {
   onSubmit: (comment: string) => void;
   onCancelClick: () => void;
+  loading: boolean;
   className?: string;
   buttonText?: string;
   defaultContent?: string;
 }
 
 export default function CommentForm(props: CommentFormProps) {
-  const { onSubmit, onCancelClick, className, buttonText, defaultContent } =
-    props;
+  const {
+    onSubmit,
+    onCancelClick,
+    loading,
+    className,
+    buttonText,
+    defaultContent,
+  } = props;
 
   const [content, setContent] = useState(defaultContent ? defaultContent : '');
   const [error, setError] = useState('');
@@ -43,16 +51,16 @@ export default function CommentForm(props: CommentFormProps) {
         </Alert>
       ) : null}
       <div className="d-flex justify-content-end mt-1">
-        <Button
-          type="submit"
-          variant="outline-secondary"
-          onClick={onCancelClick}
-        >
+        <Button variant="outline-secondary" onClick={onCancelClick}>
           Cancel
         </Button>
-        <Button className="ms-1" type="submit">
-          {buttonText ? buttonText : 'Comment'}
-        </Button>
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <Button className="ms-1" type="submit">
+            {buttonText ? buttonText : 'Comment'}
+          </Button>
+        )}
       </div>
     </Form>
   );
