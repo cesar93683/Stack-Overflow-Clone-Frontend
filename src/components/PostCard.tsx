@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
 import IPost from '../utils/interfaces/IPost';
+import CommentForm from './CommentForm';
 import CustomCardSubtitle from './CustomCardSubtitle';
 import DeleteModal from './DeleteModal';
 import VoteSection from './VoteSection';
@@ -39,6 +40,7 @@ export default function PostCard(props: PostCardProps) {
   );
   const [votes, setVotes] = useState(initialVotes);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [showCommentForm, setShowCommentForm] = useState(false);
 
   const onDelete = () => {
     setDeleteLoading(true);
@@ -124,6 +126,18 @@ export default function PostCard(props: PostCardProps) {
     );
   };
 
+  const onAddComment = () => {
+    setShowCommentForm(true);
+  };
+
+  const onCancelCommentSubmit = () => {
+    setShowCommentForm(false);
+  };
+
+  const onCommentSubmit = () => {
+    // TODO
+  };
+
   return (
     <Card>
       <Card.Body className="d-flex">
@@ -158,6 +172,20 @@ export default function PostCard(props: PostCardProps) {
               </div>
             ) : null}
           </div>
+          {showCommentForm ? (
+            <CommentForm
+              className="mt-2"
+              onSubmit={onCommentSubmit}
+              onCancelClick={onCancelCommentSubmit}
+            />
+          ) : null}
+          <a
+            className="text-decoration-underline"
+            role="button"
+            onClick={onAddComment}
+          >
+            Add a comment
+          </a>
         </div>
       </Card.Body>
     </Card>

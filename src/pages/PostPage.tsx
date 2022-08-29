@@ -36,5 +36,9 @@ export default function PostPage() {
     return <div>An error has occured</div>;
   }
 
-  return <div>{<PostCard post={post as IPost} />}</div>;
+  return (
+    <div>
+      <PostCard post={post as IPost} />
+    </div>
+  );
 }
