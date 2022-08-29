@@ -38,7 +38,7 @@ export default function CommentForm(props: CommentFormProps) {
         placeholder={'Enter Comment'}
       />
       {error ? (
-        <Alert className="mt-1 mb-0" variant="danger">
+        <Alert className="ms-auto mt-1 mb-0 p-1 w-fit-content" variant="danger">
           {error}
         </Alert>
       ) : null}
