@@ -35,7 +35,7 @@ class PostsService {
     return response.data;
   }
 
-  async getPost(id: string, token: string) {
+  async getPost(id: number, token: string | null) {
     const response = await axios.get<IPost>(API_URL + id, getAuthHeader(token));
     return response.data;
   }

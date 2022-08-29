@@ -19,7 +19,7 @@ export default function NewPost() {
   const onContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
   };
-  const onPostSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onPostSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!title) {
@@ -38,6 +38,9 @@ export default function NewPost() {
       (data) => {
         if (data?.code === 0 && data?.postId) {
           navigate(`/posts/${data.postId}`);
+        } else {
+          setError('An error occured');
+          setLoading(false);
         }
       },
       () => {
@@ -46,6 +49,7 @@ export default function NewPost() {
       }
     );
   };
+
   return (
     <Form onSubmit={onPostSubmit}>
       <Form.Group>

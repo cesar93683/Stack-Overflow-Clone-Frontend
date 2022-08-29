@@ -18,7 +18,7 @@ export default function PostPage() {
       setLoading(false);
       return;
     }
-    PostsService.getPost(id, token).then(
+    PostsService.getPost(Number(id), token).then(
       (data) => {
         setPost(data);
         setLoading(false);

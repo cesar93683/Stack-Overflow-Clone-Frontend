@@ -1,6 +1,6 @@
-const getAuthHeader = (token: string) => {
+const getAuthHeader = (token: string | null) => {
   return {
-    headers: { Authorization: 'Bearer ' + token },
+    headers: { Authorization: 'Bearer ' + (token ? token : '') },
   };
 };
 export default getAuthHeader;
