@@ -62,7 +62,7 @@ class PostsService {
   async createPost(
     title: string,
     content: string,
-    postResponseId: number,
+    postResponseId: number | null,
     token: string
   ) {
     const response = await axios.post<ICreatePostResponse>(
