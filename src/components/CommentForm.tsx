@@ -1,20 +1,27 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
+import PostsService from '../service/PostsService';
+import { AuthContext } from '../utils/auth-context';
+import IComment from '../utils/interfaces/IComment';
 import ValidateUtils from '../utils/ValidateUtils';
 import LoadingSpinner from './LoadingSpinner';
 
 interface CommentFormProps {
-  onSubmit: (comment: string) => void;
+  postId: number;
+  setShowCommentForm: (showCommentForm: boolean) => void;
+  onSubmit: (comment: IComment) => void;
   onCancelClick: () => void;
-  loading: boolean;
   className?: string;
 }
 
 export default function CommentForm(props: CommentFormProps) {
-  const { onSubmit, onCancelClick, loading, className } = props;
+  const { postId, setShowCommentForm, onSubmit, onCancelClick, className } =
+    props;
+  const { token } = useContext(AuthContext);
 
   const [comment, setComment] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const onContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(event.target.value);
@@ -30,7 +37,24 @@ export default function CommentForm(props: CommentFormProps) {
       return;
     }
     setError('');
-    onSubmit(commentTrimmed);
+
+    setLoading(true);
+    PostsService.createComment(comment, postId, token).then(
+      (data) => {
+        setShowCommentForm(false);
+        setLoading(false);
+        if (data) {
+          onSubmit(data);
+        } else {
+          setError('An error occured');
+        }
+      },
+      () => {
+        setShowCommentForm(false);
+        setLoading(false);
+        setError('An error occured');
+      }
+    );
   };
 
   return (
@@ -46,15 +70,17 @@ export default function CommentForm(props: CommentFormProps) {
         </Alert>
       ) : null}
       <div className="d-flex justify-content-end mt-1">
-        <Button variant="outline-secondary" onClick={onCancelClick}>
-          Cancel
-        </Button>
         {loading ? (
           <LoadingSpinner />
         ) : (
-          <Button className="ms-1" type="submit">
-            Comment
-          </Button>
+          <>
+            <Button variant="outline-secondary" onClick={onCancelClick}>
+              Cancel
+            </Button>
+            <Button className="ms-1" type="submit">
+              Comment
+            </Button>
+          </>
         )}
       </div>
     </Form>

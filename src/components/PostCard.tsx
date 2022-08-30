@@ -3,6 +3,7 @@ import { Button, Card } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
+import IComment from '../utils/interfaces/IComment';
 import IPost from '../utils/interfaces/IPost';
 import VoteUtils from '../utils/VoteUtils';
 import Comment from './Comment';
@@ -37,7 +38,6 @@ export default function PostCard(props: PostCardProps) {
   );
   const [votes, setVotes] = useState(initialVotes);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const [commentSubmitLoading, setCommentSubmitLoading] = useState(false);
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [comments, setComments] = useState(initialComments);
 
@@ -111,29 +111,12 @@ export default function PostCard(props: PostCardProps) {
     setShowCommentForm(false);
   };
 
-  const onCommentSubmit = (content: string) => {
-    setCommentSubmitLoading(true);
-    PostsService.createComment(content, postId, token).then(
-      (data) => {
-        setCommentSubmitLoading(false);
-        if (data) {
-          setShowCommentForm(false);
-          if (comments) {
-            setComments([...comments, data]);
-          } else {
-            setComments([data]);
-          }
-        } else {
-          // TODO
-          console.log('error');
-        }
-      },
-      () => {
-        setCommentSubmitLoading(false);
-        // TODO
-        console.log('error');
-      }
-    );
+  const onCommentSubmit = (comment: IComment) => {
+    if (comments) {
+      setComments([...comments, comment]);
+    } else {
+      setComments([comment]);
+    }
   };
 
   return (
@@ -179,10 +162,11 @@ export default function PostCard(props: PostCardProps) {
           </div>
           {!userId ? null : showCommentForm ? (
             <CommentForm
-              className="mt-2"
-              loading={commentSubmitLoading}
+              postId={postId}
+              setShowCommentForm={setShowCommentForm}
               onSubmit={onCommentSubmit}
               onCancelClick={onCancelCommentSubmit}
+              className="mt-2"
             />
           ) : (
             <a
