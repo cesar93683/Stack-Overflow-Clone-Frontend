@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../service/AuthService';
+import ValidateUtils from '../utils/ValidateUtils';
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('');
@@ -13,40 +14,27 @@ export default function SignUpPage() {
   const onSignUpSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!email) {
-      setError('Please enter your email');
-      return;
-    }
-    if (email.length > 50) {
-      setError('Email must be no more than 50 characters');
-      return;
-    }
-    if (!username) {
-      setError('Please enter your username');
-      return;
-    }
-    if (username.length < 3) {
-      setError('Username must be at least 3 characters');
-      return;
-    }
-    if (username.length > 20) {
-      setError('Username must be no more than 20 characters');
-      return;
-    }
-    if (!password) {
-      setError('Please enter your password');
-      return;
-    }
-    if (password.length < 6) {
-      setError('Passowrd must be at least 6 characters');
-      return;
-    }
-    if (password.length > 40) {
-      setError('Username must be no more than 40 characters');
+    const emailTrimmed = email.trim();
+    const emailValidate = ValidateUtils.validateEmail(emailTrimmed);
+    if (emailValidate) {
+      setError(emailValidate);
       return;
     }
 
-    AuthService.signup(email, username, password).then(
+    const usernameTrimmed = username.trim();
+    const usernameValidate = ValidateUtils.validateUsername(usernameTrimmed);
+    if (usernameValidate) {
+      setError(usernameValidate);
+      return;
+    }
+
+    const passwordValidate = ValidateUtils.validatePassword(password);
+    if (passwordValidate) {
+      setError(passwordValidate);
+      return;
+    }
+
+    AuthService.signup(emailTrimmed, usernameTrimmed, password).then(
       (data) => {
         const code = data?.code;
         if (code === 0) {
