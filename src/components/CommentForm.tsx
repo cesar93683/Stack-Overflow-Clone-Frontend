@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
+import ValidateUtils from '../utils/ValidateUtils';
 import LoadingSpinner from './LoadingSpinner';
 
 interface CommentFormProps {
@@ -7,41 +8,35 @@ interface CommentFormProps {
   onCancelClick: () => void;
   loading: boolean;
   className?: string;
-  buttonText?: string;
-  defaultContent?: string;
 }
 
 export default function CommentForm(props: CommentFormProps) {
-  const {
-    onSubmit,
-    onCancelClick,
-    loading,
-    className,
-    buttonText,
-    defaultContent,
-  } = props;
+  const { onSubmit, onCancelClick, loading, className } = props;
 
-  const [content, setContent] = useState(defaultContent ? defaultContent : '');
+  const [comment, setComment] = useState('');
   const [error, setError] = useState('');
 
   const onContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(event.target.value);
+    setComment(event.target.value);
   };
 
   const onSubmitClick = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!content) {
-      setError('Please Enter A Comment.');
+
+    const commentTrimmed = comment.trim();
+    const commentValidate = ValidateUtils.validateComment(commentTrimmed);
+    if (commentValidate) {
+      setError(commentValidate);
       return;
     }
     setError('');
-    onSubmit(content);
+    onSubmit(commentTrimmed);
   };
 
   return (
     <Form onSubmit={onSubmitClick} className={className}>
       <Form.Control
-        value={content}
+        value={comment}
         onChange={onContentChange}
         placeholder={'Enter Comment'}
       />
@@ -58,7 +53,7 @@ export default function CommentForm(props: CommentFormProps) {
           <LoadingSpinner />
         ) : (
           <Button className="ms-1" type="submit">
-            {buttonText ? buttonText : 'Comment'}
+            Comment
           </Button>
         )}
       </div>

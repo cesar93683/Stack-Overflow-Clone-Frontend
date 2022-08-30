@@ -29,5 +29,35 @@ class ValidateUtils {
     }
     return null;
   }
+  validateComment(comment: string): string | null {
+    if (!comment) {
+      return 'Please enter a comment';
+    } else if (comment.length < 3) {
+      return 'Comment must be at least 3 characters';
+    } else if (comment.length > 100) {
+      return 'Comment must be no longer than 100 characters';
+    }
+    return null;
+  }
+  validatePostTitle(title: string): string | null {
+    if (!title) {
+      return 'Please enter a title';
+    } else if (title.length < 3) {
+      return 'Title must be at least 3 characters';
+    } else if (title.length > 50) {
+      return 'Title must be no longer than 50 characters';
+    }
+    return null;
+  }
+  validatePostContent(content: string): string | null {
+    if (!content) {
+      return 'Please enter some content';
+    } else if (content.length < 3) {
+      return 'Content must be at least 1 characters';
+    } else if (content.length > 500) {
+      return 'Content must be no longer than 500 characters';
+    }
+    return null;
+  }
 }
 export default new ValidateUtils();
