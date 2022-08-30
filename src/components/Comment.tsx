@@ -1,6 +1,5 @@
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
 import DateUtils from '../utils/DateUtils';
 import IComment from '../utils/interfaces/IComment';
@@ -26,35 +25,18 @@ export default function Comment(props: CommentProps) {
     className,
   } = props;
 
-  const { userId, token } = useContext(AuthContext);
+  const { userId } = useContext(AuthContext);
 
   const [currVote, setCurrVote] = useState(
     VoteUtils.getCurrVoteNum(initialCurrVote)
   );
   const [votes, setVotes] = useState(initialVotes);
-  const [deleteLoading, setDeleteLoading] = useState(false);
   const [isCommentDeleted, setIsCommentDeleted] = useState(false);
 
   const createdAtLocaleString = DateUtils.getLocaleDateString(createdAt);
 
-  const onDelete = () => {
-    setDeleteLoading(true);
-    PostsService.deleteComment(id, token).then(
-      (data) => {
-        setDeleteLoading(false);
-        if (data?.code === 0) {
-          setIsCommentDeleted(true);
-        } else {
-          // TODO
-          console.log('error');
-        }
-      },
-      () => {
-        setDeleteLoading(false);
-        // TODO
-        console.log('error');
-      }
-    );
+  const onDeleteSuccess = () => {
+    setIsCommentDeleted(true);
   };
 
   const onUpVoteSuccess = (newVote: number) => {
@@ -90,10 +72,10 @@ export default function Comment(props: CommentProps) {
           {userId === commentUserId ? (
             <div className="d-inline">
               <DeleteButtonWithModal
+                commentId={id}
                 className="ms-1"
                 type="comment"
-                onDelete={onDelete}
-                loading={deleteLoading}
+                onDeleteSuccess={onDeleteSuccess}
               />
             </div>
           ) : null}

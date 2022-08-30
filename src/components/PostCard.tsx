@@ -1,7 +1,6 @@
 import { useContext, useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
 import IComment from '../utils/interfaces/IComment';
 import IPost from '../utils/interfaces/IPost';
@@ -30,35 +29,18 @@ export default function PostCard(props: PostCardProps) {
       updatedAt,
     },
   } = props;
-  const { userId, token } = useContext(AuthContext);
+  const { userId } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [currVote, setCurrVote] = useState(
     VoteUtils.getCurrVoteNum(initialCurrVote)
   );
   const [votes, setVotes] = useState(initialVotes);
-  const [deleteLoading, setDeleteLoading] = useState(false);
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [comments, setComments] = useState(initialComments);
 
-  const onDelete = () => {
-    setDeleteLoading(true);
-    PostsService.deletePost(postId, token).then(
-      (data) => {
-        setDeleteLoading(false);
-        if (data?.code === 0) {
-          navigate('/');
-        } else {
-          // TODO
-          console.log('error');
-        }
-      },
-      () => {
-        setDeleteLoading(false);
-        // TODO
-        console.log('error');
-      }
-    );
+  const onDeleteSuccess = () => {
+    navigate('/');
   };
 
   const onVoteSuccess = (newVote: number) => {
@@ -112,9 +94,9 @@ export default function PostCard(props: PostCardProps) {
                   </Button>
                 </Link>
                 <DeleteButtonWithModal
+                  postId={postId}
                   type="post"
-                  onDelete={onDelete}
-                  loading={deleteLoading}
+                  onDeleteSuccess={onDeleteSuccess}
                 />
               </div>
             ) : null}

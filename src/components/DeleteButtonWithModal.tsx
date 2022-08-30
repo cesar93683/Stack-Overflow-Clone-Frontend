@@ -1,23 +1,67 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import PostsService from '../service/PostsService';
+import { AuthContext } from '../utils/auth-context';
 import LoadingSpinner from './LoadingSpinner';
 
 interface DeleteButtonWithModalProps {
-  onDelete: () => void;
+  onDeleteSuccess: () => void;
   type: string;
-  loading: boolean;
+  commentId?: number;
+  postId?: number;
   className?: string;
 }
 
 export default function DeleteButtonWithModal(
   props: DeleteButtonWithModalProps
 ) {
-  const { onDelete, type, loading, className } = props;
+  const { onDeleteSuccess, type, className, commentId, postId } = props;
+  const { token } = useContext(AuthContext);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onCloseDeleteModal = () => setShowDeleteModal(false);
   const onShowDeleteModal = () => setShowDeleteModal(true);
+
+  const onDelete = () => {
+    setLoading(true);
+    if (commentId) {
+      PostsService.deleteComment(commentId, token).then(
+        (data) => {
+          setLoading(false);
+          if (data?.code === 0) {
+            onDeleteSuccess();
+          } else {
+            // TODO
+            console.log('error');
+          }
+        },
+        () => {
+          setLoading(false);
+          // TODO
+          console.log('error');
+        }
+      );
+    } else if (postId) {
+      PostsService.deletePost(postId, token).then(
+        (data) => {
+          setLoading(false);
+          if (data?.code === 0) {
+            onDeleteSuccess();
+          } else {
+            // TODO
+            console.log('error');
+          }
+        },
+        () => {
+          setLoading(false);
+          // TODO
+          console.log('error');
+        }
+      );
+    }
+  };
 
   return (
     <>
