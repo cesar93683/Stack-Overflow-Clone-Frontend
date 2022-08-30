@@ -75,7 +75,7 @@ export default function PostCard(props: PostCardProps) {
     setShowCommentForm(false);
   };
 
-  const onCommentSubmit = (comment: IComment) => {
+  const onAddCommentSuccess = (comment: IComment) => {
     if (comments) {
       setComments([...comments, comment]);
     } else {
@@ -128,7 +128,7 @@ export default function PostCard(props: PostCardProps) {
             <CommentForm
               postId={postId}
               setShowCommentForm={setShowCommentForm}
-              onSubmit={onCommentSubmit}
+              onAddCommentSuccess={onAddCommentSuccess}
               onCancelClick={onCancelCommentSubmit}
               className="mt-2"
             />

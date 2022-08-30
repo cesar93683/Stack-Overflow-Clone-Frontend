@@ -9,14 +9,19 @@ import LoadingSpinner from './LoadingSpinner';
 interface CommentFormProps {
   postId: number;
   setShowCommentForm: (showCommentForm: boolean) => void;
-  onSubmit: (comment: IComment) => void;
+  onAddCommentSuccess: (comment: IComment) => void;
   onCancelClick: () => void;
   className?: string;
 }
 
 export default function CommentForm(props: CommentFormProps) {
-  const { postId, setShowCommentForm, onSubmit, onCancelClick, className } =
-    props;
+  const {
+    postId,
+    setShowCommentForm,
+    onAddCommentSuccess,
+    onCancelClick,
+    className,
+  } = props;
   const { token } = useContext(AuthContext);
 
   const [comment, setComment] = useState('');
@@ -44,7 +49,7 @@ export default function CommentForm(props: CommentFormProps) {
         setShowCommentForm(false);
         setLoading(false);
         if (data) {
-          onSubmit(data);
+          onAddCommentSuccess(data);
         } else {
           setError('An error occured');
         }
