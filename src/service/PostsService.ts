@@ -96,7 +96,7 @@ class PostsService {
     return response.data;
   }
 
-  async votePost(postId: string, action: string, token: string) {
+  async votePost(postId: number, action: string, token: string) {
     const response = await axios.post<IGenericResponse>(
       API_URL + 'vote',
       { postId, action },

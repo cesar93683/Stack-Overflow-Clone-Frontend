@@ -57,25 +57,10 @@ export default function Comment(props: CommentProps) {
     );
   };
 
-  const onUpVote = () => {
-    const newVote = currVote === 1 ? 0 : 1;
-    const action = newVote === 0 ? 'NEUTRAL' : 'UP_VOTE';
-    PostsService.voteComment(id, action, token).then(
-      (data) => {
-        if (data?.code === 0) {
-          setCurrVote(newVote);
-          const diff = VoteUtils.getUpVoteDiff(currVote, newVote);
-          setVotes(votes + diff);
-        } else {
-          // TODO
-          console.log('error');
-        }
-      },
-      () => {
-        // TODO
-        console.log('error');
-      }
-    );
+  const onUpVoteSuccess = (newVote: number) => {
+    setCurrVote(newVote);
+    const diff = VoteUtils.getVoteDiff(currVote, newVote);
+    setVotes(votes + diff);
   };
 
   if (isCommentDeleted) {
@@ -88,7 +73,8 @@ export default function Comment(props: CommentProps) {
         <VoteSection
           votes={votes}
           className="me-2"
-          onUpVote={onUpVote}
+          commentId={id}
+          onVoteSuccess={onUpVoteSuccess}
           currVote={currVote}
           enabled={!!userId}
         />

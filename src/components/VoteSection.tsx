@@ -1,18 +1,91 @@
+import { useContext } from 'react';
 import { Button } from 'react-bootstrap';
+import PostsService from '../service/PostsService';
+import { AuthContext } from '../utils/auth-context';
 
 interface VoteSectionProps {
   votes: number;
   className?: string;
-  onUpVote: () => void;
-  onDownVote?: () => void;
+  onVoteSuccess: (newVote: number) => void;
+  onDownVoteSuccess?: () => void;
   currVote: number;
+  commentId?: number;
+  postId?: number;
   enabled: boolean;
 }
 
 export default function VoteSection(props: VoteSectionProps) {
-  const { votes, className, onUpVote, onDownVote, currVote, enabled } = props;
+  const {
+    votes,
+    className,
+    onVoteSuccess,
+    currVote,
+    commentId,
+    postId,
+    enabled,
+  } = props;
 
-  if (onDownVote) {
+  const { token } = useContext(AuthContext);
+
+  const onDownVote = () => {
+    if (!postId) {
+      return;
+    }
+    const newVote = currVote === -1 ? 0 : -1;
+    const action = newVote === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
+    PostsService.votePost(postId, action, token).then(
+      (data) => {
+        if (data?.code === 0) {
+          onVoteSuccess(newVote);
+        } else {
+          // TODO
+          console.log('error');
+        }
+      },
+      () => {
+        // TODO
+        console.log('error');
+      }
+    );
+  };
+
+  const onUpVote = () => {
+    const newVote = currVote === 1 ? 0 : 1;
+    const action = newVote === 0 ? 'NEUTRAL' : 'UP_VOTE';
+    if (commentId) {
+      PostsService.voteComment(commentId, action, token).then(
+        (data) => {
+          if (data?.code === 0) {
+            onVoteSuccess(newVote);
+          } else {
+            // TODO
+            console.log('error');
+          }
+        },
+        () => {
+          // TODO
+          console.log('error');
+        }
+      );
+    } else if (postId) {
+      PostsService.votePost(postId, action, token).then(
+        (data) => {
+          if (data?.code === 0) {
+            onVoteSuccess(newVote);
+          } else {
+            // TODO
+            console.log('error');
+          }
+        },
+        () => {
+          // TODO
+          console.log('error');
+        }
+      );
+    }
+  };
+
+  if (postId) {
     return (
       <div className={'d-flex flex-column align-items-center ' + className}>
         <Button

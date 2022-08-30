@@ -61,46 +61,10 @@ export default function PostCard(props: PostCardProps) {
     );
   };
 
-  const onDownVote = () => {
-    const newVote = currVote === -1 ? 0 : -1;
-    const action = newVote === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
-    PostsService.votePost(String(postId), action, token).then(
-      (data) => {
-        if (data?.code === 0) {
-          setCurrVote(newVote);
-          const diff = VoteUtils.getDownVoteDiff(currVote, newVote);
-          setVotes(votes + diff);
-        } else {
-          // TODO
-          console.log('error');
-        }
-      },
-      () => {
-        // TODO
-        console.log('error');
-      }
-    );
-  };
-
-  const onUpVote = () => {
-    const newVote = currVote === 1 ? 0 : 1;
-    const action = newVote === 0 ? 'NEUTRAL' : 'UP_VOTE';
-    PostsService.votePost(String(postId), action, token).then(
-      (data) => {
-        if (data?.code === 0) {
-          setCurrVote(newVote);
-          const diff = VoteUtils.getUpVoteDiff(currVote, newVote);
-          setVotes(votes + diff);
-        } else {
-          // TODO
-          console.log('error');
-        }
-      },
-      () => {
-        // TODO
-        console.log('error');
-      }
-    );
+  const onVoteSuccess = (newVote: number) => {
+    setCurrVote(newVote);
+    const diff = VoteUtils.getVoteDiff(currVote, newVote);
+    setVotes(votes + diff);
   };
 
   const onAddComment = () => {
@@ -125,8 +89,8 @@ export default function PostCard(props: PostCardProps) {
         <VoteSection
           votes={votes}
           className="me-2"
-          onUpVote={onUpVote}
-          onDownVote={onDownVote}
+          onVoteSuccess={onVoteSuccess}
+          postId={postId}
           currVote={currVote}
           enabled={!!userId}
         />
