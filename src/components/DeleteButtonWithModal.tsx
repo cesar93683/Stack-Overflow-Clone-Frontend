@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Alert, Button, Modal } from 'react-bootstrap';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
 import LoadingSpinner from './LoadingSpinner';
@@ -20,12 +20,14 @@ export default function DeleteButtonWithModal(
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const onCloseDeleteModal = () => setShowDeleteModal(false);
   const onShowDeleteModal = () => setShowDeleteModal(true);
 
   const onDelete = () => {
     setLoading(true);
+    setHasError(false);
     if (commentId) {
       PostsService.deleteComment(commentId, token).then(
         (data) => {
@@ -33,14 +35,12 @@ export default function DeleteButtonWithModal(
           if (data?.code === 0) {
             onDeleteSuccess();
           } else {
-            // TODO
-            console.log('error');
+            setHasError(true);
           }
         },
         () => {
           setLoading(false);
-          // TODO
-          console.log('error');
+          setHasError(true);
         }
       );
     } else if (postId) {
@@ -50,14 +50,12 @@ export default function DeleteButtonWithModal(
           if (data?.code === 0) {
             onDeleteSuccess();
           } else {
-            // TODO
-            console.log('error');
+            setHasError(true);
           }
         },
         () => {
           setLoading(false);
-          // TODO
-          console.log('error');
+          setHasError(true);
         }
       );
     }
@@ -80,6 +78,11 @@ export default function DeleteButtonWithModal(
           </Modal.Title>
         </Modal.Header>
         <Modal.Footer>
+          {hasError ? (
+            <Alert className="w-fit-content p-1" variant="danger">
+              An error occured
+            </Alert>
+          ) : null}
           {loading ? (
             <LoadingSpinner />
           ) : (
