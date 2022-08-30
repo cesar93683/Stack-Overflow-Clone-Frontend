@@ -1,12 +1,11 @@
 import { useContext, useState } from 'react';
-import { Button, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
 import IComment from '../utils/interfaces/IComment';
 import VoteUtils from '../utils/VoteUtils';
-import CommentForm from './CommentForm';
 import CustomCardSubtitle from './CustomCardSubtitle';
-import DeleteModal from './DeleteModal';
+import DeleteButtonWithModal from './DeleteButtonWithModal';
 import VoteSection from './VoteSection';
 
 interface CommentProps {
@@ -18,12 +17,11 @@ export default function Comment(props: CommentProps) {
   const {
     comment: {
       id,
-      content: contentFromProps,
+      content,
       votes: initialVotes,
       user: { id: commentUserId, username },
       currVote: initialCurrVote,
       createdAt,
-      updatedAt,
     },
     className,
   } = props;
@@ -35,10 +33,7 @@ export default function Comment(props: CommentProps) {
   );
   const [votes, setVotes] = useState(initialVotes);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const [updateLoading, setUpdateLoading] = useState(false);
-  const [content, setContent] = useState(contentFromProps);
   const [isCommentDeleted, setIsCommentDeleted] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
 
   const onDelete = () => {
     setDeleteLoading(true);
@@ -102,35 +97,6 @@ export default function Comment(props: CommentProps) {
     );
   };
 
-  const onEditClick = () => {
-    setIsEditing(true);
-  };
-
-  const onCommentUpdate = (newContent: string) => {
-    setUpdateLoading(true);
-    PostsService.updateComment(newContent, id, token).then(
-      (data) => {
-        setUpdateLoading(false);
-        if (data?.code === 0) {
-          setContent(newContent);
-          setIsEditing(false);
-        } else {
-          // TODO
-          console.log('error');
-        }
-      },
-      () => {
-        setUpdateLoading(false);
-        // TODO
-        console.log('error');
-      }
-    );
-  };
-
-  const onCancelClick = () => {
-    setIsEditing(false);
-  };
-
   if (isCommentDeleted) {
     return <div className={className}>Comment deleted</div>;
   }
@@ -150,29 +116,13 @@ export default function Comment(props: CommentProps) {
           <CustomCardSubtitle
             userId={commentUserId}
             createdAt={createdAt}
-            updatedAt={updatedAt}
+            updatedAt={createdAt}
             username={username}
           />
-          {isEditing ? (
-            <CommentForm
-              loading={updateLoading}
-              onCancelClick={onCancelClick}
-              onSubmit={onCommentUpdate}
-              buttonText="Update"
-              defaultContent={content}
-            />
-          ) : null}
-          {!isEditing ? <Card.Text>{content}</Card.Text> : null}
-          {!isEditing && userId === commentUserId ? (
+          {<Card.Text>{content}</Card.Text>}
+          {userId === commentUserId ? (
             <div className="d-flex justify-content-end">
-              <Button
-                onClick={onEditClick}
-                className="me-2"
-                variant="outline-primary"
-              >
-                Edit
-              </Button>
-              <DeleteModal
+              <DeleteButtonWithModal
                 type="comment"
                 onDelete={onDelete}
                 loading={deleteLoading}

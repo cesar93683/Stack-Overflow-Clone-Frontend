@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import LoadingSpinner from './LoadingSpinner';
 
-interface DeleteModalProps {
+interface DeleteButtonWithModalProps {
   onDelete: () => void;
   type: string;
   loading: boolean;
 }
 
-export default function DeleteModal(props: DeleteModalProps) {
+export default function DeleteButtonWithModal(
+  props: DeleteButtonWithModalProps
+) {
   const { onDelete, type, loading } = props;
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);

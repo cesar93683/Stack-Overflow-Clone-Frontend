@@ -8,7 +8,7 @@ import VoteUtils from '../utils/VoteUtils';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 import CustomCardSubtitle from './CustomCardSubtitle';
-import DeleteModal from './DeleteModal';
+import DeleteButtonWithModal from './DeleteButtonWithModal';
 import VoteSection from './VoteSection';
 
 interface PostCardProps {
@@ -162,7 +162,7 @@ export default function PostCard(props: PostCardProps) {
                 <Link className="me-2" to={`/posts/edit/${postId}`}>
                   <Button variant="outline-primary">EDIT</Button>
                 </Link>
-                <DeleteModal
+                <DeleteButtonWithModal
                   type="post"
                   onDelete={onDelete}
                   loading={deleteLoading}

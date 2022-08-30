@@ -117,17 +117,6 @@ class PostsService {
     return response.data;
   }
 
-  async updateComment(content: string, id: number, token: string) {
-    const response = await axios.put<IGenericResponse>(
-      API_URL + 'comments/' + id,
-      {
-        content,
-      },
-      getAuthHeader(token)
-    );
-    return response.data;
-  }
-
   async deleteComment(commentId: number, token: string) {
     const response = await axios.delete<IGenericResponse>(
       API_URL + 'comments/' + commentId,

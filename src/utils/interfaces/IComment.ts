@@ -7,5 +7,4 @@ export default interface IComment {
   user: IUser;
   currVote?: string;
   createdAt: string;
-  updatedAt: string;
 }
