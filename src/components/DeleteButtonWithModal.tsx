@@ -30,7 +30,7 @@ export default function DeleteButtonWithModal(
         Delete
       </Button>
       <Modal show={showDeleteModal} onHide={onCloseDeleteModal}>
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>
             {`Are you sure you want to delete this ${type}?`}
           </Modal.Title>
