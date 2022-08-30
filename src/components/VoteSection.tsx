@@ -1,7 +1,7 @@
 import { Button } from 'react-bootstrap';
 
 interface VoteSectionProps {
-  numVotes: number;
+  votes: number;
   className?: string;
   onUpVote: () => void;
   onDownVote?: () => void;
@@ -10,8 +10,7 @@ interface VoteSectionProps {
 }
 
 export default function VoteSection(props: VoteSectionProps) {
-  const { numVotes, className, onUpVote, onDownVote, currVote, enabled } =
-    props;
+  const { votes, className, onUpVote, onDownVote, currVote, enabled } = props;
 
   if (onDownVote) {
     return (
@@ -24,7 +23,7 @@ export default function VoteSection(props: VoteSectionProps) {
         >
           ^
         </Button>
-        <div>{numVotes}</div>
+        <div>{votes}</div>
         <Button
           onClick={onDownVote}
           variant={currVote === -1 ? 'primary' : 'secondary'}
@@ -43,7 +42,7 @@ export default function VoteSection(props: VoteSectionProps) {
           'h-fit-content d-flex flex-row align-items-start ' + className
         }
       >
-        <div className="my-auto me-1">{numVotes}</div>
+        <div className="my-auto me-1">{votes}</div>
         <Button
           onClick={onUpVote}
           variant={currVote === 1 ? 'primary' : 'secondary'}

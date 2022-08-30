@@ -86,7 +86,7 @@ export default function Comment(props: CommentProps) {
     <div className={className}>
       <div className="p-2 d-flex">
         <VoteSection
-          numVotes={votes}
+          votes={votes}
           className="me-2"
           onUpVote={onUpVote}
           currVote={currVote}

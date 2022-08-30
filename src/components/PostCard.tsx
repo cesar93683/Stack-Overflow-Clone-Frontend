@@ -123,7 +123,7 @@ export default function PostCard(props: PostCardProps) {
     <Card>
       <Card.Body className="d-flex">
         <VoteSection
-          numVotes={votes}
+          votes={votes}
           className="me-2"
           onUpVote={onUpVote}
           onDownVote={onDownVote}
