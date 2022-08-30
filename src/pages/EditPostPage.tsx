@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
+import ValidateUtils from '../utils/ValidateUtils';
 
 export default function EditPost() {
   const { token } = useContext(AuthContext);
@@ -35,14 +36,17 @@ export default function EditPost() {
   const onSubmitPostUpdate = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!content) {
-      setError('Please enter some content');
+    const contentTrimmed = content.trim();
+    const validatePostContent =
+      ValidateUtils.validatePostContent(contentTrimmed);
+    if (validatePostContent) {
+      setError(validatePostContent);
       return;
     }
 
     setLoading(true);
 
-    PostsService.updatePost(content, Number(id), token).then(
+    PostsService.updatePost(contentTrimmed, Number(id), token).then(
       (data) => {
         if (data?.code === 0) {
           navigate(`/posts/${id}`);
@@ -71,6 +75,8 @@ export default function EditPost() {
       <Form.Group className="mb-2">
         <Form.Label>Content</Form.Label>
         <Form.Control
+          minLength={3}
+          maxLength={500}
           as="textarea"
           rows={3}
           placeholder="Enter content"

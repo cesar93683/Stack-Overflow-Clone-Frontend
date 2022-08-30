@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
+import ValidateUtils from '../utils/ValidateUtils';
 
 export default function NewPost() {
   const { token } = useContext(AuthContext);
@@ -22,19 +23,24 @@ export default function NewPost() {
   const onPostSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title) {
-      setError('Please enter a title');
+    const titleTrimmed = title.trim();
+    const validatePostTitle = ValidateUtils.validatePostTitle(titleTrimmed);
+    if (validatePostTitle) {
+      setError(validatePostTitle);
       return;
     }
 
-    if (!content) {
-      setError('Please enter some content');
+    const contentTrimmed = content.trim();
+    const validatePostContent =
+      ValidateUtils.validatePostContent(contentTrimmed);
+    if (validatePostContent) {
+      setError(validatePostContent);
       return;
     }
 
     setLoading(true);
 
-    PostsService.createPost(title, content, null, token).then(
+    PostsService.createPost(titleTrimmed, contentTrimmed, null, token).then(
       (data) => {
         if (data?.code === 0 && data?.postId) {
           navigate(`/posts/${data.postId}`);
@@ -55,6 +61,8 @@ export default function NewPost() {
       <Form.Group>
         <Form.Label>Title</Form.Label>
         <Form.Control
+          minLength={3}
+          maxLength={50}
           type="text"
           placeholder="Enter title"
           value={title}
@@ -64,6 +72,8 @@ export default function NewPost() {
       <Form.Group className="mb-2">
         <Form.Label>Content</Form.Label>
         <Form.Control
+          minLength={3}
+          maxLength={500}
           as="textarea"
           rows={3}
           placeholder="Enter content"
