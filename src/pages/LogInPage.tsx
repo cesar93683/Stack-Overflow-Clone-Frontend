@@ -60,6 +60,8 @@ export default function LogInPage() {
           <Form.Group>
             <Form.Label>Username</Form.Label>
             <Form.Control
+              minLength={3}
+              maxLength={20}
               type="text"
               placeholder="Enter username"
               value={username}
@@ -69,6 +71,8 @@ export default function LogInPage() {
           <Form.Group>
             <Form.Label>Password</Form.Label>
             <Form.Control
+              minLength={6}
+              maxLength={40}
               type="password"
               placeholder="Enter password"
               value={password}

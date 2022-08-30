@@ -72,6 +72,8 @@ export default function SignUpPage() {
           <Form.Group>
             <Form.Label>Email address</Form.Label>
             <Form.Control
+              minLength={3}
+              maxLength={320}
               type="email"
               placeholder="Enter email"
               value={email}
@@ -81,6 +83,8 @@ export default function SignUpPage() {
           <Form.Group>
             <Form.Label>Username</Form.Label>
             <Form.Control
+              minLength={3}
+              maxLength={20}
               type="text"
               placeholder="Enter username"
               value={username}
@@ -90,6 +94,8 @@ export default function SignUpPage() {
           <Form.Group>
             <Form.Label>Password</Form.Label>
             <Form.Control
+              minLength={6}
+              maxLength={40}
               type="password"
               placeholder="Enter password"
               value={password}
