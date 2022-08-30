@@ -13,18 +13,18 @@ export default function VoteSection(props: VoteSectionProps) {
   const { numVotes, className, onUpVote, onDownVote, currVote, enabled } =
     props;
 
-  return (
-    <div className={'d-flex flex-column align-items-center ' + className}>
-      <Button
-        onClick={onUpVote}
-        variant={currVote === 1 ? 'primary' : 'secondary'}
-        disabled={!enabled}
-        size="sm"
-      >
-        ^
-      </Button>
-      <div>{numVotes}</div>
-      {onDownVote ? (
+  if (onDownVote) {
+    return (
+      <div className={'d-flex flex-column align-items-center ' + className}>
+        <Button
+          onClick={onUpVote}
+          variant={currVote === 1 ? 'primary' : 'secondary'}
+          disabled={!enabled}
+          size="sm"
+        >
+          ^
+        </Button>
+        <div>{numVotes}</div>
         <Button
           onClick={onDownVote}
           variant={currVote === -1 ? 'primary' : 'secondary'}
@@ -34,7 +34,25 @@ export default function VoteSection(props: VoteSectionProps) {
         >
           v
         </Button>
-      ) : null}
-    </div>
-  );
+      </div>
+    );
+  } else {
+    return (
+      <div
+        className={
+          'h-fit-content d-flex flex-row align-items-start ' + className
+        }
+      >
+        <div className="my-auto me-1">{numVotes}</div>
+        <Button
+          onClick={onUpVote}
+          variant={currVote === 1 ? 'primary' : 'secondary'}
+          disabled={!enabled}
+          size="sm"
+        >
+          ^
+        </Button>
+      </div>
+    );
+  }
 }

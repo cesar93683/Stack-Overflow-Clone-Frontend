@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react';
-import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
@@ -84,8 +83,8 @@ export default function Comment(props: CommentProps) {
   }
 
   return (
-    <Card className={className}>
-      <Card.Body className="p-2 d-flex">
+    <div className={className}>
+      <div className="p-2 d-flex">
         <VoteSection
           numVotes={votes}
           className="me-2"
@@ -93,29 +92,28 @@ export default function Comment(props: CommentProps) {
           currVote={currVote}
           enabled={!!userId}
         />
-        <div className="w-100">
-          <Card.Text className="d-inline">{content}</Card.Text>
-          <div className="d-inline">{' - '}</div>
-          <Link
-            className="ms-1 text-decoration-none d-inline"
-            to={'/users/' + userId}
-          >
-            {username}
-          </Link>
-          <div className="ms-1 d-inline">
-            {'asked ' + createdAtLocaleString}
+        <div className="my-auto">
+          <div className="d-inline">{content}</div>
+          <div className="ms-1 d-inline-flex">
+            <div>{' - '}</div>
+            <Link className="ms-1 text-decoration-none" to={'/users/' + userId}>
+              {username}
+            </Link>
           </div>
+          <div className="ms-1 d-inline">{createdAtLocaleString}</div>
           {userId === commentUserId ? (
-            <div className="d-flex justify-content-end">
+            <div className="d-inline">
               <DeleteButtonWithModal
+                className="ms-1"
                 type="comment"
                 onDelete={onDelete}
                 loading={deleteLoading}
+                btnSize="sm"
               />
             </div>
           ) : null}
         </div>
-      </Card.Body>
-    </Card>
+      </div>
+    </div>
   );
 }

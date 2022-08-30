@@ -172,7 +172,7 @@ export default function PostCard(props: PostCardProps) {
           </div>
           <div>
             {comments?.map((comment, i) => (
-              <Comment className="mt-1" key={i} comment={comment} />
+              <Comment key={i} comment={comment} />
             ))}
           </div>
           {!userId ? null : showCommentForm ? (
