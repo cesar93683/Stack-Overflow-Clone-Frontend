@@ -5,14 +5,18 @@ interface CustomCardSubtitleProps {
   userId: number;
   username: string;
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
 }
 
 export default function CustomCardSubtitle(props: CustomCardSubtitleProps) {
   const { userId, username, createdAt, updatedAt } = props;
 
   const createdAtLocaleString = DateUtils.getLocaleDateString(createdAt);
-  const updatedAtLocaleString = DateUtils.getLocaleDateString(updatedAt);
+
+  let updatedAtLocaleString;
+  if (updatedAt) {
+    updatedAtLocaleString = DateUtils.getLocaleDateString(updatedAt);
+  }
 
   return (
     <div className="d-flex">
@@ -20,7 +24,7 @@ export default function CustomCardSubtitle(props: CustomCardSubtitleProps) {
         {username}
       </Link>
       <div className="ms-1">{'asked ' + createdAtLocaleString}</div>
-      {createdAt !== updatedAt ? (
+      {updatedAt && createdAt !== updatedAt ? (
         <div className="ms-1 fst-italic">
           {'edited ' + updatedAtLocaleString}
         </div>

@@ -19,7 +19,6 @@ export default function PostCardSmall(props: PostCardSmallProps) {
       numPostResponses,
       user: { id: userId, username },
       createdAt,
-      updatedAt,
     },
     className,
   } = props;
@@ -32,18 +31,17 @@ export default function PostCardSmall(props: PostCardSmallProps) {
           votes={votes}
           numPostResponses={numPostResponses}
         />
-        <div>
+        <div className="w-100">
           <Card.Title>
             <Link className="text-decoration-none" to={'/posts/' + postId}>
               {title}
             </Link>
           </Card.Title>
           <Card.Text className="mb-1">{content}</Card.Text>
-          <div className="d-flex flex-row-reverse">
+          <div className="ms-auto w-fit-content">
             <CustomCardSubtitle
               userId={userId}
               createdAt={createdAt}
-              updatedAt={updatedAt}
               username={username}
             />
           </div>
