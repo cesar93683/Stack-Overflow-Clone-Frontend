@@ -72,7 +72,7 @@ export default function NewPost() {
         />
       </Form.Group>
       {error ? (
-        <Alert className="mb-2" variant="danger">
+        <Alert className="w-fit-content p-1 mb-2" variant="danger">
           {error}
         </Alert>
       ) : null}

@@ -109,7 +109,7 @@ export default function SignUpPage() {
             />
           </Form.Group>
           {error ? (
-            <Alert className="mt-1 mb-0" variant="danger">
+            <Alert className="w-fit-content p-1 mt-1 mb-0" variant="danger">
               {error}
             </Alert>
           ) : null}
