@@ -42,8 +42,8 @@ export default function NewPost() {
 
     PostsService.createPost(titleTrimmed, contentTrimmed, null, token).then(
       (data) => {
-        if (data?.code === 0 && data?.postId) {
-          navigate(`/posts/${data.postId}`);
+        if (data?.id) {
+          navigate(`/posts/${data.id}`);
         } else {
           setError('An error occured');
           setLoading(false);

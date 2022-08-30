@@ -2,7 +2,6 @@ import axios from 'axios';
 import getAuthHeader from '../utils/getAuthHeader';
 import IComment from '../utils/interfaces/IComment';
 import IPost from '../utils/interfaces/IPost';
-import ICreatePostResponse from '../utils/interfaces/service/ICreatePostResponse';
 import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 
 const API_URL = 'http://localhost:8080/api/posts/';
@@ -60,12 +59,12 @@ class PostsService {
   }
 
   async createPost(
-    title: string,
+    title: string | null,
     content: string,
     postResponseId: number | null,
     token: string
   ) {
-    const response = await axios.post<ICreatePostResponse>(
+    const response = await axios.post<IPost>(
       API_URL,
       {
         title,

@@ -13,6 +13,7 @@ import VoteSection from './VoteSection';
 
 interface PostCardProps {
   post: IPost;
+  className?: string;
 }
 
 export default function PostCard(props: PostCardProps) {
@@ -28,6 +29,7 @@ export default function PostCard(props: PostCardProps) {
       createdAt,
       updatedAt,
     },
+    className,
   } = props;
   const { userId } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -66,7 +68,7 @@ export default function PostCard(props: PostCardProps) {
   };
 
   return (
-    <Card>
+    <Card className={className}>
       <Card.Body className="d-flex">
         <VoteSection
           votes={votes}

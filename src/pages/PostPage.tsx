@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PostCard from '../components/PostCard';
+import PostResponseForm from '../components/PostResponseForm';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
 import IPost from '../utils/interfaces/IPost';
@@ -11,6 +12,7 @@ export default function PostPage() {
   const { id } = useParams<{ id: string }>();
 
   const [post, setPost] = useState<IPost | undefined>(undefined);
+  const [postResponses, setPostResponses] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +29,24 @@ export default function PostPage() {
         setLoading(false);
       }
     );
+    PostsService.getPostsResponses(Number(id), 0, false, token).then(
+      (data) => {
+        setPostResponses(data);
+        setLoading(false);
+      },
+      () => {
+        setLoading(false);
+      }
+    );
   }, []);
+
+  const onAddPostResponseSuccess = (postResponse: IPost) => {
+    if (postResponses) {
+      setPostResponses([...postResponses, postResponse]);
+    } else {
+      setPostResponses([postResponse]);
+    }
+  };
 
   if (loading) {
     return <LoadingSpinner />;
@@ -38,7 +57,18 @@ export default function PostPage() {
 
   return (
     <div>
-      <PostCard post={post as IPost} />
+      <PostCard post={post} />
+      {post.numPostResponses ? (
+        <h1 className="display-6">{post.numPostResponses + ' Answers'}</h1>
+      ) : null}
+      {postResponses.map((postResponse, i) => (
+        <PostCard className="mt-1" key={i} post={postResponse} />
+      ))}
+      <PostResponseForm
+        className="mt-1"
+        postId={Number(id)}
+        onAddPostResponseSuccess={onAddPostResponseSuccess}
+      />
     </div>
   );
 }

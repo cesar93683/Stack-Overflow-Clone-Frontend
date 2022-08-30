@@ -2,60 +2,50 @@ import React, { useContext, useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
-import IComment from '../utils/interfaces/IComment';
+import IPost from '../utils/interfaces/IPost';
 import ValidateUtils from '../utils/ValidateUtils';
 import LoadingSpinner from './LoadingSpinner';
 
-interface CommentFormProps {
+interface PostResponseFormProps {
   postId: number;
-  setShowCommentForm: (showCommentForm: boolean) => void;
-  onAddCommentSuccess: (comment: IComment) => void;
-  onCancelClick: () => void;
+  onAddPostResponseSuccess: (post: IPost) => void;
   className?: string;
 }
 
-export default function CommentForm(props: CommentFormProps) {
-  const {
-    postId,
-    setShowCommentForm,
-    onAddCommentSuccess,
-    onCancelClick,
-    className,
-  } = props;
+export default function PostResponseForm(props: PostResponseFormProps) {
+  const { postId, onAddPostResponseSuccess, className } = props;
   const { token } = useContext(AuthContext);
 
-  const [comment, setComment] = useState('');
+  const [content, setContent] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const onContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setComment(event.target.value);
+    setContent(event.target.value);
   };
 
   const onSubmitClick = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const commentTrimmed = comment.trim();
-    const commentValidate = ValidateUtils.validateComment(commentTrimmed);
-    if (commentValidate) {
-      setError(commentValidate);
+    const contentTrimmed = content.trim();
+    const contentValidate = ValidateUtils.validatePostContent(contentTrimmed);
+    if (contentValidate) {
+      setError(contentValidate);
       return;
     }
     setError('');
 
     setLoading(true);
-    PostsService.createComment(commentTrimmed, postId, token).then(
+    PostsService.createPost(null, content, postId, token).then(
       (data) => {
-        setShowCommentForm(false);
         setLoading(false);
         if (data) {
-          onAddCommentSuccess(data);
+          onAddPostResponseSuccess(data);
         } else {
           setError('An error occured');
         }
       },
       () => {
-        setShowCommentForm(false);
         setLoading(false);
         setError('An error occured');
       }
@@ -65,9 +55,9 @@ export default function CommentForm(props: CommentFormProps) {
   return (
     <Form onSubmit={onSubmitClick} className={className}>
       <Form.Control
-        value={comment}
+        value={content}
         onChange={onContentChange}
-        placeholder={'Enter Comment'}
+        placeholder={'Enter Response'}
       />
       {error ? (
         <Alert className="ms-auto mt-1 mb-0 p-1 w-fit-content" variant="danger">
@@ -79,12 +69,7 @@ export default function CommentForm(props: CommentFormProps) {
           <LoadingSpinner />
         ) : (
           <>
-            <Button variant="outline-secondary" onClick={onCancelClick}>
-              Cancel
-            </Button>
-            <Button className="ms-1" type="submit">
-              Comment
-            </Button>
+            <Button type="submit">Submit</Button>
           </>
         )}
       </div>
