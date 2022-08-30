@@ -4,7 +4,7 @@ interface VoteSectionProps {
   numVotes: number;
   className?: string;
   onUpVote: () => void;
-  onDownVote: () => void;
+  onDownVote?: () => void;
   currVote: number;
   enabled: boolean;
 }
@@ -24,15 +24,17 @@ export default function VoteSection(props: VoteSectionProps) {
         ^
       </Button>
       <div>{numVotes}</div>
-      <Button
-        onClick={onDownVote}
-        variant={currVote === -1 ? 'primary' : 'secondary'}
-        disabled={!enabled}
-        size="sm"
-        className="w-100"
-      >
-        v
-      </Button>
+      {onDownVote ? (
+        <Button
+          onClick={onDownVote}
+          variant={currVote === -1 ? 'primary' : 'secondary'}
+          disabled={!enabled}
+          size="sm"
+          className="w-100"
+        >
+          v
+        </Button>
+      ) : null}
     </div>
   );
 }

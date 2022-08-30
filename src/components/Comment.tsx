@@ -1,10 +1,11 @@
 import { useContext, useState } from 'react';
 import { Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
+import DateUtils from '../utils/DateUtils';
 import IComment from '../utils/interfaces/IComment';
 import VoteUtils from '../utils/VoteUtils';
-import CustomCardSubtitle from './CustomCardSubtitle';
 import DeleteButtonWithModal from './DeleteButtonWithModal';
 import VoteSection from './VoteSection';
 
@@ -35,6 +36,8 @@ export default function Comment(props: CommentProps) {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [isCommentDeleted, setIsCommentDeleted] = useState(false);
 
+  const createdAtLocaleString = DateUtils.getLocaleDateString(createdAt);
+
   const onDelete = () => {
     setDeleteLoading(true);
     PostsService.deleteComment(id, token).then(
@@ -49,27 +52,6 @@ export default function Comment(props: CommentProps) {
       },
       () => {
         setDeleteLoading(false);
-        // TODO
-        console.log('error');
-      }
-    );
-  };
-
-  const onDownVote = () => {
-    const newVote = currVote === -1 ? 0 : -1;
-    const action = newVote === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
-    PostsService.voteComment(id, action, token).then(
-      (data) => {
-        if (data?.code === 0) {
-          setCurrVote(newVote);
-          const diff = VoteUtils.getDownVoteDiff(currVote, newVote);
-          setVotes(votes + diff);
-        } else {
-          // TODO
-          console.log('error');
-        }
-      },
-      () => {
         // TODO
         console.log('error');
       }
@@ -108,18 +90,21 @@ export default function Comment(props: CommentProps) {
           numVotes={votes}
           className="me-2"
           onUpVote={onUpVote}
-          onDownVote={onDownVote}
           currVote={currVote}
           enabled={!!userId}
         />
         <div className="w-100">
-          <CustomCardSubtitle
-            userId={commentUserId}
-            createdAt={createdAt}
-            updatedAt={createdAt}
-            username={username}
-          />
-          {<Card.Text>{content}</Card.Text>}
+          <Card.Text className="d-inline">{content}</Card.Text>
+          <div className="d-inline">{' - '}</div>
+          <Link
+            className="ms-1 text-decoration-none d-inline"
+            to={'/users/' + userId}
+          >
+            {username}
+          </Link>
+          <div className="ms-1 d-inline">
+            {'asked ' + createdAtLocaleString}
+          </div>
           {userId === commentUserId ? (
             <div className="d-flex justify-content-end">
               <DeleteButtonWithModal

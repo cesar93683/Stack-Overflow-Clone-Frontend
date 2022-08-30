@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import DateUtils from '../utils/DateUtils';
 
 interface CustomCardSubtitleProps {
   userId: number;
@@ -10,18 +11,8 @@ interface CustomCardSubtitleProps {
 export default function CustomCardSubtitle(props: CustomCardSubtitleProps) {
   const { userId, username, createdAt, updatedAt } = props;
 
-  const timeFormat: Intl.DateTimeFormatOptions = {
-    hour: '2-digit',
-    minute: '2-digit',
-  };
-  const createdAtLocaleString = new Date(createdAt).toLocaleDateString(
-    [],
-    timeFormat
-  );
-  const updatedAtLocaleString = new Date(updatedAt).toLocaleDateString(
-    [],
-    timeFormat
-  );
+  const createdAtLocaleString = DateUtils.getLocaleDateString(createdAt);
+  const updatedAtLocaleString = DateUtils.getLocaleDateString(updatedAt);
 
   return (
     <div className="d-flex">
