@@ -13,8 +13,6 @@ export default function PostPage() {
   const [post, setPost] = useState<IPost | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
-  console.log(post);
-
   useEffect(() => {
     if (!id) {
       setLoading(false);

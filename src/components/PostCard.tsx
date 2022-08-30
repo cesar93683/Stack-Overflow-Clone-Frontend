@@ -160,7 +160,9 @@ export default function PostCard(props: PostCardProps) {
             {userId === postUserId ? (
               <div>
                 <Link className="me-2" to={`/posts/edit/${postId}`}>
-                  <Button variant="outline-primary">EDIT</Button>
+                  <Button variant="outline-primary" size="sm">
+                    EDIT
+                  </Button>
                 </Link>
                 <DeleteButtonWithModal
                   type="post"

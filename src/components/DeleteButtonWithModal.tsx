@@ -7,13 +7,12 @@ interface DeleteButtonWithModalProps {
   type: string;
   loading: boolean;
   className?: string;
-  btnSize?: 'sm' | 'lg';
 }
 
 export default function DeleteButtonWithModal(
   props: DeleteButtonWithModalProps
 ) {
-  const { onDelete, type, loading, className, btnSize } = props;
+  const { onDelete, type, loading, className } = props;
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -26,7 +25,7 @@ export default function DeleteButtonWithModal(
         className={className}
         variant="danger"
         onClick={onShowDeleteModal}
-        size={btnSize}
+        size="sm"
       >
         Delete
       </Button>

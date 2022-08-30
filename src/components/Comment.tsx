@@ -108,7 +108,6 @@ export default function Comment(props: CommentProps) {
                 type="comment"
                 onDelete={onDelete}
                 loading={deleteLoading}
-                btnSize="sm"
               />
             </div>
           ) : null}
