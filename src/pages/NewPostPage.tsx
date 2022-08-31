@@ -40,7 +40,7 @@ export default function NewPost() {
 
     setLoading(true);
 
-    PostsService.createPost(titleTrimmed, contentTrimmed, null, token).then(
+    PostsService.createPost(titleTrimmed, contentTrimmed, token).then(
       (data) => {
         if (data?.id) {
           navigate(`/posts/${data.id}`);

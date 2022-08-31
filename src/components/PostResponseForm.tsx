@@ -36,7 +36,7 @@ export default function PostResponseForm(props: PostResponseFormProps) {
     setError('');
 
     setLoading(true);
-    PostsService.createPost(null, content, postId, token).then(
+    PostsService.createPostResponse(content, postId, token).then(
       (data) => {
         setLoading(false);
         if (data) {

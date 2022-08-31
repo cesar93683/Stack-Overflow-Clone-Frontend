@@ -58,16 +58,26 @@ class PostsService {
     return response.data;
   }
 
-  async createPost(
-    title: string | null,
+  async createPost(title: string, content: string, token: string) {
+    const response = await axios.post<IPost>(
+      API_URL,
+      {
+        title,
+        content,
+      },
+      getAuthHeader(token)
+    );
+    return response.data;
+  }
+
+  async createPostResponse(
     content: string,
-    postResponseId: number | null,
+    postResponseId: number,
     token: string
   ) {
     const response = await axios.post<IPost>(
       API_URL,
       {
-        title,
         content,
         postResponseId,
       },
