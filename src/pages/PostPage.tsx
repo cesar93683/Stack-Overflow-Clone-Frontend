@@ -14,6 +14,7 @@ export default function PostPage() {
   const [post, setPost] = useState<IPost | undefined>(undefined);
   const [postResponses, setPostResponses] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showPostResponseForm, setShowPostResponseForm] = useState(!!token);
 
   useEffect(() => {
     if (!id) {
@@ -41,6 +42,7 @@ export default function PostPage() {
   }, []);
 
   const onAddPostResponseSuccess = (postResponse: IPost) => {
+    setShowPostResponseForm(false);
     if (postResponses) {
       setPostResponses([...postResponses, postResponse]);
     } else {
@@ -68,11 +70,13 @@ export default function PostPage() {
       {postResponses.map((postResponse, i) => (
         <PostCard className="mt-1" key={i} post={postResponse} />
       ))}
-      <PostResponseForm
-        className="mt-1"
-        postId={Number(id)}
-        onAddPostResponseSuccess={onAddPostResponseSuccess}
-      />
+      {showPostResponseForm ? (
+        <PostResponseForm
+          className="mt-1"
+          postId={Number(id)}
+          onAddPostResponseSuccess={onAddPostResponseSuccess}
+        />
+      ) : null}
     </div>
   );
 }
