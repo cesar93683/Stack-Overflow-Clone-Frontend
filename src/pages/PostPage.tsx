@@ -8,13 +8,13 @@ import { AuthContext } from '../utils/auth-context';
 import IPost from '../utils/interfaces/IPost';
 
 export default function PostPage() {
-  const { token } = useContext(AuthContext);
+  const { userId, token } = useContext(AuthContext);
   const { id } = useParams<{ id: string }>();
 
   const [post, setPost] = useState<IPost | undefined>(undefined);
   const [postResponses, setPostResponses] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showPostResponseForm, setShowPostResponseForm] = useState(!!token);
+  const [showPostResponseForm, setShowPostResponseForm] = useState(false);
 
   useEffect(() => {
     if (!id) {
@@ -34,6 +34,16 @@ export default function PostPage() {
       (data) => {
         setPostResponses(data);
         setLoading(false);
+        if (token) {
+          let hasCreatedPostResponse = false;
+          for (const postResponse of data) {
+            if (postResponse.user.id === userId) {
+              hasCreatedPostResponse = true;
+              break;
+            }
+          }
+          setShowPostResponseForm(!hasCreatedPostResponse);
+        }
       },
       () => {
         setLoading(false);
