@@ -83,11 +83,11 @@ export default function PostPage() {
     <div>
       <PostCard post={post} onDeleteSuccess={onDeletePostSuccess} />
       {postResponses.length ? (
-        <h1 className="display-6">
+        <h3 className="fw-normal">
           {postResponses.length +
             ' Answer' +
             (postResponses.length === 1 ? '' : 's')}
-        </h1>
+        </h3>
       ) : null}
       {postResponses.map((postResponse, i) => (
         <PostCard
