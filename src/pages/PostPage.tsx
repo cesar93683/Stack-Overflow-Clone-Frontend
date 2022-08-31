@@ -58,8 +58,12 @@ export default function PostPage() {
   return (
     <div>
       <PostCard post={post} />
-      {post.numPostResponses ? (
-        <h1 className="display-6">{post.numPostResponses + ' Answers'}</h1>
+      {postResponses.length ? (
+        <h1 className="display-6">
+          {postResponses.length +
+            ' Answer' +
+            (postResponses.length === 1 ? '' : 's')}
+        </h1>
       ) : null}
       {postResponses.map((postResponse, i) => (
         <PostCard className="mt-1" key={i} post={postResponse} />
