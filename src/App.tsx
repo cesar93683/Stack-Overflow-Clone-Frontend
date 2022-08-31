@@ -6,6 +6,7 @@ import LogInPage from './pages/LogInPage';
 import NewPostPage from './pages/NewPostPage';
 import PostPage from './pages/PostPage';
 import SignUpPage from './pages/SignUpPage';
+import UserPage from './pages/UserPage';
 import { AuthProvider } from './utils/auth-context';
 
 export default function BasicExample() {
@@ -20,6 +21,7 @@ export default function BasicExample() {
             <Route path="/login" element={<LogInPage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/posts/:id" element={<PostPage />} />
+            <Route path="/users/:id" element={<UserPage />} />
           </Routes>
         </Container>
       </AuthProvider>

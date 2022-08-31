@@ -9,7 +9,7 @@ import IPost from '../utils/interfaces/IPost';
 
 export default function PostPage() {
   const { userId, token } = useContext(AuthContext);
-  const { id } = useParams<{ id: string }>();
+  const { id: postId } = useParams<{ id: string }>();
 
   const [post, setPost] = useState<IPost | undefined>(undefined);
   const [postResponses, setPostResponses] = useState<IPost[]>([]);
@@ -19,11 +19,11 @@ export default function PostPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!id) {
+    if (!postId) {
       setLoading(false);
       return;
     }
-    PostsService.getPost(Number(id), token).then(
+    PostsService.getPost(Number(postId), token).then(
       (data) => {
         setPost(data);
         setLoading(false);
@@ -32,7 +32,7 @@ export default function PostPage() {
         setLoading(false);
       }
     );
-    PostsService.getPostsResponses(Number(id), 0, false, token).then(
+    PostsService.getPostsResponses(Number(postId), 0, false, token).then(
       (data) => {
         setPostResponses(data);
         setLoading(false);
@@ -100,7 +100,7 @@ export default function PostPage() {
       {showPostResponseForm ? (
         <PostResponseForm
           className="mt-1"
-          postId={Number(id)}
+          postId={Number(postId)}
           onAddPostResponseSuccess={onAddPostResponseSuccess}
         />
       ) : null}
