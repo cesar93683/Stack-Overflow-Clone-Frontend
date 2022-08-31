@@ -11,11 +11,12 @@ interface CustomCardSubtitleProps {
 export default function CustomCardSubtitle(props: CustomCardSubtitleProps) {
   const { userId, username, createdAt, updatedAt } = props;
 
-  const createdAtLocaleString = DateUtils.getLocaleDateString(createdAt);
+  const createdAtLocaleString =
+    DateUtils.getLocaleDateStringFromString(createdAt);
 
   let updatedAtLocaleString;
   if (updatedAt) {
-    updatedAtLocaleString = DateUtils.getLocaleDateString(updatedAt);
+    updatedAtLocaleString = DateUtils.getLocaleDateStringFromString(updatedAt);
   }
 
   return (

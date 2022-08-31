@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { AuthContext } from '../utils/auth-context';
+import DateUtils from '../utils/DateUtils';
 import IComment from '../utils/interfaces/IComment';
 import IPost from '../utils/interfaces/IPost';
 import VoteUtils from '../utils/VoteUtils';
@@ -28,7 +29,7 @@ export default function PostCard(props: PostCardProps) {
       user: { id: postUserId, username },
       currVote: initialCurrVote,
       createdAt,
-      updatedAt,
+      updatedAt: initialUpdatedAt,
     },
     onDeleteSuccess,
     className,
@@ -42,6 +43,7 @@ export default function PostCard(props: PostCardProps) {
   const [content, setContent] = useState(initialContent);
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [comments, setComments] = useState(initialComments);
+  const [updatedAt, setUpdatedAt] = useState(initialUpdatedAt);
 
   const onVoteSuccess = (newVote: number) => {
     setCurrVote(newVote);
@@ -67,6 +69,7 @@ export default function PostCard(props: PostCardProps) {
 
   const onUpdateSuccess = (newContent: string) => {
     setContent(newContent);
+    setUpdatedAt(DateUtils.getLocaleDateString(new Date()));
   };
 
   return (

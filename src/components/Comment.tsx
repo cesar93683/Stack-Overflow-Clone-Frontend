@@ -33,7 +33,8 @@ export default function Comment(props: CommentProps) {
   const [votes, setVotes] = useState(initialVotes);
   const [isCommentDeleted, setIsCommentDeleted] = useState(false);
 
-  const createdAtLocaleString = DateUtils.getLocaleDateString(createdAt);
+  const createdAtLocaleString =
+    DateUtils.getLocaleDateStringFromString(createdAt);
 
   const onDeleteSuccess = () => {
     setIsCommentDeleted(true);
