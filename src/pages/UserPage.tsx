@@ -2,7 +2,7 @@ import { useContext, useMemo, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
-import PostCardSmall from '../components/PostCardSmall';
+import PostCardUser from '../components/PostCardUser';
 import PostsService from '../service/PostsService';
 import { AuthContext } from '../utils/auth-context';
 import IPost from '../utils/interfaces/IPost';
@@ -50,7 +50,7 @@ export default function UserPage() {
           ) : (
             <>
               {posts.map((post, i) => (
-                <PostCardSmall post={post} key={i} className="my-2" />
+                <PostCardUser post={post} key={i} className="my-2" />
               ))}
             </>
           )}

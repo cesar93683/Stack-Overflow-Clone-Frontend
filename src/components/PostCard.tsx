@@ -84,7 +84,7 @@ export default function PostCard(props: PostCardProps) {
           enabled={!!userId}
         />
         <div className="w-100">
-          <Card.Title>{title}</Card.Title>
+          <Card.Body>{title}</Card.Body>
           <Card.Text>{content}</Card.Text>
           <div className="d-flex flex-row-reverse justify-content-between align-items-center">
             <CustomCardSubtitle

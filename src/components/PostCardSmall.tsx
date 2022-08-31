@@ -32,11 +32,11 @@ export default function PostCardSmall(props: PostCardSmallProps) {
           numPostResponses={numPostResponses}
         />
         <div className="w-100">
-          <Card.Title>
+          <Card.Body>
             <Link className="text-decoration-none" to={'/posts/' + postId}>
               {title}
             </Link>
-          </Card.Title>
+          </Card.Body>
           <Card.Text className="mb-1">{content}</Card.Text>
           <div className="ms-auto w-fit-content">
             <CustomCardSubtitle
