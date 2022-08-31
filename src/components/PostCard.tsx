@@ -1,6 +1,5 @@
 import { useContext, useState } from 'react';
-import { Button, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Card } from 'react-bootstrap';
 import { AuthContext } from '../utils/auth-context';
 import IComment from '../utils/interfaces/IComment';
 import IPost from '../utils/interfaces/IPost';
@@ -9,6 +8,7 @@ import Comment from './Comment';
 import CommentForm from './CommentForm';
 import CustomCardSubtitle from './CustomCardSubtitle';
 import DeleteButtonWithModal from './DeleteButtonWithModal';
+import EditButtonWithModal from './EditButtonWithModal';
 import VoteSection from './VoteSection';
 
 interface PostCardProps {
@@ -22,7 +22,7 @@ export default function PostCard(props: PostCardProps) {
     post: {
       id: postId,
       title,
-      content,
+      content: initialContent,
       votes: initialVotes,
       comments: initialComments,
       user: { id: postUserId, username },
@@ -39,6 +39,7 @@ export default function PostCard(props: PostCardProps) {
     VoteUtils.getCurrVoteNum(initialCurrVote)
   );
   const [votes, setVotes] = useState(initialVotes);
+  const [content, setContent] = useState(initialContent);
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [comments, setComments] = useState(initialComments);
 
@@ -64,6 +65,10 @@ export default function PostCard(props: PostCardProps) {
     }
   };
 
+  const onUpdateSuccess = (newContent: string) => {
+    setContent(newContent);
+  };
+
   return (
     <Card className={className}>
       <Card.Body className="d-flex">
@@ -87,11 +92,12 @@ export default function PostCard(props: PostCardProps) {
             />
             {userId === postUserId ? (
               <div>
-                <Link className="me-2" to={`/posts/edit/${postId}`}>
-                  <Button variant="outline-primary" size="sm">
-                    EDIT
-                  </Button>
-                </Link>
+                <EditButtonWithModal
+                  onUpdateSuccess={onUpdateSuccess}
+                  postId={postId}
+                  content={content}
+                  className="me-2"
+                />
                 <DeleteButtonWithModal
                   postId={postId}
                   type="post"
