@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../utils/auth-context';
 import IComment from '../utils/interfaces/IComment';
 import IPost from '../utils/interfaces/IPost';
@@ -13,6 +13,7 @@ import VoteSection from './VoteSection';
 
 interface PostCardProps {
   post: IPost;
+  onDeleteSuccess: () => void;
   className?: string;
 }
 
@@ -29,10 +30,10 @@ export default function PostCard(props: PostCardProps) {
       createdAt,
       updatedAt,
     },
+    onDeleteSuccess,
     className,
   } = props;
   const { userId } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const [currVote, setCurrVote] = useState(
     VoteUtils.getCurrVoteNum(initialCurrVote)
@@ -40,10 +41,6 @@ export default function PostCard(props: PostCardProps) {
   const [votes, setVotes] = useState(initialVotes);
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [comments, setComments] = useState(initialComments);
-
-  const onDeleteSuccess = () => {
-    navigate('/');
-  };
 
   const onVoteSuccess = (newVote: number) => {
     setCurrVote(newVote);

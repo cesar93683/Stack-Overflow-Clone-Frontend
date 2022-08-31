@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PostCard from '../components/PostCard';
 import PostResponseForm from '../components/PostResponseForm';
@@ -15,6 +15,8 @@ export default function PostPage() {
   const [postResponses, setPostResponses] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [showPostResponseForm, setShowPostResponseForm] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) {
@@ -51,6 +53,16 @@ export default function PostPage() {
     );
   }, []);
 
+  const onDeletePostSuccess = () => {
+    navigate('/');
+  };
+
+  const onDeletePostResponseSuccess = (index: number) => {
+    const newPostResponses = [...postResponses];
+    newPostResponses.splice(index, 1);
+    setPostResponses(newPostResponses);
+  };
+
   const onAddPostResponseSuccess = (postResponse: IPost) => {
     setShowPostResponseForm(false);
     if (postResponses) {
@@ -69,7 +81,7 @@ export default function PostPage() {
 
   return (
     <div>
-      <PostCard post={post} />
+      <PostCard post={post} onDeleteSuccess={onDeletePostSuccess} />
       {postResponses.length ? (
         <h1 className="display-6">
           {postResponses.length +
@@ -78,7 +90,12 @@ export default function PostPage() {
         </h1>
       ) : null}
       {postResponses.map((postResponse, i) => (
-        <PostCard className="mt-1" key={i} post={postResponse} />
+        <PostCard
+          onDeleteSuccess={() => onDeletePostResponseSuccess(i)}
+          className="mt-1"
+          key={i}
+          post={postResponse}
+        />
       ))}
       {showPostResponseForm ? (
         <PostResponseForm
