@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { Alert, Button, Form, Modal } from 'react-bootstrap';
-import PostsService from '../service/PostsService';
+import PostsService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import ValidateUtils from '../utils/ValidateUtils';
 import LoadingSpinner from './LoadingSpinner';

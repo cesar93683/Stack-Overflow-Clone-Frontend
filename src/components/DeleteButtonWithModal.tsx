@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { Alert, Button, Modal } from 'react-bootstrap';
-import PostsService from '../service/PostsService';
+import CommentService from '../service/CommentService';
+import PostsService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import LoadingSpinner from './LoadingSpinner';
 
@@ -29,7 +30,7 @@ export default function DeleteButtonWithModal(
     setLoading(true);
     setHasError(false);
     if (commentId) {
-      PostsService.deleteComment(commentId, token).then(
+      CommentService.deleteComment(commentId, token).then(
         (data) => {
           setLoading(false);
           if (data?.code === 0) {

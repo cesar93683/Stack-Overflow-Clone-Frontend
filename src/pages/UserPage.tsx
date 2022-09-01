@@ -3,7 +3,7 @@ import { Tab, Tabs } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PostCardUser from '../components/PostCardUser';
-import PostsService from '../service/PostsService';
+import PostsService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import IPost from '../utils/interfaces/IPost';
 

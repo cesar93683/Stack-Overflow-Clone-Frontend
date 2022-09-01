@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
-import PostsService from '../service/PostsService';
+import PostsService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import ValidateUtils from '../utils/ValidateUtils';
 

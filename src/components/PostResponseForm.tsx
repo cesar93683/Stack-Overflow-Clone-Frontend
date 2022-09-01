@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
-import PostsService from '../service/PostsService';
+import PostsService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import IPost from '../utils/interfaces/IPost';
 import ValidateUtils from '../utils/ValidateUtils';

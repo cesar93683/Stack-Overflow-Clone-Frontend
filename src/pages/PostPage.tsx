@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PostCard from '../components/PostCard';
 import PostResponseForm from '../components/PostResponseForm';
-import PostsService from '../service/PostsService';
+import PostsService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import IPost from '../utils/interfaces/IPost';
 

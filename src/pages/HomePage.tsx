@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PostCardSmall from '../components/PostCardSmall';
-import PostsService from '../service/PostsService';
+import PostsService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import IPost from '../utils/interfaces/IPost';
 
