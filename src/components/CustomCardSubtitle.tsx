@@ -4,12 +4,13 @@ import DateUtils from '../utils/DateUtils';
 interface CustomCardSubtitleProps {
   userId: number;
   username: string;
+  action: string;
   createdAt: string;
   updatedAt?: string;
 }
 
 export default function CustomCardSubtitle(props: CustomCardSubtitleProps) {
-  const { userId, username, createdAt, updatedAt } = props;
+  const { userId, username, action, createdAt, updatedAt } = props;
 
   const createdAtLocaleString =
     DateUtils.getLocaleDateStringFromString(createdAt);
@@ -24,7 +25,7 @@ export default function CustomCardSubtitle(props: CustomCardSubtitleProps) {
       <Link className="text-decoration-none" to={'/users/' + userId}>
         {username}
       </Link>
-      <div className="ms-1">{'asked ' + createdAtLocaleString}</div>
+      <div className="ms-1">{action + ' ' + createdAtLocaleString}</div>
       {updatedAt && createdAt !== updatedAt ? (
         <div className="ms-1 fst-italic">
           {'edited ' + updatedAtLocaleString}

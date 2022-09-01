@@ -101,6 +101,7 @@ export default function CustomCard(props: CustomCardProps) {
           <Card.Text>{content}</Card.Text>
           <div className="d-flex flex-row-reverse justify-content-between align-items-center">
             <CustomCardSubtitle
+              action={questionId ? 'asked' : 'answered'}
               userId={questionUserId}
               createdAt={createdAt}
               updatedAt={updatedAt}
