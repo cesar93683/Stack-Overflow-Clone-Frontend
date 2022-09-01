@@ -17,6 +17,7 @@ export default function QuestionPage() {
   const [answers, setAnswers] = useState<IAnswer[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddAnswerForm, setShowAddAnswerForm] = useState(false);
+  const [errorLoadingAnswers, setErrorLoadingAnswers] = useState(false);
 
   const navigate = useNavigate();
 
@@ -55,7 +56,7 @@ export default function QuestionPage() {
         }
       },
       () => {
-        setLoading(false);
+        setErrorLoadingAnswers(true);
       }
     );
   }, []);
@@ -82,7 +83,7 @@ export default function QuestionPage() {
   if (loading) {
     return <LoadingSpinner />;
   }
-  if (!question) {
+  if (!question || errorLoadingAnswers) {
     return <div>An error has occured</div>;
   }
 
