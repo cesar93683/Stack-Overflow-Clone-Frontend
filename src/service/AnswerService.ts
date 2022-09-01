@@ -1,27 +1,36 @@
 import axios from 'axios';
 import getAuthHeader from '../utils/getAuthHeader';
+import IAnswer from '../utils/interfaces/IAnswer';
 import IComment from '../utils/interfaces/IComment';
-import IQuestion from '../utils/interfaces/IQuestion';
 import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 
-const API_URL = 'http://localhost:8080/api/posts/';
+const API_URL = 'http://localhost:8080/api/answers/';
 
-class PostsService {
-  async getPosts(page: number, sortedByVotes: boolean, token: string) {
-    const response = await axios.get<IQuestion[]>(
-      API_URL + 'all?page=' + page + '&sortedByVotes=' + sortedByVotes,
+class AnswerService {
+  async getAnswersByQuestionId(
+    questionId: number,
+    page: number,
+    sortedByVotes: boolean,
+    token: string
+  ) {
+    const response = await axios.get<IAnswer[]>(
+      API_URL +
+        questionId +
+        '?page=' +
+        page +
+        '&sortedByVotes=' +
+        sortedByVotes,
       getAuthHeader(token)
     );
     return response.data;
   }
-
-  async getPostsByUserId(
+  async getAnswersByUserId(
     userId: number,
     page: number,
     sortedByVotes: boolean,
     token: string
   ) {
-    const response = await axios.get<IQuestion[]>(
+    const response = await axios.get<IAnswer[]>(
       API_URL +
         'users/' +
         userId +
@@ -34,99 +43,56 @@ class PostsService {
     return response.data;
   }
 
-  async getPost(id: number, token: string) {
-    const response = await axios.get<IQuestion>(
+  async createAnswer(questionId: string, content: string, token: string) {
+    const response = await axios.post<IAnswer>(
+      API_URL,
+      {
+        questionId,
+        content,
+      },
+      getAuthHeader(token)
+    );
+    return response.data;
+  }
+
+  async updateAnswer(content: string, id: number, token: string) {
+    const response = await axios.put<IGenericResponse>(
+      API_URL + id,
+      {
+        content,
+      },
+      getAuthHeader(token)
+    );
+    return response.data;
+  }
+
+  async deleteAnswer(id: number, token: string) {
+    const response = await axios.delete<IGenericResponse>(
       API_URL + id,
       getAuthHeader(token)
     );
     return response.data;
   }
 
-  async getPostsResponses(
-    postId: number,
-    page: number,
-    sortedByVotes: boolean,
-    token: string
-  ) {
-    const response = await axios.get<IQuestion[]>(
-      API_URL +
-        'responses/' +
-        postId +
-        '?page=' +
-        page +
-        '&sortedByVotes=' +
-        sortedByVotes,
-      getAuthHeader(token)
-    );
-    return response.data;
-  }
-
-  async createPost(title: string, content: string, token: string) {
-    const response = await axios.post<IQuestion>(
-      API_URL,
-      {
-        title,
-        content,
-      },
-      getAuthHeader(token)
-    );
-    return response.data;
-  }
-
-  async createPostResponse(
-    content: string,
-    postResponseId: number,
-    token: string
-  ) {
-    const response = await axios.post<IQuestion>(
-      API_URL,
-      {
-        content,
-        postResponseId,
-      },
-      getAuthHeader(token)
-    );
-    return response.data;
-  }
-
-  async updatePost(content: string, postId: number, token: string) {
-    const response = await axios.put<IGenericResponse>(
-      API_URL + postId,
-      {
-        content,
-      },
-      getAuthHeader(token)
-    );
-    return response.data;
-  }
-
-  async deletePost(postId: number, token: string) {
-    const response = await axios.delete<IGenericResponse>(
-      API_URL + postId,
-      getAuthHeader(token)
-    );
-    return response.data;
-  }
-
-  async votePost(postId: number, action: string, token: string) {
+  async voteAnswer(id: number, action: string, token: string) {
     const response = await axios.post<IGenericResponse>(
       API_URL + 'vote',
-      { postId, action },
+      { id, action },
       getAuthHeader(token)
     );
     return response.data;
   }
 
-  async createComment(content: string, postId: number, token: string) {
+  async createComment(content: string, id: number, token: string) {
     const response = await axios.post<IComment>(
       API_URL + 'comments',
       {
         content,
-        postId,
+        id,
       },
       getAuthHeader(token)
     );
     return response.data;
   }
 }
-export default new PostsService();
+export default new AnswerService();
