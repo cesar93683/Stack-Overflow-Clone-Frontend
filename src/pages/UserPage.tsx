@@ -14,6 +14,7 @@ export default function UserPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [questions, setQuestions] = useState<IQuestion[]>([]);
+  const [questionsAnswered, setQuestionsAnswered] = useState<IQuestion[]>([]);
   const [sortedByVotes, setSortedByVotes] = useState(false);
 
   useMemo(() => {
@@ -25,6 +26,20 @@ export default function UserPage() {
     ).then(
       (data) => {
         setQuestions(data);
+        setLoading(false);
+      },
+      () => {
+        setLoading(false);
+        setError(true);
+      }
+    );
+    QuestionService.getQuestionsAnsweredByUserId(
+      Number(id),
+      0,
+      sortedByVotes
+    ).then(
+      (data) => {
+        setQuestionsAnswered(data);
         setLoading(false);
       },
       () => {
@@ -54,9 +69,24 @@ export default function UserPage() {
             <h1>No Questions</h1>
           ) : (
             <>
-              {questions.map((questions, i) => (
+              {questions.map((question, i) => (
                 <QuestionCardUser
-                  question={questions}
+                  question={question}
+                  key={i}
+                  className="my-2"
+                />
+              ))}
+            </>
+          )}
+        </Tab>
+        <Tab eventKey="answers" title="Answers">
+          {questionsAnswered.length === 0 ? (
+            <h1>No Questions Answered</h1>
+          ) : (
+            <>
+              {questionsAnswered.map((question, i) => (
+                <QuestionCardUser
+                  question={question}
                   key={i}
                   className="my-2"
                 />

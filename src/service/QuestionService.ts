@@ -34,6 +34,23 @@ class QuestionService {
     return response.data;
   }
 
+  async getQuestionsAnsweredByUserId(
+    userId: number,
+    page: number,
+    sortedByVotes: boolean
+  ) {
+    const response = await axios.get<IQuestion[]>(
+      API_URL +
+        'users/answered/' +
+        userId +
+        '?page=' +
+        page +
+        '&sortedByVotes=' +
+        sortedByVotes
+    );
+    return response.data;
+  }
+
   async getQuestion(id: number, token: string) {
     const response = await axios.get<IQuestion>(
       API_URL + id,

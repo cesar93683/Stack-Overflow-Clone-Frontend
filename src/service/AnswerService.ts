@@ -14,24 +14,6 @@ class AnswerService {
     );
     return response.data;
   }
-  async getAnswersByUserId(
-    userId: number,
-    page: number,
-    sortedByVotes: boolean,
-    token: string
-  ) {
-    const response = await axios.get<IAnswer[]>(
-      API_URL +
-        'users/' +
-        userId +
-        '?page=' +
-        page +
-        '&sortedByVotes=' +
-        sortedByVotes,
-      getAuthHeader(token)
-    );
-    return response.data;
-  }
 
   async createAnswer(content: string, questionId: number, token: string) {
     const response = await axios.post<IAnswer>(
