@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PostCardSmall from '../components/PostCardSmall';
-import PostsService from '../service/QuestionService';
+import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import IQuestion from '../utils/interfaces/IQuestion';
 
@@ -14,7 +14,7 @@ export default function HomePage() {
   const [sortedByVotes, setSortedByVotes] = useState(false);
 
   useEffect(() => {
-    PostsService.getQuestions(0, sortedByVotes, token).then(
+    QuestionService.getQuestions(0, sortedByVotes, token).then(
       (data) => {
         setPosts(data);
         setLoading(false);

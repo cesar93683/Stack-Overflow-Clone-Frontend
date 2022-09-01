@@ -6,7 +6,7 @@ import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 
 const API_URL = 'http://localhost:8080/api/questions/';
 
-class PostsService {
+class QuestionService {
   async getQuestions(page: number, sortedByVotes: boolean, token: string) {
     const response = await axios.get<IQuestion[]>(
       API_URL + 'all?page=' + page + '&sortedByVotes=' + sortedByVotes,
@@ -94,4 +94,4 @@ class PostsService {
     return response.data;
   }
 }
-export default new PostsService();
+export default new QuestionService();

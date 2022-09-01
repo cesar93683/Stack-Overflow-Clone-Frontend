@@ -3,7 +3,7 @@ import { Tab, Tabs } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PostCardUser from '../components/PostCardUser';
-import PostsService from '../service/QuestionService';
+import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import IQuestion from '../utils/interfaces/IQuestion';
 
@@ -17,7 +17,12 @@ export default function UserPage() {
   const [sortedByVotes, setSortedByVotes] = useState(false);
 
   useMemo(() => {
-    PostsService.getQuestionsByUserId(Number(id), 0, sortedByVotes, token).then(
+    QuestionService.getQuestionsByUserId(
+      Number(id),
+      0,
+      sortedByVotes,
+      token
+    ).then(
       (data) => {
         setPosts(data);
         setLoading(false);

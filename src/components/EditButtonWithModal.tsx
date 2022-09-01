@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { Alert, Button, Form, Modal } from 'react-bootstrap';
-import PostsService from '../service/QuestionService';
+import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import ValidateUtils from '../utils/ValidateUtils';
 import LoadingSpinner from './LoadingSpinner';
@@ -39,7 +39,7 @@ export default function EditButtonWithModal(props: EditButtonWithModalProps) {
 
     setLoading(true);
     setError('');
-    PostsService.updateQuestion(contentTrimmed, postId, token).then(
+    QuestionService.updateQuestion(contentTrimmed, postId, token).then(
       (data) => {
         setLoading(false);
         setShowEditModal(false);

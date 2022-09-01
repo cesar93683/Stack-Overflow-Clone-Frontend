@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
-import PostsService from '../service/QuestionService';
+import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import ValidateUtils from '../utils/ValidateUtils';
 
@@ -40,7 +40,7 @@ export default function NewPost() {
 
     setLoading(true);
 
-    PostsService.createQuestion(titleTrimmed, contentTrimmed, token).then(
+    QuestionService.createQuestion(titleTrimmed, contentTrimmed, token).then(
       (data) => {
         if (data?.id) {
           navigate(`/posts/${data.id}`);

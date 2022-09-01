@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
-import PostsService from '../service/QuestionService';
+import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import IQuestion from '../utils/interfaces/IQuestion';
 import ValidateUtils from '../utils/ValidateUtils';
@@ -36,7 +36,7 @@ export default function PostResponseForm(props: PostResponseFormProps) {
     setError('');
 
     setLoading(true);
-    PostsService.createPostResponse(content, postId, token).then(
+    QuestionService.createPostResponse(content, postId, token).then(
       (data) => {
         setLoading(false);
         if (data) {

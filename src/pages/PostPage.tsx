@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PostCard from '../components/PostCard';
 import PostResponseForm from '../components/PostResponseForm';
-import PostsService from '../service/QuestionService';
+import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import IQuestion from '../utils/interfaces/IQuestion';
 
@@ -23,7 +23,7 @@ export default function PostPage() {
       setLoading(false);
       return;
     }
-    PostsService.getQuestion(Number(postId), token).then(
+    QuestionService.getQuestion(Number(postId), token).then(
       (data) => {
         setPost(data);
         setLoading(false);
@@ -32,7 +32,7 @@ export default function PostPage() {
         setLoading(false);
       }
     );
-    PostsService.getPostsResponses(Number(postId), 0, false, token).then(
+    QuestionService.getPostsResponses(Number(postId), 0, false, token).then(
       (data) => {
         setPostResponses(data);
         setLoading(false);

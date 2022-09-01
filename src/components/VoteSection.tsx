@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Button } from 'react-bootstrap';
 import CommentService from '../service/CommentService';
-import PostsService from '../service/QuestionService';
+import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 
 interface VoteSectionProps {
@@ -34,7 +34,7 @@ export default function VoteSection(props: VoteSectionProps) {
     }
     const newVote = currVote === -1 ? 0 : -1;
     const action = newVote === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
-    PostsService.voteQuestion(postId, action, token).then(
+    QuestionService.voteQuestion(postId, action, token).then(
       (data) => {
         if (data?.code === 0) {
           onVoteSuccess(newVote);
@@ -69,7 +69,7 @@ export default function VoteSection(props: VoteSectionProps) {
         }
       );
     } else if (postId) {
-      PostsService.voteQuestion(postId, action, token).then(
+      QuestionService.voteQuestion(postId, action, token).then(
         (data) => {
           if (data?.code === 0) {
             onVoteSuccess(newVote);

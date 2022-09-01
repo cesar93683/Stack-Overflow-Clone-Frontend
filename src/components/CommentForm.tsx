@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
-import PostsService from '../service/QuestionService';
+import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import IComment from '../utils/interfaces/IComment';
 import ValidateUtils from '../utils/ValidateUtils';
@@ -44,7 +44,7 @@ export default function CommentForm(props: CommentFormProps) {
     setError('');
 
     setLoading(true);
-    PostsService.createComment(commentTrimmed, postId, token).then(
+    QuestionService.createComment(commentTrimmed, postId, token).then(
       (data) => {
         setShowCommentForm(false);
         setLoading(false);
