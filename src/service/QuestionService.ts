@@ -54,9 +54,9 @@ class QuestionService {
     return response.data;
   }
 
-  async updateQuestion(content: string, postId: number, token: string) {
+  async updateQuestion(content: string, id: number, token: string) {
     const response = await axios.put<IGenericResponse>(
-      API_URL + postId,
+      API_URL + id,
       {
         content,
       },
@@ -65,29 +65,29 @@ class QuestionService {
     return response.data;
   }
 
-  async deleteQuestion(postId: number, token: string) {
+  async deleteQuestion(id: number, token: string) {
     const response = await axios.delete<IGenericResponse>(
-      API_URL + postId,
+      API_URL + id,
       getAuthHeader(token)
     );
     return response.data;
   }
 
-  async voteQuestion(postId: number, action: string, token: string) {
+  async voteQuestion(id: number, action: string, token: string) {
     const response = await axios.post<IGenericResponse>(
       API_URL + 'vote',
-      { postId, action },
+      { id, action },
       getAuthHeader(token)
     );
     return response.data;
   }
 
-  async createComment(content: string, postId: number, token: string) {
+  async createComment(content: string, id: number, token: string) {
     const response = await axios.post<IComment>(
       API_URL + 'comments',
       {
         content,
-        postId,
+        id,
       },
       getAuthHeader(token)
     );

@@ -2,12 +2,12 @@ import { Card, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import IQuestion from '../utils/interfaces/IQuestion';
 
-interface PostCardUserProps {
+interface QuestionCardUserProps {
   question: IQuestion;
   className?: string;
 }
 
-export default function PostCardUser(props: PostCardUserProps) {
+export default function QuestionCardUser(props: QuestionCardUserProps) {
   const {
     question: { id, title, votes, createdAt },
     className,

@@ -12,7 +12,7 @@ interface QuestionCardSmallProps {
 export default function QuestionCardSmall(props: QuestionCardSmallProps) {
   const {
     question: {
-      id: postId,
+      id: questionId,
       title,
       content,
       votes,
@@ -33,7 +33,10 @@ export default function QuestionCardSmall(props: QuestionCardSmallProps) {
         />
         <div className="w-100">
           <Card.Body>
-            <Link className="text-decoration-none" to={'/posts/' + postId}>
+            <Link
+              className="text-decoration-none"
+              to={'/questions/' + questionId}
+            >
               {title}
             </Link>
           </Card.Body>
