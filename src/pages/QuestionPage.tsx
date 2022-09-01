@@ -35,12 +35,7 @@ export default function QuestionPage() {
         setLoading(false);
       }
     );
-    AnswerService.getAnswersByQuestionId(
-      Number(questionId),
-      0,
-      false,
-      token
-    ).then(
+    AnswerService.getAnswersByQuestionId(Number(questionId), token).then(
       (data) => {
         setAnswers(data);
         setLoading(false);
