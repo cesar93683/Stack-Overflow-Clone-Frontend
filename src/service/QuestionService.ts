@@ -7,10 +7,9 @@ import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 const API_URL = 'http://localhost:8080/api/questions/';
 
 class QuestionService {
-  async getQuestions(page: number, sortedByVotes: boolean, token: string) {
+  async getQuestions(page: number, sortedByVotes: boolean) {
     const response = await axios.get<IQuestion[]>(
-      API_URL + 'all?page=' + page + '&sortedByVotes=' + sortedByVotes,
-      getAuthHeader(token)
+      API_URL + 'all?page=' + page + '&sortedByVotes=' + sortedByVotes
     );
     return response.data;
   }
@@ -18,8 +17,7 @@ class QuestionService {
   async getQuestionsByUserId(
     userId: number,
     page: number,
-    sortedByVotes: boolean,
-    token: string
+    sortedByVotes: boolean
   ) {
     const response = await axios.get<IQuestion[]>(
       API_URL +
@@ -28,8 +26,7 @@ class QuestionService {
         '?page=' +
         page +
         '&sortedByVotes=' +
-        sortedByVotes,
-      getAuthHeader(token)
+        sortedByVotes
     );
     return response.data;
   }

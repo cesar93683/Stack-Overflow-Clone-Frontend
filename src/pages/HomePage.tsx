@@ -1,20 +1,18 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionCardSmall from '../components/QuestionCardSmall';
 import QuestionService from '../service/QuestionService';
-import { AuthContext } from '../utils/auth-context';
 import IQuestion from '../utils/interfaces/IQuestion';
 
 export default function HomePage() {
-  const { token } = useContext(AuthContext);
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [sortedByVotes, setSortedByVotes] = useState(false);
 
   useEffect(() => {
-    QuestionService.getQuestions(0, sortedByVotes, token).then(
+    QuestionService.getQuestions(0, sortedByVotes).then(
       (data) => {
         setQuestions(data);
         setLoading(false);

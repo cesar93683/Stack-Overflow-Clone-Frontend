@@ -1,15 +1,13 @@
-import { useContext, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionCardUser from '../components/QuestionCardUser';
 import QuestionService from '../service/QuestionService';
-import { AuthContext } from '../utils/auth-context';
 import IQuestion from '../utils/interfaces/IQuestion';
 
 export default function UserPage() {
   const { id } = useParams<{ id: string }>();
-  const { token } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -18,12 +16,7 @@ export default function UserPage() {
   const [sortedByVotes, setSortedByVotes] = useState(false);
 
   useMemo(() => {
-    QuestionService.getQuestionsByUserId(
-      Number(id),
-      0,
-      sortedByVotes,
-      token
-    ).then(
+    QuestionService.getQuestionsByUserId(Number(id), 0, sortedByVotes).then(
       (data) => {
         setQuestions(data);
         setLoading(false);
