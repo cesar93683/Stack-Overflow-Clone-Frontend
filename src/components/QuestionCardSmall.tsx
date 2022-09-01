@@ -32,14 +32,14 @@ export default function QuestionCardSmall(props: QuestionCardSmallProps) {
           numAnswers={numAnswers}
         />
         <div className="w-100">
-          <Card.Body>
+          <Card.Title>
             <Link
               className="text-decoration-none"
               to={'/questions/' + questionId}
             >
               {title}
             </Link>
-          </Card.Body>
+          </Card.Title>
           <Card.Text className="mb-1">{content}</Card.Text>
           <div className="ms-auto w-fit-content">
             <CustomCardSubtitle

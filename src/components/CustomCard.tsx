@@ -97,7 +97,7 @@ export default function CustomCard(props: CustomCardProps) {
           enabled={!!userId}
         />
         <div className="w-100">
-          {title ? <Card.Header>{title}</Card.Header> : null}
+          {title ? <Card.Title>{title}</Card.Title> : null}
           <Card.Text>{content}</Card.Text>
           <div className="d-flex flex-row-reverse justify-content-between align-items-center">
             <CustomCardSubtitle

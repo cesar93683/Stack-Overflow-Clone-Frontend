@@ -22,12 +22,12 @@ export default function QuestionCardUser(props: QuestionCardUserProps) {
           <Col xs="2" md="1">
             {votes}
           </Col>
-          <Col xs="7" md="9">
+          <Col xs="7" md="9" xxl="10">
             <Link className="text-decoration-none" to={'/questions/' + id}>
               {title}
             </Link>
           </Col>
-          <Col className="d-flex justify-content-end" xs="3" md="2">
+          <Col className="d-flex justify-content-end" xs="3" md="2" xxl="1">
             {x}
           </Col>
         </Row>
