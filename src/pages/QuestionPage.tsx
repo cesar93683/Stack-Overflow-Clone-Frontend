@@ -3,48 +3,55 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AnswerForm from '../components/AnswerForm';
 import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionCard from '../components/QuestionCard';
+import AnswerService from '../service/AnswerService';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
+import IAnswer from '../utils/interfaces/IAnswer';
 import IQuestion from '../utils/interfaces/IQuestion';
 
-export default function PostPage() {
+export default function QuestionPage() {
   const { userId, token } = useContext(AuthContext);
-  const { id: postId } = useParams<{ id: string }>();
+  const { id: questionId } = useParams<{ id: string }>();
 
-  const [post, setPost] = useState<IQuestion | undefined>(undefined);
-  const [postResponses, setPostResponses] = useState<IQuestion[]>([]);
+  const [question, setQuestion] = useState<IQuestion | undefined>(undefined);
+  const [answers, setAnswers] = useState<IAnswer[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showPostResponseForm, setShowPostResponseForm] = useState(false);
+  const [showAddAnswerForm, setShowAddAnswerForm] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!postId) {
+    if (!questionId) {
       setLoading(false);
       return;
     }
-    QuestionService.getQuestion(Number(postId), token).then(
+    QuestionService.getQuestion(Number(questionId), token).then(
       (data) => {
-        setPost(data);
+        setQuestion(data);
         setLoading(false);
       },
       () => {
         setLoading(false);
       }
     );
-    QuestionService.getPostsResponses(Number(postId), 0, false, token).then(
+    AnswerService.getAnswersByQuestionId(
+      Number(questionId),
+      0,
+      false,
+      token
+    ).then(
       (data) => {
-        setPostResponses(data);
+        setAnswers(data);
         setLoading(false);
         if (token) {
-          let hasCreatedPostResponse = false;
-          for (const postResponse of data) {
-            if (postResponse.user.id === userId) {
-              hasCreatedPostResponse = true;
+          let hasCreatedAnswer = false;
+          for (const answer of data) {
+            if (answer.user.id === userId) {
+              hasCreatedAnswer = true;
               break;
             }
           }
-          setShowPostResponseForm(!hasCreatedPostResponse);
+          setShowAddAnswerForm(!hasCreatedAnswer);
         }
       },
       () => {
@@ -53,55 +60,56 @@ export default function PostPage() {
     );
   }, []);
 
-  const onDeletePostSuccess = () => {
+  const onDeleteQuestionSuccess = () => {
     navigate('/');
   };
 
-  const onDeletePostResponseSuccess = (index: number) => {
-    const newPostResponses = [...postResponses];
-    newPostResponses.splice(index, 1);
-    setPostResponses(newPostResponses);
+  const onDeleteAnswerSuccess = (index: number) => {
+    const newAnswer = [...answers];
+    newAnswer.splice(index, 1);
+    setAnswers(newAnswer);
   };
 
-  const onAddPostResponseSuccess = (postResponse: IQuestion) => {
-    setShowPostResponseForm(false);
-    if (postResponses) {
-      setPostResponses([...postResponses, postResponse]);
+  const onAddAnswerSuccess = (answer: IAnswer) => {
+    setShowAddAnswerForm(false);
+    if (answers) {
+      setAnswers([...answers, answer]);
     } else {
-      setPostResponses([postResponse]);
+      setAnswers([answer]);
     }
   };
 
   if (loading) {
     return <LoadingSpinner />;
   }
-  if (!post) {
+  if (!question) {
     return <div>An error has occured</div>;
   }
 
   return (
     <div>
-      <QuestionCard question={post} onDeleteSuccess={onDeletePostSuccess} />
-      {postResponses.length ? (
+      <QuestionCard
+        question={question}
+        onDeleteSuccess={onDeleteQuestionSuccess}
+      />
+      {answers.length ? (
         <h3 className="fw-normal">
-          {postResponses.length +
-            ' Answer' +
-            (postResponses.length === 1 ? '' : 's')}
+          {answers.length + ' Answer' + (answers.length === 1 ? '' : 's')}
         </h3>
       ) : null}
-      {postResponses.map((postResponse, i) => (
+      {answers.map((answer, i) => (
         <QuestionCard
-          onDeleteSuccess={() => onDeletePostResponseSuccess(i)}
+          onDeleteSuccess={() => onDeleteAnswerSuccess(i)}
           className="mt-1"
           key={i}
-          question={postResponse}
+          question={answer}
         />
       ))}
-      {showPostResponseForm ? (
+      {showAddAnswerForm ? (
         <AnswerForm
           className="mt-1"
-          questionId={Number(postId)}
-          onAddAnswerSuccess={onAddPostResponseSuccess}
+          questionId={Number(questionId)}
+          onAddAnswerSuccess={onAddAnswerSuccess}
         />
       ) : null}
     </div>
