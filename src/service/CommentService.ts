@@ -2,12 +2,12 @@ import axios from 'axios';
 import getAuthHeader from '../utils/getAuthHeader';
 import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 
-const API_URL = 'http://localhost:8080/api/posts/';
+const API_URL = 'http://localhost:8080/api/comments/';
 
 class CommentService {
-  async deleteComment(commentId: number, token: string) {
+  async deleteComment(id: number, token: string) {
     const response = await axios.delete<IGenericResponse>(
-      API_URL + 'comments/' + commentId,
+      API_URL + '/' + id,
       getAuthHeader(token)
     );
     return response.data;
@@ -15,7 +15,7 @@ class CommentService {
 
   async voteComment(id: number, action: string, token: string) {
     const response = await axios.post<IGenericResponse>(
-      API_URL + 'comments/vote',
+      API_URL + '/vote',
       { id, action },
       getAuthHeader(token)
     );

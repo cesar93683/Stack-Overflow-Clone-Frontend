@@ -14,7 +14,7 @@ export default function HomePage() {
   const [sortedByVotes, setSortedByVotes] = useState(false);
 
   useEffect(() => {
-    PostsService.getPosts(0, sortedByVotes, token).then(
+    PostsService.getQuestions(0, sortedByVotes, token).then(
       (data) => {
         setPosts(data);
         setLoading(false);
