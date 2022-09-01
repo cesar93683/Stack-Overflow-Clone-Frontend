@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AnswerForm from '../components/AnswerForm';
+import CustomCard from '../components/CustomCard';
 import LoadingSpinner from '../components/LoadingSpinner';
-import QuestionCard from '../components/QuestionCard';
 import AnswerService from '../service/AnswerService';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
@@ -88,8 +88,18 @@ export default function QuestionPage() {
 
   return (
     <div>
-      <QuestionCard
-        question={question}
+      <CustomCard
+        card={{
+          cardId: question.id,
+          title: question.title,
+          content: question.content,
+          votes: question.votes,
+          comments: question.comments,
+          user: question.user,
+          currVote: question.currVote,
+          createdAt: question.createdAt,
+          updatedAt: question.updatedAt,
+        }}
         onDeleteSuccess={onDeleteQuestionSuccess}
       />
       {answers.length ? (
@@ -98,11 +108,20 @@ export default function QuestionPage() {
         </h3>
       ) : null}
       {answers.map((answer, i) => (
-        <QuestionCard
+        <CustomCard
           onDeleteSuccess={() => onDeleteAnswerSuccess(i)}
           className="mt-1"
           key={i}
-          question={answer}
+          card={{
+            cardId: answer.id,
+            content: answer.content,
+            votes: answer.votes,
+            comments: answer.comments,
+            user: answer.user,
+            currVote: answer.currVote,
+            createdAt: answer.createdAt,
+            updatedAt: answer.updatedAt,
+          }}
         />
       ))}
       {showAddAnswerForm ? (

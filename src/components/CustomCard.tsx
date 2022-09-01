@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import { AuthContext } from '../utils/auth-context';
 import DateUtils from '../utils/DateUtils';
 import IComment from '../utils/interfaces/IComment';
-import IQuestion from '../utils/interfaces/IQuestion';
+import IUser from '../utils/interfaces/IUser';
 import VoteUtils from '../utils/VoteUtils';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
@@ -12,16 +12,26 @@ import DeleteButtonWithModal from './DeleteButtonWithModal';
 import EditButtonWithModal from './EditButtonWithModal';
 import VoteSection from './VoteSection';
 
-interface QuestionCardProps {
-  question: IQuestion;
+interface CustomCardProps {
+  card: {
+    cardId: number;
+    title?: string;
+    content: string;
+    votes: number;
+    comments?: IComment[];
+    user: IUser;
+    currVote?: string;
+    createdAt: string;
+    updatedAt: string;
+  };
   onDeleteSuccess: () => void;
   className?: string;
 }
 
-export default function QuestionCard(props: QuestionCardProps) {
+export default function CustomCard(props: CustomCardProps) {
   const {
-    question: {
-      id: questionId,
+    card: {
+      cardId,
       title,
       content: initialContent,
       votes: initialVotes,
@@ -79,7 +89,7 @@ export default function QuestionCard(props: QuestionCardProps) {
           votes={votes}
           className="me-2"
           onVoteSuccess={onVoteSuccess}
-          questionId={questionId}
+          questionId={cardId}
           currVote={currVote}
           enabled={!!userId}
         />
@@ -97,12 +107,12 @@ export default function QuestionCard(props: QuestionCardProps) {
               <div>
                 <EditButtonWithModal
                   onUpdateSuccess={onUpdateSuccess}
-                  questionId={questionId}
+                  questionId={cardId}
                   content={content}
                   className="me-2"
                 />
                 <DeleteButtonWithModal
-                  questionId={questionId}
+                  questionId={cardId}
                   type="question"
                   onDeleteSuccess={onDeleteSuccess}
                 />
@@ -116,7 +126,7 @@ export default function QuestionCard(props: QuestionCardProps) {
           </div>
           {!userId ? null : showCommentForm ? (
             <CommentForm
-              questionId={questionId}
+              questionId={cardId}
               setShowCommentForm={setShowCommentForm}
               onAddCommentSuccess={onAddCommentSuccess}
               onCancelClick={onCancelCommentSubmit}
