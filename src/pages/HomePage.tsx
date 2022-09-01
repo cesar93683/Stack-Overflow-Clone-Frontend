@@ -4,11 +4,11 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import PostCardSmall from '../components/PostCardSmall';
 import PostsService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
-import IPost from '../utils/interfaces/IPost';
+import IQuestion from '../utils/interfaces/IQuestion';
 
 export default function HomePage() {
   const { token } = useContext(AuthContext);
-  const [posts, setPosts] = useState<IPost[]>([]);
+  const [posts, setPosts] = useState<IQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [sortedByVotes, setSortedByVotes] = useState(false);

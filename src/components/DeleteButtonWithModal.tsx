@@ -45,7 +45,7 @@ export default function DeleteButtonWithModal(
         }
       );
     } else if (postId) {
-      PostsService.deletePost(postId, token).then(
+      PostsService.deleteQuestion(postId, token).then(
         (data) => {
           setLoading(false);
           if (data?.code === 0) {

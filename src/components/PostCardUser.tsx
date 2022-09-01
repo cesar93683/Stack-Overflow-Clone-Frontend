@@ -1,9 +1,9 @@
 import { Card, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import IPost from '../utils/interfaces/IPost';
+import IQuestion from '../utils/interfaces/IQuestion';
 
 interface PostCardUserProps {
-  post: IPost;
+  post: IQuestion;
   className?: string;
 }
 

@@ -2,13 +2,13 @@ import React, { useContext, useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
 import PostsService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
-import IPost from '../utils/interfaces/IPost';
+import IQuestion from '../utils/interfaces/IQuestion';
 import ValidateUtils from '../utils/ValidateUtils';
 import LoadingSpinner from './LoadingSpinner';
 
 interface PostResponseFormProps {
   postId: number;
-  onAddPostResponseSuccess: (post: IPost) => void;
+  onAddPostResponseSuccess: (post: IQuestion) => void;
   className?: string;
 }
 

@@ -5,7 +5,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import PostCardUser from '../components/PostCardUser';
 import PostsService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
-import IPost from '../utils/interfaces/IPost';
+import IQuestion from '../utils/interfaces/IQuestion';
 
 export default function UserPage() {
   const { id } = useParams<{ id: string }>();
@@ -13,11 +13,11 @@ export default function UserPage() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [posts, setPosts] = useState<IPost[]>([]);
+  const [posts, setPosts] = useState<IQuestion[]>([]);
   const [sortedByVotes, setSortedByVotes] = useState(false);
 
   useMemo(() => {
-    PostsService.getPostsByUserId(Number(id), 0, sortedByVotes, token).then(
+    PostsService.getQuestionsByUserId(Number(id), 0, sortedByVotes, token).then(
       (data) => {
         setPosts(data);
         setLoading(false);

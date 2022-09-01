@@ -1,14 +1,14 @@
 import axios from 'axios';
 import getAuthHeader from '../utils/getAuthHeader';
 import IComment from '../utils/interfaces/IComment';
-import IPost from '../utils/interfaces/IPost';
+import IQuestion from '../utils/interfaces/IQuestion';
 import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 
 const API_URL = 'http://localhost:8080/api/posts/';
 
 class PostsService {
   async getPosts(page: number, sortedByVotes: boolean, token: string) {
-    const response = await axios.get<IPost[]>(
+    const response = await axios.get<IQuestion[]>(
       API_URL + 'all?page=' + page + '&sortedByVotes=' + sortedByVotes,
       getAuthHeader(token)
     );
@@ -21,7 +21,7 @@ class PostsService {
     sortedByVotes: boolean,
     token: string
   ) {
-    const response = await axios.get<IPost[]>(
+    const response = await axios.get<IQuestion[]>(
       API_URL +
         'users/' +
         userId +
@@ -35,7 +35,10 @@ class PostsService {
   }
 
   async getPost(id: number, token: string) {
-    const response = await axios.get<IPost>(API_URL + id, getAuthHeader(token));
+    const response = await axios.get<IQuestion>(
+      API_URL + id,
+      getAuthHeader(token)
+    );
     return response.data;
   }
 
@@ -45,7 +48,7 @@ class PostsService {
     sortedByVotes: boolean,
     token: string
   ) {
-    const response = await axios.get<IPost[]>(
+    const response = await axios.get<IQuestion[]>(
       API_URL +
         'responses/' +
         postId +
@@ -59,7 +62,7 @@ class PostsService {
   }
 
   async createPost(title: string, content: string, token: string) {
-    const response = await axios.post<IPost>(
+    const response = await axios.post<IQuestion>(
       API_URL,
       {
         title,
@@ -75,7 +78,7 @@ class PostsService {
     postResponseId: number,
     token: string
   ) {
-    const response = await axios.post<IPost>(
+    const response = await axios.post<IQuestion>(
       API_URL,
       {
         content,

@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import { AuthContext } from '../utils/auth-context';
 import DateUtils from '../utils/DateUtils';
 import IComment from '../utils/interfaces/IComment';
-import IPost from '../utils/interfaces/IPost';
+import IQuestion from '../utils/interfaces/IQuestion';
 import VoteUtils from '../utils/VoteUtils';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
@@ -13,7 +13,7 @@ import EditButtonWithModal from './EditButtonWithModal';
 import VoteSection from './VoteSection';
 
 interface PostCardProps {
-  post: IPost;
+  post: IQuestion;
   onDeleteSuccess: () => void;
   className?: string;
 }

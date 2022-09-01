@@ -1,27 +1,27 @@
 import axios from 'axios';
 import getAuthHeader from '../utils/getAuthHeader';
 import IComment from '../utils/interfaces/IComment';
-import IPost from '../utils/interfaces/IPost';
+import IQuestion from '../utils/interfaces/IQuestion';
 import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 
-const API_URL = 'http://localhost:8080/api/posts/';
+const API_URL = 'http://localhost:8080/api/questions/';
 
 class PostsService {
   async getQuestions(page: number, sortedByVotes: boolean, token: string) {
-    const response = await axios.get<IPost[]>(
+    const response = await axios.get<IQuestion[]>(
       API_URL + 'all?page=' + page + '&sortedByVotes=' + sortedByVotes,
       getAuthHeader(token)
     );
     return response.data;
   }
 
-  async getPostsByUserId(
+  async getQuestionsByUserId(
     userId: number,
     page: number,
     sortedByVotes: boolean,
     token: string
   ) {
-    const response = await axios.get<IPost[]>(
+    const response = await axios.get<IQuestion[]>(
       API_URL +
         'users/' +
         userId +
@@ -34,32 +34,16 @@ class PostsService {
     return response.data;
   }
 
-  async getPost(id: number, token: string) {
-    const response = await axios.get<IPost>(API_URL + id, getAuthHeader(token));
-    return response.data;
-  }
-
-  async getPostsResponses(
-    postId: number,
-    page: number,
-    sortedByVotes: boolean,
-    token: string
-  ) {
-    const response = await axios.get<IPost[]>(
-      API_URL +
-        'responses/' +
-        postId +
-        '?page=' +
-        page +
-        '&sortedByVotes=' +
-        sortedByVotes,
+  async getQuestion(id: number, token: string) {
+    const response = await axios.get<IQuestion>(
+      API_URL + id,
       getAuthHeader(token)
     );
     return response.data;
   }
 
-  async createPost(title: string, content: string, token: string) {
-    const response = await axios.post<IPost>(
+  async createQuestion(title: string, content: string, token: string) {
+    const response = await axios.post<IQuestion>(
       API_URL,
       {
         title,
@@ -70,23 +54,7 @@ class PostsService {
     return response.data;
   }
 
-  async createPostResponse(
-    content: string,
-    postResponseId: number,
-    token: string
-  ) {
-    const response = await axios.post<IPost>(
-      API_URL,
-      {
-        content,
-        postResponseId,
-      },
-      getAuthHeader(token)
-    );
-    return response.data;
-  }
-
-  async updatePost(content: string, postId: number, token: string) {
+  async updateQuestion(content: string, postId: number, token: string) {
     const response = await axios.put<IGenericResponse>(
       API_URL + postId,
       {
@@ -97,7 +65,7 @@ class PostsService {
     return response.data;
   }
 
-  async deletePost(postId: number, token: string) {
+  async deleteQuestion(postId: number, token: string) {
     const response = await axios.delete<IGenericResponse>(
       API_URL + postId,
       getAuthHeader(token)
@@ -105,7 +73,7 @@ class PostsService {
     return response.data;
   }
 
-  async votePost(postId: number, action: string, token: string) {
+  async voteQuestion(postId: number, action: string, token: string) {
     const response = await axios.post<IGenericResponse>(
       API_URL + 'vote',
       { postId, action },

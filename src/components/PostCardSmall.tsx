@@ -1,11 +1,11 @@
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import IPost from '../utils/interfaces/IPost';
+import IQuestion from '../utils/interfaces/IQuestion';
 import CustomCardSubtitle from './CustomCardSubtitle';
 import VotesAndAnswers from './VotesAndAnswers';
 
 interface PostCardSmallProps {
-  post: IPost;
+  post: IQuestion;
   className?: string;
 }
 
@@ -16,7 +16,7 @@ export default function PostCardSmall(props: PostCardSmallProps) {
       title,
       content,
       votes,
-      numPostResponses,
+      numAnswers: numPostResponses,
       user: { id: userId, username },
       createdAt,
     },

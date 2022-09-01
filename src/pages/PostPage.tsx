@@ -5,14 +5,14 @@ import PostCard from '../components/PostCard';
 import PostResponseForm from '../components/PostResponseForm';
 import PostsService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
-import IPost from '../utils/interfaces/IPost';
+import IQuestion from '../utils/interfaces/IQuestion';
 
 export default function PostPage() {
   const { userId, token } = useContext(AuthContext);
   const { id: postId } = useParams<{ id: string }>();
 
-  const [post, setPost] = useState<IPost | undefined>(undefined);
-  const [postResponses, setPostResponses] = useState<IPost[]>([]);
+  const [post, setPost] = useState<IQuestion | undefined>(undefined);
+  const [postResponses, setPostResponses] = useState<IQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [showPostResponseForm, setShowPostResponseForm] = useState(false);
 
@@ -23,7 +23,7 @@ export default function PostPage() {
       setLoading(false);
       return;
     }
-    PostsService.getPost(Number(postId), token).then(
+    PostsService.getQuestion(Number(postId), token).then(
       (data) => {
         setPost(data);
         setLoading(false);
@@ -63,7 +63,7 @@ export default function PostPage() {
     setPostResponses(newPostResponses);
   };
 
-  const onAddPostResponseSuccess = (postResponse: IPost) => {
+  const onAddPostResponseSuccess = (postResponse: IQuestion) => {
     setShowPostResponseForm(false);
     if (postResponses) {
       setPostResponses([...postResponses, postResponse]);

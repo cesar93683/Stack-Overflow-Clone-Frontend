@@ -39,7 +39,7 @@ export default function EditButtonWithModal(props: EditButtonWithModalProps) {
 
     setLoading(true);
     setError('');
-    PostsService.updatePost(contentTrimmed, postId, token).then(
+    PostsService.updateQuestion(contentTrimmed, postId, token).then(
       (data) => {
         setLoading(false);
         setShowEditModal(false);

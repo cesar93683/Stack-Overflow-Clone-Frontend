@@ -34,7 +34,7 @@ export default function VoteSection(props: VoteSectionProps) {
     }
     const newVote = currVote === -1 ? 0 : -1;
     const action = newVote === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
-    PostsService.votePost(postId, action, token).then(
+    PostsService.voteQuestion(postId, action, token).then(
       (data) => {
         if (data?.code === 0) {
           onVoteSuccess(newVote);
@@ -69,7 +69,7 @@ export default function VoteSection(props: VoteSectionProps) {
         }
       );
     } else if (postId) {
-      PostsService.votePost(postId, action, token).then(
+      PostsService.voteQuestion(postId, action, token).then(
         (data) => {
           if (data?.code === 0) {
             onVoteSuccess(newVote);
