@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { Button } from 'react-bootstrap';
+import AnswerService from '../service/AnswerService';
 import CommentService from '../service/CommentService';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
@@ -11,7 +12,8 @@ interface VoteSectionProps {
   onDownVoteSuccess?: () => void;
   currVote: number;
   commentId?: number;
-  postId?: number;
+  questionId?: number;
+  answerId?: number;
   enabled: boolean;
 }
 
@@ -22,32 +24,47 @@ export default function VoteSection(props: VoteSectionProps) {
     onVoteSuccess,
     currVote,
     commentId,
-    postId,
+    answerId,
+    questionId,
     enabled,
   } = props;
 
   const { token } = useContext(AuthContext);
 
   const onDownVote = () => {
-    if (!postId) {
-      return;
-    }
     const newVote = currVote === -1 ? 0 : -1;
     const action = newVote === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
-    QuestionService.voteQuestion(postId, action, token).then(
-      (data) => {
-        if (data?.code === 0) {
-          onVoteSuccess(newVote);
-        } else {
+    if (questionId) {
+      QuestionService.voteQuestion(questionId, action, token).then(
+        (data) => {
+          if (data?.code === 0) {
+            onVoteSuccess(newVote);
+          } else {
+            // TODO
+            console.log('error');
+          }
+        },
+        () => {
           // TODO
           console.log('error');
         }
-      },
-      () => {
-        // TODO
-        console.log('error');
-      }
-    );
+      );
+    } else if (answerId) {
+      AnswerService.voteAnswer(answerId, action, token).then(
+        (data) => {
+          if (data?.code === 0) {
+            onVoteSuccess(newVote);
+          } else {
+            // TODO
+            console.log('error');
+          }
+        },
+        () => {
+          // TODO
+          console.log('error');
+        }
+      );
+    }
   };
 
   const onUpVote = () => {
@@ -68,8 +85,23 @@ export default function VoteSection(props: VoteSectionProps) {
           console.log('error');
         }
       );
-    } else if (postId) {
-      QuestionService.voteQuestion(postId, action, token).then(
+    } else if (questionId) {
+      QuestionService.voteQuestion(questionId, action, token).then(
+        (data) => {
+          if (data?.code === 0) {
+            onVoteSuccess(newVote);
+          } else {
+            // TODO
+            console.log('error');
+          }
+        },
+        () => {
+          // TODO
+          console.log('error');
+        }
+      );
+    } else if (answerId) {
+      AnswerService.voteAnswer(answerId, action, token).then(
         (data) => {
           if (data?.code === 0) {
             onVoteSuccess(newVote);
@@ -86,7 +118,7 @@ export default function VoteSection(props: VoteSectionProps) {
     }
   };
 
-  if (postId) {
+  if (questionId || answerId) {
     return (
       <div className={'d-flex flex-column align-items-center ' + className}>
         <Button

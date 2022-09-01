@@ -14,9 +14,9 @@ export default function NavBar() {
         </Link>
         {userId ? (
           <>
-            <Link to="/posts/new">
+            <Link to="/questions/new">
               <Button variant="primary" className="me-1">
-                New Post
+                New Question
               </Button>
             </Link>
             <Button variant="secondary" onClick={logout}>

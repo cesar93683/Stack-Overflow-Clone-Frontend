@@ -4,19 +4,19 @@ import IQuestion from '../utils/interfaces/IQuestion';
 import CustomCardSubtitle from './CustomCardSubtitle';
 import VotesAndAnswers from './VotesAndAnswers';
 
-interface PostCardSmallProps {
-  post: IQuestion;
+interface QuestionCardSmallProps {
+  question: IQuestion;
   className?: string;
 }
 
-export default function PostCardSmall(props: PostCardSmallProps) {
+export default function QuestionCardSmall(props: QuestionCardSmallProps) {
   const {
-    post: {
+    question: {
       id: postId,
       title,
       content,
       votes,
-      numAnswers: numPostResponses,
+      numAnswers,
       user: { id: userId, username },
       createdAt,
     },
@@ -29,7 +29,7 @@ export default function PostCardSmall(props: PostCardSmallProps) {
         <VotesAndAnswers
           className="me-2 flex-shrink-0"
           votes={votes}
-          numPostResponses={numPostResponses}
+          numAnswers={numAnswers}
         />
         <div className="w-100">
           <Card.Body>

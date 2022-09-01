@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { Alert, Button, Form, Modal } from 'react-bootstrap';
+import AnswerService from '../service/AnswerService';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import ValidateUtils from '../utils/ValidateUtils';
@@ -7,13 +8,20 @@ import LoadingSpinner from './LoadingSpinner';
 
 interface EditButtonWithModalProps {
   onUpdateSuccess: (content: string) => void;
-  postId: number;
+  questionId?: number;
+  answerId?: number;
   content: string;
   className?: string;
 }
 
 export default function EditButtonWithModal(props: EditButtonWithModalProps) {
-  const { onUpdateSuccess, postId, content: initialContent, className } = props;
+  const {
+    onUpdateSuccess,
+    questionId,
+    answerId,
+    content: initialContent,
+    className,
+  } = props;
   const { token } = useContext(AuthContext);
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -30,31 +38,51 @@ export default function EditButtonWithModal(props: EditButtonWithModalProps) {
 
   const onUpdate = () => {
     const contentTrimmed = content.trim();
-    const validatePostContent =
-      ValidateUtils.validatePostContent(contentTrimmed);
-    if (validatePostContent) {
-      setError(validatePostContent);
+    const validateContent = ValidateUtils.validateContent(contentTrimmed);
+    if (validateContent) {
+      setError(validateContent);
       return;
     }
 
     setLoading(true);
     setError('');
-    QuestionService.updateQuestion(contentTrimmed, postId, token).then(
-      (data) => {
-        setLoading(false);
-        setShowEditModal(false);
-        if (data?.code === 0) {
-          onUpdateSuccess(contentTrimmed);
-        } else {
+
+    // TODO refactor
+    if (questionId) {
+      QuestionService.updateQuestion(contentTrimmed, questionId, token).then(
+        (data) => {
+          setLoading(false);
+          setShowEditModal(false);
+          if (data?.code === 0) {
+            onUpdateSuccess(contentTrimmed);
+          } else {
+            setError('An error occured');
+          }
+        },
+        () => {
+          setLoading(false);
+          setShowEditModal(false);
           setError('An error occured');
         }
-      },
-      () => {
-        setLoading(false);
-        setShowEditModal(false);
-        setError('An error occured');
-      }
-    );
+      );
+    } else if (answerId) {
+      AnswerService.updateAnswer(contentTrimmed, answerId, token).then(
+        (data) => {
+          setLoading(false);
+          setShowEditModal(false);
+          if (data?.code === 0) {
+            onUpdateSuccess(contentTrimmed);
+          } else {
+            setError('An error occured');
+          }
+        },
+        () => {
+          setLoading(false);
+          setShowEditModal(false);
+          setError('An error occured');
+        }
+      );
+    }
   };
 
   return (

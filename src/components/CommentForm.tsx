@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
+import AnswerService from '../service/AnswerService';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import IComment from '../utils/interfaces/IComment';
@@ -7,7 +8,8 @@ import ValidateUtils from '../utils/ValidateUtils';
 import LoadingSpinner from './LoadingSpinner';
 
 interface CommentFormProps {
-  postId: number;
+  questionId?: number;
+  answerId?: number;
   setShowCommentForm: (showCommentForm: boolean) => void;
   onAddCommentSuccess: (comment: IComment) => void;
   onCancelClick: () => void;
@@ -16,7 +18,8 @@ interface CommentFormProps {
 
 export default function CommentForm(props: CommentFormProps) {
   const {
-    postId,
+    questionId,
+    answerId,
     setShowCommentForm,
     onAddCommentSuccess,
     onCancelClick,
@@ -41,25 +44,46 @@ export default function CommentForm(props: CommentFormProps) {
       setError(commentValidate);
       return;
     }
-    setError('');
 
+    setError('');
     setLoading(true);
-    QuestionService.createComment(commentTrimmed, postId, token).then(
-      (data) => {
-        setShowCommentForm(false);
-        setLoading(false);
-        if (data) {
-          onAddCommentSuccess(data);
-        } else {
+
+    if (questionId) {
+      // TODO refactor this
+      QuestionService.createComment(commentTrimmed, questionId, token).then(
+        (data) => {
+          setShowCommentForm(false);
+          setLoading(false);
+          if (data) {
+            onAddCommentSuccess(data);
+          } else {
+            setError('An error occured');
+          }
+        },
+        () => {
+          setShowCommentForm(false);
+          setLoading(false);
           setError('An error occured');
         }
-      },
-      () => {
-        setShowCommentForm(false);
-        setLoading(false);
-        setError('An error occured');
-      }
-    );
+      );
+    } else if (answerId) {
+      AnswerService.createComment(commentTrimmed, answerId, token).then(
+        (data) => {
+          setShowCommentForm(false);
+          setLoading(false);
+          if (data) {
+            onAddCommentSuccess(data);
+          } else {
+            setError('An error occured');
+          }
+        },
+        () => {
+          setShowCommentForm(false);
+          setLoading(false);
+          setError('An error occured');
+        }
+      );
+    }
   };
 
   return (

@@ -39,7 +39,7 @@ class ValidateUtils {
     }
     return null;
   }
-  validatePostTitle(title: string): string | null {
+  validateTitle(title: string): string | null {
     if (!title) {
       return 'Please enter a title';
     } else if (title.length < 3) {
@@ -49,7 +49,7 @@ class ValidateUtils {
     }
     return null;
   }
-  validatePostContent(content: string): string | null {
+  validateContent(content: string): string | null {
     if (!content) {
       return 'Please enter some content';
     } else if (content.length < 3) {

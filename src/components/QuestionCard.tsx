@@ -12,21 +12,21 @@ import DeleteButtonWithModal from './DeleteButtonWithModal';
 import EditButtonWithModal from './EditButtonWithModal';
 import VoteSection from './VoteSection';
 
-interface PostCardProps {
-  post: IQuestion;
+interface QuestionCardProps {
+  question: IQuestion;
   onDeleteSuccess: () => void;
   className?: string;
 }
 
-export default function PostCard(props: PostCardProps) {
+export default function QuestionCard(props: QuestionCardProps) {
   const {
-    post: {
-      id: postId,
+    question: {
+      id: questionId,
       title,
       content: initialContent,
       votes: initialVotes,
       comments: initialComments,
-      user: { id: postUserId, username },
+      user: { id: questionUserId, username },
       currVote: initialCurrVote,
       createdAt,
       updatedAt: initialUpdatedAt,
@@ -79,7 +79,7 @@ export default function PostCard(props: PostCardProps) {
           votes={votes}
           className="me-2"
           onVoteSuccess={onVoteSuccess}
-          postId={postId}
+          questionId={questionId}
           currVote={currVote}
           enabled={!!userId}
         />
@@ -88,22 +88,22 @@ export default function PostCard(props: PostCardProps) {
           <Card.Text>{content}</Card.Text>
           <div className="d-flex flex-row-reverse justify-content-between align-items-center">
             <CustomCardSubtitle
-              userId={postUserId}
+              userId={questionUserId}
               createdAt={createdAt}
               updatedAt={updatedAt}
               username={username}
             />
-            {userId === postUserId ? (
+            {userId === questionUserId ? (
               <div>
                 <EditButtonWithModal
                   onUpdateSuccess={onUpdateSuccess}
-                  postId={postId}
+                  questionId={questionId}
                   content={content}
                   className="me-2"
                 />
                 <DeleteButtonWithModal
-                  postId={postId}
-                  type="post"
+                  questionId={questionId}
+                  type="question"
                   onDeleteSuccess={onDeleteSuccess}
                 />
               </div>
@@ -116,7 +116,7 @@ export default function PostCard(props: PostCardProps) {
           </div>
           {!userId ? null : showCommentForm ? (
             <CommentForm
-              postId={postId}
+              questionId={questionId}
               setShowCommentForm={setShowCommentForm}
               onAddCommentSuccess={onAddCommentSuccess}
               onCancelClick={onCancelCommentSubmit}

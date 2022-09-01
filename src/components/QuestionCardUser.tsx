@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import IQuestion from '../utils/interfaces/IQuestion';
 
 interface PostCardUserProps {
-  post: IQuestion;
+  question: IQuestion;
   className?: string;
 }
 
 export default function PostCardUser(props: PostCardUserProps) {
   const {
-    post: { id: postId, title, votes, createdAt },
+    question: { id, title, votes, createdAt },
     className,
   } = props;
 
@@ -23,7 +23,7 @@ export default function PostCardUser(props: PostCardUserProps) {
             {votes}
           </Col>
           <Col xs="7" md="9">
-            <Link className="text-decoration-none" to={'/posts/' + postId}>
+            <Link className="text-decoration-none" to={'/questions/' + id}>
               {title}
             </Link>
           </Col>

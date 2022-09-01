@@ -43,7 +43,7 @@ class AnswerService {
     return response.data;
   }
 
-  async createAnswer(questionId: string, content: string, token: string) {
+  async createAnswer(content: string, questionId: number, token: string) {
     const response = await axios.post<IAnswer>(
       API_URL,
       {

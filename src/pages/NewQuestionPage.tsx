@@ -6,7 +6,7 @@ import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import ValidateUtils from '../utils/ValidateUtils';
 
-export default function NewPost() {
+export default function NewQuestion() {
   const { token } = useContext(AuthContext);
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
@@ -20,21 +20,20 @@ export default function NewPost() {
   const onContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
   };
-  const onPostSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onQuestionSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const titleTrimmed = title.trim();
-    const validatePostTitle = ValidateUtils.validatePostTitle(titleTrimmed);
-    if (validatePostTitle) {
-      setError(validatePostTitle);
+    const validateTitle = ValidateUtils.validateTitle(titleTrimmed);
+    if (validateTitle) {
+      setError(validateTitle);
       return;
     }
 
     const contentTrimmed = content.trim();
-    const validatePostContent =
-      ValidateUtils.validatePostContent(contentTrimmed);
-    if (validatePostContent) {
-      setError(validatePostContent);
+    const validateContent = ValidateUtils.validateContent(contentTrimmed);
+    if (validateContent) {
+      setError(validateContent);
       return;
     }
 
@@ -43,7 +42,7 @@ export default function NewPost() {
     QuestionService.createQuestion(titleTrimmed, contentTrimmed, token).then(
       (data) => {
         if (data?.id) {
-          navigate(`/posts/${data.id}`);
+          navigate(`/questions/${data.id}`);
         } else {
           setError('An error occured');
           setLoading(false);
@@ -57,7 +56,7 @@ export default function NewPost() {
   };
 
   return (
-    <Form onSubmit={onPostSubmit}>
+    <Form onSubmit={onQuestionSubmit}>
       <Form.Group>
         <Form.Label>Title</Form.Label>
         <Form.Control
@@ -86,7 +85,7 @@ export default function NewPost() {
           {error}
         </Alert>
       ) : null}
-      {loading ? <LoadingSpinner /> : <Button type="submit">New Post</Button>}
+      {loading ? <LoadingSpinner /> : <Button type="submit">Submit</Button>}
     </Form>
   );
 }

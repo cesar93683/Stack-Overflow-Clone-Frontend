@@ -2,7 +2,7 @@ import { useContext, useMemo, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
-import PostCardUser from '../components/PostCardUser';
+import QuestionCardUser from '../components/QuestionCardUser';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import IQuestion from '../utils/interfaces/IQuestion';
@@ -13,7 +13,7 @@ export default function UserPage() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [posts, setPosts] = useState<IQuestion[]>([]);
+  const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [sortedByVotes, setSortedByVotes] = useState(false);
 
   useMemo(() => {
@@ -24,7 +24,7 @@ export default function UserPage() {
       token
     ).then(
       (data) => {
-        setPosts(data);
+        setQuestions(data);
         setLoading(false);
       },
       () => {
@@ -42,20 +42,24 @@ export default function UserPage() {
     return <div>An error has occured</div>;
   }
 
-  if (posts.length === 0) {
-    return <div>There are no posts</div>;
+  if (questions.length === 0) {
+    return <div>There are no questions</div>;
   }
 
   return (
     <div>
       <Tabs>
-        <Tab eventKey="posts" title="Posts">
-          {posts.length === 0 ? (
-            <h1>No Posts</h1>
+        <Tab eventKey="questions" title="Questions">
+          {questions.length === 0 ? (
+            <h1>No Questions</h1>
           ) : (
             <>
-              {posts.map((post, i) => (
-                <PostCardUser post={post} key={i} className="my-2" />
+              {questions.map((questions, i) => (
+                <QuestionCardUser
+                  question={questions}
+                  key={i}
+                  className="my-2"
+                />
               ))}
             </>
           )}

@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { Alert, Button, Modal } from 'react-bootstrap';
+import AnswerService from '../service/AnswerService';
 import CommentService from '../service/CommentService';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
@@ -9,14 +10,16 @@ interface DeleteButtonWithModalProps {
   onDeleteSuccess: () => void;
   type: string;
   commentId?: number;
-  postId?: number;
+  questionId?: number;
+  answerId?: number;
   className?: string;
 }
 
 export default function DeleteButtonWithModal(
   props: DeleteButtonWithModalProps
 ) {
-  const { onDeleteSuccess, type, className, commentId, postId } = props;
+  const { onDeleteSuccess, type, className, commentId, questionId, answerId } =
+    props;
   const { token } = useContext(AuthContext);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -29,6 +32,7 @@ export default function DeleteButtonWithModal(
   const onDelete = () => {
     setLoading(true);
     setHasError(false);
+    // TODO refactor
     if (commentId) {
       CommentService.deleteComment(commentId, token).then(
         (data) => {
@@ -44,8 +48,23 @@ export default function DeleteButtonWithModal(
           setHasError(true);
         }
       );
-    } else if (postId) {
-      QuestionService.deleteQuestion(postId, token).then(
+    } else if (questionId) {
+      QuestionService.deleteQuestion(questionId, token).then(
+        (data) => {
+          setLoading(false);
+          if (data?.code === 0) {
+            onDeleteSuccess();
+          } else {
+            setHasError(true);
+          }
+        },
+        () => {
+          setLoading(false);
+          setHasError(true);
+        }
+      );
+    } else if (answerId) {
+      AnswerService.deleteAnswer(answerId, token).then(
         (data) => {
           setLoading(false);
           if (data?.code === 0) {

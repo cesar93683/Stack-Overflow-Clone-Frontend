@@ -1,12 +1,12 @@
 interface VotesAndAnswersProps {
   votes: number;
-  numPostResponses: number;
+  numAnswers: number;
   className?: string;
 }
 
 export default function VotesAndAnswers({
   votes,
-  numPostResponses,
+  numAnswers,
   className,
 }: VotesAndAnswersProps) {
   return (
@@ -14,9 +14,7 @@ export default function VotesAndAnswers({
       <div className={'me-2 me-md-0'}>
         {votes + ' vote' + (votes === 1 ? '' : 's')}
       </div>
-      <div>
-        {numPostResponses + ' answer' + (numPostResponses === 1 ? '' : 's')}
-      </div>
+      <div>{numAnswers + ' answer' + (numAnswers === 1 ? '' : 's')}</div>
     </div>
   );
 }

@@ -1,19 +1,23 @@
 import React, { useContext, useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
-import QuestionService from '../service/QuestionService';
+import AnswerService from '../service/AnswerService';
 import { AuthContext } from '../utils/auth-context';
-import IQuestion from '../utils/interfaces/IQuestion';
+import IAnswer from '../utils/interfaces/IAnswer';
 import ValidateUtils from '../utils/ValidateUtils';
 import LoadingSpinner from './LoadingSpinner';
 
-interface PostResponseFormProps {
-  postId: number;
-  onAddPostResponseSuccess: (post: IQuestion) => void;
+interface AnswerFormProps {
+  questionId: number;
+  onAddAnswerSuccess: (answer: IAnswer) => void;
   className?: string;
 }
 
-export default function PostResponseForm(props: PostResponseFormProps) {
-  const { postId, onAddPostResponseSuccess, className } = props;
+export default function AnswerForm(props: AnswerFormProps) {
+  const {
+    questionId,
+    onAddAnswerSuccess: onAddAnswerSuccess,
+    className,
+  } = props;
   const { token } = useContext(AuthContext);
 
   const [content, setContent] = useState('');
@@ -28,7 +32,7 @@ export default function PostResponseForm(props: PostResponseFormProps) {
     event.preventDefault();
 
     const contentTrimmed = content.trim();
-    const contentValidate = ValidateUtils.validatePostContent(contentTrimmed);
+    const contentValidate = ValidateUtils.validateContent(contentTrimmed);
     if (contentValidate) {
       setError(contentValidate);
       return;
@@ -36,11 +40,11 @@ export default function PostResponseForm(props: PostResponseFormProps) {
     setError('');
 
     setLoading(true);
-    QuestionService.createPostResponse(content, postId, token).then(
+    AnswerService.createAnswer(content, questionId, token).then(
       (data) => {
         setLoading(false);
         if (data) {
-          onAddPostResponseSuccess(data);
+          onAddAnswerSuccess(data);
         } else {
           setError('An error occured');
         }

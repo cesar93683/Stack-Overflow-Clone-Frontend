@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import AnswerForm from '../components/AnswerForm';
 import LoadingSpinner from '../components/LoadingSpinner';
-import PostCard from '../components/PostCard';
-import PostResponseForm from '../components/PostResponseForm';
+import QuestionCard from '../components/QuestionCard';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import IQuestion from '../utils/interfaces/IQuestion';
@@ -81,7 +81,7 @@ export default function PostPage() {
 
   return (
     <div>
-      <PostCard post={post} onDeleteSuccess={onDeletePostSuccess} />
+      <QuestionCard question={post} onDeleteSuccess={onDeletePostSuccess} />
       {postResponses.length ? (
         <h3 className="fw-normal">
           {postResponses.length +
@@ -90,18 +90,18 @@ export default function PostPage() {
         </h3>
       ) : null}
       {postResponses.map((postResponse, i) => (
-        <PostCard
+        <QuestionCard
           onDeleteSuccess={() => onDeletePostResponseSuccess(i)}
           className="mt-1"
           key={i}
-          post={postResponse}
+          question={postResponse}
         />
       ))}
       {showPostResponseForm ? (
-        <PostResponseForm
+        <AnswerForm
           className="mt-1"
-          postId={Number(postId)}
-          onAddPostResponseSuccess={onAddPostResponseSuccess}
+          questionId={Number(postId)}
+          onAddAnswerSuccess={onAddPostResponseSuccess}
         />
       ) : null}
     </div>
