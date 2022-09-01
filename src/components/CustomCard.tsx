@@ -14,7 +14,8 @@ import VoteSection from './VoteSection';
 
 interface CustomCardProps {
   card: {
-    cardId: number;
+    questionId?: number;
+    answerId?: number;
     title?: string;
     content: string;
     votes: number;
@@ -31,7 +32,8 @@ interface CustomCardProps {
 export default function CustomCard(props: CustomCardProps) {
   const {
     card: {
-      cardId,
+      questionId,
+      answerId,
       title,
       content: initialContent,
       votes: initialVotes,
@@ -89,7 +91,8 @@ export default function CustomCard(props: CustomCardProps) {
           votes={votes}
           className="me-2"
           onVoteSuccess={onVoteSuccess}
-          questionId={cardId}
+          questionId={questionId}
+          answerId={answerId}
           currVote={currVote}
           enabled={!!userId}
         />
@@ -107,12 +110,14 @@ export default function CustomCard(props: CustomCardProps) {
               <div>
                 <EditButtonWithModal
                   onUpdateSuccess={onUpdateSuccess}
-                  questionId={cardId}
+                  questionId={questionId}
+                  answerId={answerId}
                   content={content}
                   className="me-2"
                 />
                 <DeleteButtonWithModal
-                  questionId={cardId}
+                  questionId={questionId}
+                  answerId={answerId}
                   type="question"
                   onDeleteSuccess={onDeleteSuccess}
                 />
@@ -126,7 +131,8 @@ export default function CustomCard(props: CustomCardProps) {
           </div>
           {!userId ? null : showCommentForm ? (
             <CommentForm
-              questionId={cardId}
+              questionId={questionId}
+              answerId={answerId}
               setShowCommentForm={setShowCommentForm}
               onAddCommentSuccess={onAddCommentSuccess}
               onCancelClick={onCancelCommentSubmit}

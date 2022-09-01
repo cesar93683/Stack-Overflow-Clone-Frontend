@@ -90,7 +90,7 @@ export default function QuestionPage() {
     <div>
       <CustomCard
         card={{
-          cardId: question.id,
+          questionId: question.id,
           title: question.title,
           content: question.content,
           votes: question.votes,
@@ -113,7 +113,7 @@ export default function QuestionPage() {
           className="mt-1"
           key={i}
           card={{
-            cardId: answer.id,
+            answerId: answer.id,
             content: answer.content,
             votes: answer.votes,
             comments: answer.comments,
