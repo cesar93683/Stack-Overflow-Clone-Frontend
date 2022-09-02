@@ -1,16 +1,20 @@
 import { useContext, useState } from 'react';
 import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import AuthService from '../service/AuthService';
 import { AuthContext } from '../utils/auth-context';
 import ValidateUtils from '../utils/ValidateUtils';
 
 export default function LogInPage() {
-  const auth = useContext(AuthContext);
+  const { login, token } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  if (token) {
+    return <Navigate to="/" />;
+  }
 
   const onLogInSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,7 +35,7 @@ export default function LogInPage() {
     AuthService.login(usernameTrimmed, password).then(
       (data) => {
         if (data?.token && data?.userId) {
-          auth.login(data.userId, data.token);
+          login(data.userId, data.token);
           navigate('/');
         } else if (data?.code === 102) {
           setError('Invalid username/password');

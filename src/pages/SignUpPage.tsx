@@ -1,15 +1,21 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import AuthService from '../service/AuthService';
+import { AuthContext } from '../utils/auth-context';
 import ValidateUtils from '../utils/ValidateUtils';
 
 export default function SignUpPage() {
+  const { token } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  if (token) {
+    return <Navigate to="/" />;
+  }
 
   const onSignUpSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
