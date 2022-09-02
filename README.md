@@ -6,8 +6,7 @@ run 'npm start' in terminal
 
 VSCode setup:  
 Install plugins "ESLint" and "Prettier"  
-Go to File -> Preferences -> Settings  
-Open settings.json and add
+Go to File -> Preferences -> Settings -> Open settings.json and add
 
 ```
 {
