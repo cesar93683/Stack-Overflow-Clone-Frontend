@@ -9,7 +9,7 @@ const API_URL = 'http://localhost:8080/api/questions/';
 class QuestionService {
   async getQuestions(page: number, sortedByVotes: boolean) {
     const response = await axios.get<IQuestion[]>(
-      API_URL + 'all?page=' + page + '&sortedByVotes=' + sortedByVotes
+      API_URL + '?page=' + page + '&sortedByVotes=' + sortedByVotes
     );
     return response.data;
   }
