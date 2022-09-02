@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Dropdown } from 'react-bootstrap';
 import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionCardSmall from '../components/QuestionCardSmall';
+import SortDropdown from '../components/SortDropdown';
 import QuestionService from '../service/QuestionService';
 import IQuestion from '../utils/interfaces/IQuestion';
 
@@ -38,19 +38,10 @@ export default function HomePage() {
 
   return (
     <div>
-      <Dropdown>
-        <Dropdown.Toggle variant="primary" id="dropdown-basic">
-          {sortedByVotes ? 'Score' : 'Newest'}
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={() => setSortedByVotes(false)}>
-            Newest
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => setSortedByVotes(true)}>
-            Score
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+      <SortDropdown
+        sortedByVotes={sortedByVotes}
+        setSortedByVotes={setSortedByVotes}
+      />
       <div>
         {questions.map((question, i) => (
           <QuestionCardSmall question={question} key={i} className="my-2" />
