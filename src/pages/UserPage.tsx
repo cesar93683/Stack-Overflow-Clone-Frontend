@@ -50,10 +50,6 @@ export default function UserPage() {
     return <div>An error has occured</div>;
   }
 
-  if (questions.length === 0) {
-    return <div>There are no questions</div>;
-  }
-
   return (
     <div>
       <Tabs>
