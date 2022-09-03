@@ -24,10 +24,10 @@ interface CustomCardProps {
     createdAt: string;
     updatedAt: string;
   };
-  onDeleteSuccess: () => void;
+  onDelete: () => void;
   setVote: (newVote: number, newVotes: number) => void;
   setContent: (content: string) => void;
-  onAddCommentSuccess: (comment: IComment) => void;
+  addComment: (comment: IComment) => void;
   setCommentVote: (newVote: number, newVotes: number, index: number) => void;
   className?: string;
 }
@@ -46,10 +46,10 @@ export default function CustomCard(props: CustomCardProps) {
       createdAt,
       updatedAt,
     },
-    onDeleteSuccess,
+    onDelete,
     setVote,
     setContent,
-    onAddCommentSuccess,
+    addComment,
     setCommentVote,
     className,
   } = props;
@@ -80,7 +80,7 @@ export default function CustomCard(props: CustomCardProps) {
         <VoteSection
           votes={votes}
           className="me-2"
-          onVoteSuccess={onVoteSuccess}
+          setVote={onVoteSuccess}
           questionId={questionId}
           answerId={answerId}
           currVote={currVote}
@@ -110,7 +110,7 @@ export default function CustomCard(props: CustomCardProps) {
                   questionId={questionId}
                   answerId={answerId}
                   type="question"
-                  onDeleteSuccess={onDeleteSuccess}
+                  onDeleteSuccess={onDelete}
                 />
               </div>
             ) : null}
@@ -131,7 +131,7 @@ export default function CustomCard(props: CustomCardProps) {
               questionId={questionId}
               answerId={answerId}
               setShowCommentForm={setShowCommentForm}
-              onAddCommentSuccess={onAddCommentSuccess}
+              addComment={addComment}
               onCancelClick={onCancelCommentSubmit}
               className="mt-2"
             />

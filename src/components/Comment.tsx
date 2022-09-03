@@ -54,7 +54,7 @@ export default function Comment(props: CommentProps) {
           votes={votes}
           className="me-2"
           commentId={id}
-          onVoteSuccess={onUpVoteSuccess}
+          setVote={onUpVoteSuccess}
           currVote={currVote}
           enabled={!!userId}
         />

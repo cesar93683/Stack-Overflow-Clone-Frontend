@@ -99,7 +99,7 @@ export default function QuestionPage() {
     }
   }, [token]);
 
-  const onDeleteQuestionSuccess = () => {
+  const deleteQuestion = () => {
     navigate('/');
   };
   const setQuestionVote = (newVote: number, newVotes: number) => {
@@ -120,7 +120,7 @@ export default function QuestionPage() {
       };
     });
   };
-  const onAddQuestionCommentSuccess = (comment: IComment) => {
+  const addQuestionComment = (comment: IComment) => {
     setQuestion((prevState: IQuestion) => {
       return {
         ...prevState,
@@ -145,7 +145,7 @@ export default function QuestionPage() {
     });
   };
 
-  const onAddAnswerSuccess = (answer: IAnswer) => {
+  const addAnswer = (answer: IAnswer) => {
     setShowAddAnswerForm(false);
     if (answers) {
       setAnswers([...answers, answer]);
@@ -153,7 +153,7 @@ export default function QuestionPage() {
       setAnswers([answer]);
     }
   };
-  const onDeleteAnswerSuccess = (index: number) => {
+  const deleteAnswer = (index: number) => {
     setAnswers((prevState: IAnswer[]) => {
       return prevState.filter((_, i) => i !== index);
     });
@@ -178,7 +178,7 @@ export default function QuestionPage() {
       );
     });
   };
-  const onAddAnswerCommentSuccess = (comment: IComment, index: number) => {
+  const addAnswerComment = (comment: IComment, index: number) => {
     setAnswers((prevState: IAnswer[]) => {
       return prevState.map((answer, i) =>
         i === index
@@ -230,10 +230,10 @@ export default function QuestionPage() {
           createdAt: question.createdAt,
           updatedAt: question.updatedAt,
         }}
-        onDeleteSuccess={onDeleteQuestionSuccess}
+        onDelete={deleteQuestion}
         setVote={setQuestionVote}
         setContent={setQuestionContent}
-        onAddCommentSuccess={onAddQuestionCommentSuccess}
+        addComment={addQuestionComment}
         setCommentVote={setCommentQuestionVote}
       />
       {answers.length ? (
@@ -243,7 +243,7 @@ export default function QuestionPage() {
       ) : null}
       {answers.map((answer, i) => (
         <CustomCard
-          onDeleteSuccess={() => onDeleteAnswerSuccess(i)}
+          onDelete={() => deleteAnswer(i)}
           className="mt-1"
           key={i}
           card={{
@@ -260,9 +260,7 @@ export default function QuestionPage() {
             setAnswerVote(newVote, newVotes, i)
           }
           setContent={(updatedAt: string) => setAnswerContent(updatedAt, i)}
-          onAddCommentSuccess={(comment: IComment) =>
-            onAddAnswerCommentSuccess(comment, i)
-          }
+          addComment={(comment: IComment) => addAnswerComment(comment, i)}
           setCommentVote={(
             newVote: number,
             newVotes: number,
@@ -274,7 +272,7 @@ export default function QuestionPage() {
         <AnswerForm
           className="mt-1"
           questionId={Number(questionId)}
-          onAddAnswerSuccess={onAddAnswerSuccess}
+          onAddAnswerSuccess={addAnswer}
         />
       ) : null}
     </div>

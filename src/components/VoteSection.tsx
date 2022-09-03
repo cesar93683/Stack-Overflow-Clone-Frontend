@@ -8,7 +8,7 @@ import { AuthContext } from '../utils/auth-context';
 interface VoteSectionProps {
   votes: number;
   className?: string;
-  onVoteSuccess: (newVote: number) => void;
+  setVote: (newVote: number) => void;
   onDownVoteSuccess?: () => void;
   currVote: number;
   commentId?: number;
@@ -21,7 +21,7 @@ export default function VoteSection(props: VoteSectionProps) {
   const {
     votes,
     className,
-    onVoteSuccess,
+    setVote,
     currVote,
     commentId,
     answerId,
@@ -37,7 +37,7 @@ export default function VoteSection(props: VoteSectionProps) {
       QuestionService.voteQuestion(questionId, newVote, token).then(
         (data) => {
           if (data?.code === 0) {
-            onVoteSuccess(newVote);
+            setVote(newVote);
           } else {
             // TODO
             console.log('error');
@@ -52,7 +52,7 @@ export default function VoteSection(props: VoteSectionProps) {
       AnswerService.voteAnswer(answerId, newVote, token).then(
         (data) => {
           if (data?.code === 0) {
-            onVoteSuccess(newVote);
+            setVote(newVote);
           } else {
             // TODO
             console.log('error');
@@ -72,7 +72,7 @@ export default function VoteSection(props: VoteSectionProps) {
       CommentService.voteComment(commentId, newVote, token).then(
         (data) => {
           if (data?.code === 0) {
-            onVoteSuccess(newVote);
+            setVote(newVote);
           } else {
             // TODO
             console.log('error');
@@ -87,7 +87,7 @@ export default function VoteSection(props: VoteSectionProps) {
       QuestionService.voteQuestion(questionId, newVote, token).then(
         (data) => {
           if (data?.code === 0) {
-            onVoteSuccess(newVote);
+            setVote(newVote);
           } else {
             // TODO
             console.log('error');
@@ -102,7 +102,7 @@ export default function VoteSection(props: VoteSectionProps) {
       AnswerService.voteAnswer(answerId, newVote, token).then(
         (data) => {
           if (data?.code === 0) {
-            onVoteSuccess(newVote);
+            setVote(newVote);
           } else {
             // TODO
             console.log('error');

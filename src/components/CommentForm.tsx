@@ -11,7 +11,7 @@ interface CommentFormProps {
   questionId?: number;
   answerId?: number;
   setShowCommentForm: (showCommentForm: boolean) => void;
-  onAddCommentSuccess: (comment: IComment) => void;
+  addComment: (comment: IComment) => void;
   onCancelClick: () => void;
   className?: string;
 }
@@ -21,7 +21,7 @@ export default function CommentForm(props: CommentFormProps) {
     questionId,
     answerId,
     setShowCommentForm,
-    onAddCommentSuccess,
+    addComment,
     onCancelClick,
     className,
   } = props;
@@ -55,7 +55,7 @@ export default function CommentForm(props: CommentFormProps) {
           setShowCommentForm(false);
           setLoading(false);
           if (data) {
-            onAddCommentSuccess(data);
+            addComment(data);
           } else {
             setError('An error occured');
           }
@@ -72,7 +72,7 @@ export default function CommentForm(props: CommentFormProps) {
           setShowCommentForm(false);
           setLoading(false);
           if (data) {
-            onAddCommentSuccess(data);
+            addComment(data);
           } else {
             setError('An error occured');
           }
