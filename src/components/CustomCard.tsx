@@ -26,8 +26,7 @@ interface CustomCardProps {
     updatedAt: string;
   };
   onDeleteSuccess: () => void;
-  setCurrVote: (currVote: number) => void;
-  setVotes: (votes: number) => void;
+  setVote: (currVote: number, votes: number) => void;
   setContent: (content: string) => void;
   setUpdatedAt: (updatedAt: string) => void;
   onAddCommentSuccess: (comment: IComment) => void;
@@ -49,8 +48,7 @@ export default function CustomCard(props: CustomCardProps) {
       updatedAt,
     },
     onDeleteSuccess,
-    setCurrVote,
-    setVotes,
+    setVote,
     setContent,
     setUpdatedAt,
     onAddCommentSuccess,
@@ -62,14 +60,13 @@ export default function CustomCard(props: CustomCardProps) {
 
   useEffect(() => {
     if (!token) {
-      setCurrVote(0);
+      setVote(0, votes);
     }
   }, [token]);
 
   const onVoteSuccess = (newVote: number) => {
-    setCurrVote(newVote);
     const diff = VoteUtils.getVoteDiff(currVote, newVote);
-    setVotes(votes + diff);
+    setVote(newVote, votes + diff);
   };
 
   const onAddComment = () => {

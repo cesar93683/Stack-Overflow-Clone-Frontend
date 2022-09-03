@@ -76,18 +76,11 @@ export default function QuestionPage() {
   const onDeleteQuestionSuccess = () => {
     navigate('/');
   };
-  const setQuestionCurrVote = (currVote: number) => {
+  const setQuestionVote = (currVote: number, votes: number) => {
     setQuestion((prevState: IQuestion) => {
       return {
         ...prevState,
         currVote,
-      };
-    });
-  };
-  const setQuestionVotes = (votes: number) => {
-    setQuestion((prevState: IQuestion) => {
-      return {
-        ...prevState,
         votes,
       };
     });
@@ -130,21 +123,12 @@ export default function QuestionPage() {
     newAnswer.splice(index, 1);
     setAnswers(newAnswer);
   };
-  const setAnswerCurrVote = (currVote: number, index: number) => {
+  const setAnswerVote = (currVote: number, votes: number, index: number) => {
     setAnswers((prevState: IAnswer[]) => {
       const newState = [...prevState];
       newState[index] = {
         ...newState[index],
         currVote,
-      };
-      return newState;
-    });
-  };
-  const setAnswerVotes = (votes: number, index: number) => {
-    setAnswers((prevState: IAnswer[]) => {
-      const newState = [...prevState];
-      newState[index] = {
-        ...newState[index],
         votes,
       };
       return newState;
@@ -203,8 +187,7 @@ export default function QuestionPage() {
           updatedAt: question.updatedAt,
         }}
         onDeleteSuccess={onDeleteQuestionSuccess}
-        setCurrVote={setQuestionCurrVote}
-        setVotes={setQuestionVotes}
+        setVote={setQuestionVote}
         setContent={setQuestionContent}
         onAddCommentSuccess={onAddQuestionCommentSuccess}
         setUpdatedAt={setQuestionUpdatedAt}
@@ -229,8 +212,9 @@ export default function QuestionPage() {
             createdAt: answer.createdAt,
             updatedAt: answer.updatedAt,
           }}
-          setCurrVote={(currVote: number) => setAnswerCurrVote(currVote, i)}
-          setVotes={(votes: number) => setAnswerVotes(votes, i)}
+          setVote={(currVote: number, votes: number) =>
+            setAnswerVote(currVote, votes, i)
+          }
           setContent={(updatedAt: string) => setAnswerContent(updatedAt, i)}
           onAddCommentSuccess={(comment: IComment) =>
             onAddAnswerCommentSuccess(comment, i)
