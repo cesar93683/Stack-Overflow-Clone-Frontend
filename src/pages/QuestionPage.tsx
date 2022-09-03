@@ -102,7 +102,7 @@ export default function QuestionPage() {
     <div>
       <QuestionCard
         question={question}
-        onDeleteQuestionSuccess={onDeleteQuestionSuccess}
+        onDeleteSuccess={onDeleteQuestionSuccess}
         setQuestion={setQuestion}
       />
       {answers.length ? (

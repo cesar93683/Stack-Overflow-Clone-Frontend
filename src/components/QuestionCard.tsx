@@ -5,11 +5,11 @@ import CustomCard from './CustomCard';
 interface QuestionCardProps {
   question: IQuestion;
   setQuestion: React.Dispatch<React.SetStateAction<IQuestion>>;
-  onDeleteQuestionSuccess: () => void;
+  onDeleteSuccess: () => void;
 }
 
 export default function QuestionCard(props: QuestionCardProps) {
-  const { question, onDeleteQuestionSuccess, setQuestion } = props;
+  const { question, onDeleteSuccess, setQuestion } = props;
 
   const setCurrVote = (currVote: number) => {
     setQuestion((prevState: IQuestion) => {
@@ -65,7 +65,7 @@ export default function QuestionCard(props: QuestionCardProps) {
         createdAt: question.createdAt,
         updatedAt: question.updatedAt,
       }}
-      onDeleteSuccess={onDeleteQuestionSuccess}
+      onDeleteSuccess={onDeleteSuccess}
       setCurrVote={setCurrVote}
       setVotes={setVotes}
       setContent={setContent}
