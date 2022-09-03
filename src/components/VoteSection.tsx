@@ -42,9 +42,8 @@ export default function VoteSection(props: VoteSectionProps) {
 
   const onDownVote = () => {
     const newVote = currVote === -1 ? 0 : -1;
-    const action = newVote === 0 ? 'NEUTRAL' : 'DOWN_VOTE';
     if (questionId) {
-      QuestionService.voteQuestion(questionId, action, token).then(
+      QuestionService.voteQuestion(questionId, newVote, token).then(
         (data) => {
           if (data?.code === 0) {
             onVoteSuccess(newVote);
@@ -59,7 +58,7 @@ export default function VoteSection(props: VoteSectionProps) {
         }
       );
     } else if (answerId) {
-      AnswerService.voteAnswer(answerId, action, token).then(
+      AnswerService.voteAnswer(answerId, newVote, token).then(
         (data) => {
           if (data?.code === 0) {
             onVoteSuccess(newVote);
@@ -78,9 +77,8 @@ export default function VoteSection(props: VoteSectionProps) {
 
   const onUpVote = () => {
     const newVote = currVote === 1 ? 0 : 1;
-    const action = newVote === 0 ? 'NEUTRAL' : 'UP_VOTE';
     if (commentId) {
-      CommentService.voteComment(commentId, action, token).then(
+      CommentService.voteComment(commentId, newVote, token).then(
         (data) => {
           if (data?.code === 0) {
             onVoteSuccess(newVote);
@@ -95,7 +93,7 @@ export default function VoteSection(props: VoteSectionProps) {
         }
       );
     } else if (questionId) {
-      QuestionService.voteQuestion(questionId, action, token).then(
+      QuestionService.voteQuestion(questionId, newVote, token).then(
         (data) => {
           if (data?.code === 0) {
             onVoteSuccess(newVote);
@@ -110,7 +108,7 @@ export default function VoteSection(props: VoteSectionProps) {
         }
       );
     } else if (answerId) {
-      AnswerService.voteAnswer(answerId, action, token).then(
+      AnswerService.voteAnswer(answerId, newVote, token).then(
         (data) => {
           if (data?.code === 0) {
             onVoteSuccess(newVote);

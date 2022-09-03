@@ -7,7 +7,7 @@ export default interface IAnswer {
   votes: number;
   comments?: IComment[];
   user: IUser;
-  currVote?: string;
+  currVote?: number;
   createdAt: string;
   updatedAt: string;
 }

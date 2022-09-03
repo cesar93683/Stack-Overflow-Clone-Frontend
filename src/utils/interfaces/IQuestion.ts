@@ -9,7 +9,7 @@ export default interface IQuestion {
   numAnswers: number;
   comments?: IComment[];
   user: IUser;
-  currVote?: string;
+  currVote?: number;
   createdAt: string;
   updatedAt: string;
 }

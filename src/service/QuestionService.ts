@@ -87,10 +87,10 @@ class QuestionService {
     return response.data;
   }
 
-  async voteQuestion(id: number, action: string, token: string) {
+  async voteQuestion(id: number, vote: number, token: string) {
     const response = await axios.post<IGenericResponse>(
       API_URL + 'vote',
-      { id, action },
+      { id, vote },
       getAuthHeader(token)
     );
     return response.data;

@@ -13,10 +13,10 @@ class CommentService {
     return response.data;
   }
 
-  async voteComment(id: number, action: string, token: string) {
+  async voteComment(id: number, vote: number, token: string) {
     const response = await axios.post<IGenericResponse>(
       API_URL + 'vote',
-      { id, action },
+      { id, vote },
       getAuthHeader(token)
     );
     return response.data;

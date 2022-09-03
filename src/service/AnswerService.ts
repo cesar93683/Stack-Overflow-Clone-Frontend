@@ -46,10 +46,10 @@ class AnswerService {
     return response.data;
   }
 
-  async voteAnswer(id: number, action: string, token: string) {
+  async voteAnswer(id: number, vote: number, token: string) {
     const response = await axios.post<IGenericResponse>(
       API_URL + 'vote',
-      { id, action },
+      { id, vote },
       getAuthHeader(token)
     );
     return response.data;

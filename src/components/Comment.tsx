@@ -28,7 +28,7 @@ export default function Comment(props: CommentProps) {
   const { userId } = useContext(AuthContext);
 
   const [currVote, setCurrVote] = useState(
-    VoteUtils.getCurrVoteNum(initialCurrVote)
+    initialCurrVote ? initialCurrVote : 0
   );
   const [votes, setVotes] = useState(initialVotes);
   const [isCommentDeleted, setIsCommentDeleted] = useState(false);

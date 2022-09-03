@@ -5,6 +5,6 @@ export default interface IComment {
   content: string;
   votes: number;
   user: IUser;
-  currVote?: string;
+  currVote?: number;
   createdAt: string;
 }

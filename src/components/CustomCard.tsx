@@ -21,7 +21,7 @@ interface CustomCardProps {
     votes: number;
     comments?: IComment[];
     user: IUser;
-    currVote?: string;
+    currVote?: number;
     createdAt: string;
     updatedAt: string;
   };
@@ -49,7 +49,7 @@ export default function CustomCard(props: CustomCardProps) {
   const { userId } = useContext(AuthContext);
 
   const [currVote, setCurrVote] = useState(
-    VoteUtils.getCurrVoteNum(initialCurrVote)
+    initialCurrVote ? initialCurrVote : 0
   );
   const [votes, setVotes] = useState(initialVotes);
   const [content, setContent] = useState(initialContent);

@@ -1,13 +1,4 @@
 class VoteUtils {
-  getCurrVoteNum(currVote: string | undefined): number {
-    return !currVote
-      ? 0
-      : currVote === 'UP_VOTE'
-      ? 1
-      : currVote === 'NEUTRAL'
-      ? 0
-      : -1;
-  }
   getVoteDiff(currVote: number, newVote: number): number {
     let diff = 0;
     if (currVote === -1) {
