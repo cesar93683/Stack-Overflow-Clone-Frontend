@@ -10,6 +10,7 @@ import DateUtils from '../utils/DateUtils';
 import IAnswer from '../utils/interfaces/IAnswer';
 import IComment from '../utils/interfaces/IComment';
 import IQuestion from '../utils/interfaces/IQuestion';
+import VoteUtils from '../utils/VoteUtils';
 
 export default function QuestionPage() {
   const { userId, token } = useContext(AuthContext);
@@ -102,12 +103,13 @@ export default function QuestionPage() {
   const deleteQuestion = () => {
     navigate('/');
   };
-  const setQuestionVote = (newVote: number, newVotes: number) => {
+  const setQuestionVote = (newVote: number) => {
     setQuestion((prevState: IQuestion) => {
       return {
         ...prevState,
         currVote: newVote,
-        votes: newVotes,
+        votes:
+          prevState.votes + VoteUtils.getVoteDiff(prevState.currVote, newVote),
       };
     });
   };
@@ -128,17 +130,19 @@ export default function QuestionPage() {
       };
     });
   };
-  const setCommentQuestionVote = (
-    newVote: number,
-    newVotes: number,
-    index: number
-  ) => {
+  const setCommentQuestionVote = (newVote: number, index: number) => {
     setQuestion((prevState: IQuestion) => {
       return {
         ...prevState,
         comments: prevState.comments.map((comment: IComment, i: number) =>
           i === index
-            ? { ...comment, currVote: newVote, votes: newVotes }
+            ? {
+                ...comment,
+                currVote: newVote,
+                votes:
+                  comment.votes +
+                  VoteUtils.getVoteDiff(comment.currVote, newVote),
+              }
             : comment
         ),
       };
@@ -158,10 +162,17 @@ export default function QuestionPage() {
       return prevState.filter((_, i) => i !== index);
     });
   };
-  const setAnswerVote = (newVote: number, newVotes: number, index: number) => {
+  const setAnswerVote = (newVote: number, index: number) => {
     setAnswers((prevState: IAnswer[]) => {
       return prevState.map((answer, i) =>
-        i === index ? { ...answer, currVote: newVote, votes: newVotes } : answer
+        i === index
+          ? {
+              ...answer,
+              currVote: newVote,
+              votes:
+                answer.votes + VoteUtils.getVoteDiff(answer.currVote, newVote),
+            }
+          : answer
       );
     });
   };
@@ -189,7 +200,6 @@ export default function QuestionPage() {
   };
   const setCommentAnswerVote = (
     newVote: number,
-    newVotes: number,
     commentIndex: number,
     answerIndex: number
   ) => {
@@ -200,7 +210,13 @@ export default function QuestionPage() {
               ...answer,
               comments: answer.comments.map((comment: IComment, j: number) =>
                 j === commentIndex
-                  ? { ...comment, currVote: newVote, votes: newVotes }
+                  ? {
+                      ...comment,
+                      currVote: newVote,
+                      votes:
+                        comment.votes +
+                        VoteUtils.getVoteDiff(comment.currVote, newVote),
+                    }
                   : comment
               ),
             }
@@ -241,11 +257,11 @@ export default function QuestionPage() {
           {answers.length + ' Answer' + (answers.length === 1 ? '' : 's')}
         </h3>
       ) : null}
-      {answers.map((answer, i) => (
+      {answers.map((answer, answerIndex) => (
         <CustomCard
-          onDelete={() => deleteAnswer(i)}
+          onDelete={() => deleteAnswer(answerIndex)}
           className="mt-1"
-          key={i}
+          key={answerIndex}
           card={{
             answerId: answer.id,
             content: answer.content,
@@ -256,16 +272,16 @@ export default function QuestionPage() {
             createdAt: answer.createdAt,
             updatedAt: answer.updatedAt,
           }}
-          setVote={(newVote: number, newVotes: number) =>
-            setAnswerVote(newVote, newVotes, i)
+          setVote={(newVote: number) => setAnswerVote(newVote, answerIndex)}
+          setContent={(updatedAt: string) =>
+            setAnswerContent(updatedAt, answerIndex)
           }
-          setContent={(updatedAt: string) => setAnswerContent(updatedAt, i)}
-          addComment={(comment: IComment) => addAnswerComment(comment, i)}
-          setCommentVote={(
-            newVote: number,
-            newVotes: number,
-            commentIndex: number
-          ) => setCommentAnswerVote(newVote, newVotes, commentIndex, i)}
+          addComment={(comment: IComment) =>
+            addAnswerComment(comment, answerIndex)
+          }
+          setCommentVote={(newVote: number, commentIndex: number) =>
+            setCommentAnswerVote(newVote, commentIndex, answerIndex)
+          }
         />
       ))}
       {showAddAnswerForm ? (

@@ -3,7 +3,6 @@ import { Card } from 'react-bootstrap';
 import { AuthContext } from '../utils/auth-context';
 import IComment from '../utils/interfaces/IComment';
 import IUser from '../utils/interfaces/IUser';
-import VoteUtils from '../utils/VoteUtils';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 import CustomCardSubtitle from './CustomCardSubtitle';
@@ -25,10 +24,10 @@ interface CustomCardProps {
     updatedAt: string;
   };
   onDelete: () => void;
-  setVote: (newVote: number, newVotes: number) => void;
+  setVote: (newVote: number) => void;
   setContent: (content: string) => void;
   addComment: (comment: IComment) => void;
-  setCommentVote: (newVote: number, newVotes: number, index: number) => void;
+  setCommentVote: (newVote: number, index: number) => void;
   className?: string;
 }
 
@@ -57,11 +56,6 @@ export default function CustomCard(props: CustomCardProps) {
 
   const [showCommentForm, setShowCommentForm] = useState(false);
 
-  const onVoteSuccess = (newVote: number) => {
-    const diff = VoteUtils.getVoteDiff(currVote, newVote);
-    setVote(newVote, votes + diff);
-  };
-
   const onAddComment = () => {
     setShowCommentForm(true);
   };
@@ -80,7 +74,7 @@ export default function CustomCard(props: CustomCardProps) {
         <VoteSection
           votes={votes}
           className="me-2"
-          setVote={onVoteSuccess}
+          setVote={setVote}
           questionId={questionId}
           answerId={answerId}
           currVote={currVote}
@@ -120,9 +114,7 @@ export default function CustomCard(props: CustomCardProps) {
               <Comment
                 key={i}
                 comment={comment}
-                setVote={(newVote: number, newVotes: number) =>
-                  setCommentVote(newVote, newVotes, i)
-                }
+                setVote={(newVote: number) => setCommentVote(newVote, i)}
               />
             ))}
           </div>

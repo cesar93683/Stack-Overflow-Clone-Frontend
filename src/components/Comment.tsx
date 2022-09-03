@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../utils/auth-context';
 import DateUtils from '../utils/DateUtils';
 import IComment from '../utils/interfaces/IComment';
-import VoteUtils from '../utils/VoteUtils';
 import DeleteButtonWithModal from './DeleteButtonWithModal';
 import VoteSection from './VoteSection';
 
 interface CommentProps {
   comment: IComment;
-  setVote: (newVote: number, newVotes: number) => void;
+  setVote: (newVote: number) => void;
   className?: string;
 }
 
@@ -38,11 +37,6 @@ export default function Comment(props: CommentProps) {
     setIsCommentDeleted(true);
   };
 
-  const onUpVoteSuccess = (newVote: number) => {
-    const diff = VoteUtils.getVoteDiff(currVote, newVote);
-    setVote(newVote, votes + diff);
-  };
-
   if (isCommentDeleted) {
     return <div className={className}>Comment deleted</div>;
   }
@@ -54,7 +48,7 @@ export default function Comment(props: CommentProps) {
           votes={votes}
           className="me-2"
           commentId={id}
-          setVote={onUpVoteSuccess}
+          setVote={setVote}
           currVote={currVote}
           enabled={!!userId}
         />
