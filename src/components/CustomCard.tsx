@@ -29,8 +29,8 @@ interface CustomCardProps {
   setCurrVote: (currVote: number) => void;
   setVotes: (votes: number) => void;
   setContent: (content: string) => void;
-  setComments: (comments: IComment[]) => void;
   setUpdatedAt: (updatedAt: string) => void;
+  onAddCommentSuccess: (comment: IComment) => void;
   className?: string;
 }
 
@@ -52,8 +52,8 @@ export default function CustomCard(props: CustomCardProps) {
     setCurrVote,
     setVotes,
     setContent,
-    setComments,
     setUpdatedAt,
+    onAddCommentSuccess,
     className,
   } = props;
   const { token, userId } = useContext(AuthContext);
@@ -78,14 +78,6 @@ export default function CustomCard(props: CustomCardProps) {
 
   const onCancelCommentSubmit = () => {
     setShowCommentForm(false);
-  };
-
-  const onAddCommentSuccess = (comment: IComment) => {
-    if (comments) {
-      setComments([...comments, comment]);
-    } else {
-      setComments([comment]);
-    }
   };
 
   const onUpdateSuccess = (newContent: string) => {

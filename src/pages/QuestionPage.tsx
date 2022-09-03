@@ -100,19 +100,19 @@ export default function QuestionPage() {
       };
     });
   };
-  const setQuestionComments = (comments: IComment[]) => {
-    setQuestion((prevState: IQuestion) => {
-      return {
-        ...prevState,
-        comments,
-      };
-    });
-  };
   const setQuestionUpdatedAt = (updatedAt: string) => {
     setQuestion((prevState: IQuestion) => {
       return {
         ...prevState,
         updatedAt,
+      };
+    });
+  };
+  const onAddQuestionCommentSuccess = (comment: IComment) => {
+    setQuestion((prevState: IQuestion) => {
+      return {
+        ...prevState,
+        comments: [...prevState.comments, comment],
       };
     });
   };
@@ -160,22 +160,22 @@ export default function QuestionPage() {
       return newState;
     });
   };
-  const setAnswerComments = (comments: IComment[], index: number) => {
-    setAnswers((prevState: IAnswer[]) => {
-      const newState = [...prevState];
-      newState[index] = {
-        ...newState[index],
-        comments,
-      };
-      return newState;
-    });
-  };
   const setAnswerUpdatedAt = (updatedAt: string, index: number) => {
     setAnswers((prevState: IAnswer[]) => {
       const newState = [...prevState];
       newState[index] = {
         ...newState[index],
         updatedAt,
+      };
+      return newState;
+    });
+  };
+  const onAddAnswerCommentSuccess = (comment: IComment, index: number) => {
+    setAnswers((prevState: IAnswer[]) => {
+      const newState = [...prevState];
+      newState[index] = {
+        ...newState[index],
+        comments: [...newState[index].comments, comment],
       };
       return newState;
     });
@@ -206,7 +206,7 @@ export default function QuestionPage() {
         setCurrVote={setQuestionCurrVote}
         setVotes={setQuestionVotes}
         setContent={setQuestionContent}
-        setComments={setQuestionComments}
+        onAddCommentSuccess={onAddQuestionCommentSuccess}
         setUpdatedAt={setQuestionUpdatedAt}
       />
       {answers.length ? (
@@ -232,7 +232,9 @@ export default function QuestionPage() {
           setCurrVote={(currVote: number) => setAnswerCurrVote(currVote, i)}
           setVotes={(votes: number) => setAnswerVotes(votes, i)}
           setContent={(updatedAt: string) => setAnswerContent(updatedAt, i)}
-          setComments={(comments: IComment[]) => setAnswerComments(comments, i)}
+          onAddCommentSuccess={(comment: IComment) =>
+            onAddAnswerCommentSuccess(comment, i)
+          }
           setUpdatedAt={(updatedAt: string) => setAnswerUpdatedAt(updatedAt, i)}
         />
       ))}
