@@ -19,9 +19,9 @@ interface CustomCardProps {
     title?: string;
     content: string;
     votes: number;
-    comments?: IComment[];
+    comments: IComment[];
     user: IUser;
-    currVote?: number;
+    currVote: number;
     createdAt: string;
     updatedAt: string;
   };
@@ -48,9 +48,7 @@ export default function CustomCard(props: CustomCardProps) {
   } = props;
   const { token, userId } = useContext(AuthContext);
 
-  const [currVote, setCurrVote] = useState(
-    initialCurrVote ? initialCurrVote : 0
-  );
+  const [currVote, setCurrVote] = useState(initialCurrVote);
   const [votes, setVotes] = useState(initialVotes);
   const [content, setContent] = useState(initialContent);
   const [comments, setComments] = useState(initialComments);
