@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AnswerForm from '../components/AnswerForm';
+import CustomCard from '../components/CustomCard';
 import LoadingSpinner from '../components/LoadingSpinner';
-import QuestionCard from '../components/QuestionCard';
 import AnswerService from '../service/AnswerService';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import IAnswer from '../utils/interfaces/IAnswer';
+import IComment from '../utils/interfaces/IComment';
 import IQuestion from '../utils/interfaces/IQuestion';
 
 export default function QuestionPage() {
@@ -91,6 +92,47 @@ export default function QuestionPage() {
     }
   };
 
+  const setQuestionCurrVote = (currVote: number) => {
+    setQuestion((prevState: IQuestion) => {
+      return {
+        ...prevState,
+        currVote,
+      };
+    });
+  };
+  const setQuestionVotes = (votes: number) => {
+    setQuestion((prevState: IQuestion) => {
+      return {
+        ...prevState,
+        votes,
+      };
+    });
+  };
+  const setQuestionContent = (content: string) => {
+    setQuestion((prevState: IQuestion) => {
+      return {
+        ...prevState,
+        content,
+      };
+    });
+  };
+  const setQuestionComments = (comments: IComment[]) => {
+    setQuestion((prevState: IQuestion) => {
+      return {
+        ...prevState,
+        comments,
+      };
+    });
+  };
+  const setQuestionUpdatedAt = (updatedAt: string) => {
+    setQuestion((prevState: IQuestion) => {
+      return {
+        ...prevState,
+        updatedAt,
+      };
+    });
+  };
+
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -100,10 +142,24 @@ export default function QuestionPage() {
 
   return (
     <div>
-      <QuestionCard
-        question={question}
+      <CustomCard
+        card={{
+          questionId: question.id,
+          title: question.title,
+          content: question.content,
+          votes: question.votes,
+          comments: question.comments,
+          user: question.user,
+          currVote: question.currVote,
+          createdAt: question.createdAt,
+          updatedAt: question.updatedAt,
+        }}
         onDeleteSuccess={onDeleteQuestionSuccess}
-        setQuestion={setQuestion}
+        setCurrVote={setQuestionCurrVote}
+        setVotes={setQuestionVotes}
+        setContent={setQuestionContent}
+        setComments={setQuestionComments}
+        setUpdatedAt={setQuestionUpdatedAt}
       />
       {answers.length ? (
         <h3 className="fw-normal">
