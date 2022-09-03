@@ -83,11 +83,7 @@ export default function QuestionPage() {
         };
       });
       setAnswers((prevState: IAnswer[]) => {
-        const newState = [...prevState];
-        for (const answer of newState) {
-          answer['currVote'] = 0;
-        }
-        return newState;
+        return prevState.map((answer) => ({ ...answer, currVote: 0 }));
       });
     }
   }, [token]);
@@ -137,34 +133,31 @@ export default function QuestionPage() {
   };
   const setAnswerVote = (currVote: number, votes: number, index: number) => {
     setAnswers((prevState: IAnswer[]) => {
-      const newState = [...prevState];
-      newState[index] = {
-        ...newState[index],
-        currVote,
-        votes,
-      };
-      return newState;
+      return prevState.map((answer, i) =>
+        i === index ? { ...answer, currVote, votes } : answer
+      );
     });
   };
   const setAnswerContent = (content: string, index: number) => {
     setAnswers((prevState: IAnswer[]) => {
-      const newState = [...prevState];
-      newState[index] = {
-        ...newState[index],
-        content,
-        updatedAt: DateUtils.getLocaleDateString(new Date()),
-      };
-      return newState;
+      return prevState.map((answer, i) =>
+        i === index
+          ? {
+              ...answer,
+              content,
+              updatedAt: DateUtils.getLocaleDateString(new Date()),
+            }
+          : answer
+      );
     });
   };
   const onAddAnswerCommentSuccess = (comment: IComment, index: number) => {
     setAnswers((prevState: IAnswer[]) => {
-      const newState = [...prevState];
-      newState[index] = {
-        ...newState[index],
-        comments: [...newState[index].comments, comment],
-      };
-      return newState;
+      return prevState.map((answer, i) =>
+        i === index
+          ? { ...answer, comments: [...answer.comments, comment] }
+          : answer
+      );
     });
   };
 
