@@ -127,9 +127,9 @@ export default function QuestionPage() {
     }
   };
   const onDeleteAnswerSuccess = (index: number) => {
-    const newAnswer = [...answers];
-    newAnswer.splice(index, 1);
-    setAnswers(newAnswer);
+    setAnswers((prevState: IAnswer[]) => {
+      return prevState.filter((_, i) => i !== index);
+    });
   };
   const setAnswerVote = (currVote: number, votes: number, index: number) => {
     setAnswers((prevState: IAnswer[]) => {
