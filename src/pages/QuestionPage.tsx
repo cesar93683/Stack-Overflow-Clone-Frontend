@@ -80,10 +80,21 @@ export default function QuestionPage() {
         return {
           ...prevState,
           currVote: 0,
+          comments: prevState.comments.map((comment) => ({
+            ...comment,
+            currVote: 0,
+          })),
         };
       });
       setAnswers((prevState: IAnswer[]) => {
-        return prevState.map((answer) => ({ ...answer, currVote: 0 }));
+        return prevState.map((answer) => ({
+          ...answer,
+          currVote: 0,
+          comments: answer.comments.map((comment) => ({
+            ...comment,
+            currVote: 0,
+          })),
+        }));
       });
     }
   }, [token]);
