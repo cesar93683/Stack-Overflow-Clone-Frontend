@@ -117,6 +117,22 @@ export default function QuestionPage() {
       };
     });
   };
+  const setCommentQuestionVote = (
+    newVote: number,
+    newVotes: number,
+    index: number
+  ) => {
+    setQuestion((prevState: IQuestion) => {
+      return {
+        ...prevState,
+        comments: prevState.comments.map((comment: IComment, i: number) =>
+          i === index
+            ? { ...comment, currVote: newVote, votes: newVotes }
+            : comment
+        ),
+      };
+    });
+  };
 
   const onAddAnswerSuccess = (answer: IAnswer) => {
     setShowAddAnswerForm(false);
@@ -160,6 +176,27 @@ export default function QuestionPage() {
       );
     });
   };
+  const setCommentAnswerVote = (
+    newVote: number,
+    newVotes: number,
+    commentIndex: number,
+    answerIndex: number
+  ) => {
+    setAnswers((prevState: IAnswer[]) => {
+      return prevState.map((answer, i) =>
+        i === answerIndex
+          ? {
+              ...answer,
+              comments: answer.comments.map((comment: IComment, j: number) =>
+                j === commentIndex
+                  ? { ...comment, currVote: newVote, votes: newVotes }
+                  : comment
+              ),
+            }
+          : answer
+      );
+    });
+  };
 
   if (loading) {
     return <LoadingSpinner />;
@@ -186,6 +223,7 @@ export default function QuestionPage() {
         setVote={setQuestionVote}
         setContent={setQuestionContent}
         onAddCommentSuccess={onAddQuestionCommentSuccess}
+        onCommentVote={setCommentQuestionVote}
       />
       {answers.length ? (
         <h3 className="fw-normal">
@@ -214,6 +252,11 @@ export default function QuestionPage() {
           onAddCommentSuccess={(comment: IComment) =>
             onAddAnswerCommentSuccess(comment, i)
           }
+          onCommentVote={(
+            newVote: number,
+            newVotes: number,
+            commentIndex: number
+          ) => setCommentAnswerVote(newVote, newVotes, commentIndex, i)}
         />
       ))}
       {showAddAnswerForm ? (

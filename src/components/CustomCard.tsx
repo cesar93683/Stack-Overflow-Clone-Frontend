@@ -28,6 +28,7 @@ interface CustomCardProps {
   setVote: (currVote: number, votes: number) => void;
   setContent: (content: string) => void;
   onAddCommentSuccess: (comment: IComment) => void;
+  onCommentVote: (newVote: number, newVotes: number, index: number) => void;
   className?: string;
 }
 
@@ -49,6 +50,7 @@ export default function CustomCard(props: CustomCardProps) {
     setVote,
     setContent,
     onAddCommentSuccess,
+    onCommentVote,
     className,
   } = props;
   const { userId } = useContext(AuthContext);
@@ -114,8 +116,14 @@ export default function CustomCard(props: CustomCardProps) {
             ) : null}
           </div>
           <div>
-            {comments?.map((comment, i) => (
-              <Comment key={i} comment={comment} />
+            {comments.map((comment, i) => (
+              <Comment
+                key={i}
+                comment={comment}
+                setVote={(newVote: number, newVotes: number) =>
+                  onCommentVote(newVote, newVotes, i)
+                }
+              />
             ))}
           </div>
           {!userId ? null : showCommentForm ? (

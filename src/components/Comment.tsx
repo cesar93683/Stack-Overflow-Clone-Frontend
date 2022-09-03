@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../utils/auth-context';
 import DateUtils from '../utils/DateUtils';
@@ -9,6 +9,7 @@ import VoteSection from './VoteSection';
 
 interface CommentProps {
   comment: IComment;
+  setVote: (newVote: number, newVotes: number) => void;
   className?: string;
 }
 
@@ -17,25 +18,18 @@ export default function Comment(props: CommentProps) {
     comment: {
       id,
       content,
-      votes: initialVotes,
+      votes,
       user: { id: commentUserId, username },
-      currVote: initialCurrVote,
+      currVote,
       createdAt,
     },
+    setVote,
     className,
   } = props;
 
-  const { token, userId } = useContext(AuthContext);
+  const { userId } = useContext(AuthContext);
 
-  const [currVote, setCurrVote] = useState(initialCurrVote);
-  const [votes, setVotes] = useState(initialVotes);
   const [isCommentDeleted, setIsCommentDeleted] = useState(false);
-
-  useEffect(() => {
-    if (!token) {
-      setCurrVote(0);
-    }
-  }, [token]);
 
   const createdAtLocaleString =
     DateUtils.getLocaleDateStringFromString(createdAt);
@@ -45,9 +39,8 @@ export default function Comment(props: CommentProps) {
   };
 
   const onUpVoteSuccess = (newVote: number) => {
-    setCurrVote(newVote);
     const diff = VoteUtils.getVoteDiff(currVote, newVote);
-    setVotes(votes + diff);
+    setVote(newVote, votes + diff);
   };
 
   if (isCommentDeleted) {
