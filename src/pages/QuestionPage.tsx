@@ -91,12 +91,12 @@ export default function QuestionPage() {
   const onDeleteQuestionSuccess = () => {
     navigate('/');
   };
-  const setQuestionVote = (currVote: number, votes: number) => {
+  const setQuestionVote = (newVote: number, newVotes: number) => {
     setQuestion((prevState: IQuestion) => {
       return {
         ...prevState,
-        currVote,
-        votes,
+        currVote: newVote,
+        votes: newVotes,
       };
     });
   };
@@ -147,10 +147,10 @@ export default function QuestionPage() {
       return prevState.filter((_, i) => i !== index);
     });
   };
-  const setAnswerVote = (currVote: number, votes: number, index: number) => {
+  const setAnswerVote = (newVote: number, newVotes: number, index: number) => {
     setAnswers((prevState: IAnswer[]) => {
       return prevState.map((answer, i) =>
-        i === index ? { ...answer, currVote, votes } : answer
+        i === index ? { ...answer, currVote: newVote, votes: newVotes } : answer
       );
     });
   };
@@ -223,7 +223,7 @@ export default function QuestionPage() {
         setVote={setQuestionVote}
         setContent={setQuestionContent}
         onAddCommentSuccess={onAddQuestionCommentSuccess}
-        onCommentVote={setCommentQuestionVote}
+        setCommentVote={setCommentQuestionVote}
       />
       {answers.length ? (
         <h3 className="fw-normal">
@@ -245,14 +245,14 @@ export default function QuestionPage() {
             createdAt: answer.createdAt,
             updatedAt: answer.updatedAt,
           }}
-          setVote={(currVote: number, votes: number) =>
-            setAnswerVote(currVote, votes, i)
+          setVote={(newVote: number, newVotes: number) =>
+            setAnswerVote(newVote, newVotes, i)
           }
           setContent={(updatedAt: string) => setAnswerContent(updatedAt, i)}
           onAddCommentSuccess={(comment: IComment) =>
             onAddAnswerCommentSuccess(comment, i)
           }
-          onCommentVote={(
+          setCommentVote={(
             newVote: number,
             newVotes: number,
             commentIndex: number

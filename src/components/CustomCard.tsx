@@ -25,10 +25,10 @@ interface CustomCardProps {
     updatedAt: string;
   };
   onDeleteSuccess: () => void;
-  setVote: (currVote: number, votes: number) => void;
+  setVote: (newVote: number, newVotes: number) => void;
   setContent: (content: string) => void;
   onAddCommentSuccess: (comment: IComment) => void;
-  onCommentVote: (newVote: number, newVotes: number, index: number) => void;
+  setCommentVote: (newVote: number, newVotes: number, index: number) => void;
   className?: string;
 }
 
@@ -50,7 +50,7 @@ export default function CustomCard(props: CustomCardProps) {
     setVote,
     setContent,
     onAddCommentSuccess,
-    onCommentVote,
+    setCommentVote,
     className,
   } = props;
   const { userId } = useContext(AuthContext);
@@ -121,7 +121,7 @@ export default function CustomCard(props: CustomCardProps) {
                 key={i}
                 comment={comment}
                 setVote={(newVote: number, newVotes: number) =>
-                  onCommentVote(newVote, newVotes, i)
+                  setCommentVote(newVote, newVotes, i)
                 }
               />
             ))}
