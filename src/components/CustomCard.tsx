@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { AuthContext } from '../utils/auth-context';
 import DateUtils from '../utils/DateUtils';
@@ -46,16 +46,22 @@ export default function CustomCard(props: CustomCardProps) {
     onDeleteSuccess,
     className,
   } = props;
-  const { userId } = useContext(AuthContext);
+  const { token, userId } = useContext(AuthContext);
 
   const [currVote, setCurrVote] = useState(
     initialCurrVote ? initialCurrVote : 0
   );
   const [votes, setVotes] = useState(initialVotes);
   const [content, setContent] = useState(initialContent);
-  const [showCommentForm, setShowCommentForm] = useState(false);
   const [comments, setComments] = useState(initialComments);
   const [updatedAt, setUpdatedAt] = useState(initialUpdatedAt);
+  const [showCommentForm, setShowCommentForm] = useState(false);
+
+  useEffect(() => {
+    if (!token) {
+      setCurrVote(0);
+    }
+  }, [token]);
 
   const onVoteSuccess = (newVote: number) => {
     setCurrVote(newVote);

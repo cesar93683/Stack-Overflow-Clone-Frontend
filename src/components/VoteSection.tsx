@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Button } from 'react-bootstrap';
 import AnswerService from '../service/AnswerService';
 import CommentService from '../service/CommentService';
@@ -22,7 +22,7 @@ export default function VoteSection(props: VoteSectionProps) {
     votes,
     className,
     onVoteSuccess,
-    currVote: initialCurrVote,
+    currVote,
     commentId,
     answerId,
     questionId,
@@ -30,15 +30,6 @@ export default function VoteSection(props: VoteSectionProps) {
   } = props;
 
   const { token } = useContext(AuthContext);
-  const [currVote, setCurrVote] = useState(initialCurrVote);
-
-  useEffect(() => {
-    if (token) {
-      setCurrVote(initialCurrVote);
-    } else {
-      setCurrVote(0);
-    }
-  }, [initialCurrVote, token]);
 
   const onDownVote = () => {
     const newVote = currVote === -1 ? 0 : -1;

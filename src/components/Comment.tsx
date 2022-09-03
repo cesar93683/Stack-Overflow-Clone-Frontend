@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../utils/auth-context';
 import DateUtils from '../utils/DateUtils';
@@ -25,13 +25,19 @@ export default function Comment(props: CommentProps) {
     className,
   } = props;
 
-  const { userId } = useContext(AuthContext);
+  const { token, userId } = useContext(AuthContext);
 
   const [currVote, setCurrVote] = useState(
     initialCurrVote ? initialCurrVote : 0
   );
   const [votes, setVotes] = useState(initialVotes);
   const [isCommentDeleted, setIsCommentDeleted] = useState(false);
+
+  useEffect(() => {
+    if (!token) {
+      setCurrVote(0);
+    }
+  }, [token]);
 
   const createdAtLocaleString =
     DateUtils.getLocaleDateStringFromString(createdAt);
