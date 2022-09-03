@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { AuthContext } from '../utils/auth-context';
 import DateUtils from '../utils/DateUtils';
@@ -54,15 +54,9 @@ export default function CustomCard(props: CustomCardProps) {
     onAddCommentSuccess,
     className,
   } = props;
-  const { token, userId } = useContext(AuthContext);
+  const { userId } = useContext(AuthContext);
 
   const [showCommentForm, setShowCommentForm] = useState(false);
-
-  useEffect(() => {
-    if (!token) {
-      setVote(0, votes);
-    }
-  }, [token]);
 
   const onVoteSuccess = (newVote: number) => {
     const diff = VoteUtils.getVoteDiff(currVote, newVote);

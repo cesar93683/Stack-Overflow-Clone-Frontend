@@ -73,6 +73,24 @@ export default function QuestionPage() {
     );
   }, []);
 
+  useEffect(() => {
+    if (!token) {
+      setQuestion((prevState: IQuestion) => {
+        return {
+          ...prevState,
+          currVote: 0,
+        };
+      });
+      setAnswers((prevState: IAnswer[]) => {
+        const newState = [...prevState];
+        for (const answer of newState) {
+          answer['currVote'] = 0;
+        }
+        return newState;
+      });
+    }
+  }, [token]);
+
   const onDeleteQuestionSuccess = () => {
     navigate('/');
   };
