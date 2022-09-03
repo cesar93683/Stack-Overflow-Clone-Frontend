@@ -141,11 +141,7 @@ export default function QuestionPage() {
 
   const addAnswer = (answer: IAnswer) => {
     setShowAddAnswerForm(false);
-    if (answers) {
-      setAnswers([...answers, answer]);
-    } else {
-      setAnswers([answer]);
-    }
+    setAnswers((prevState: IAnswer[]) => [...prevState, answer]);
   };
   const deleteAnswer = (index: number) => {
     setAnswers((prevState: IAnswer[]) =>
