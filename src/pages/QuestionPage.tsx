@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AnswerForm from '../components/AnswerForm';
-import CustomCard from '../components/CustomCard';
 import LoadingSpinner from '../components/LoadingSpinner';
+import QuestionCard from '../components/QuestionCard';
 import AnswerService from '../service/AnswerService';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
@@ -13,11 +13,25 @@ export default function QuestionPage() {
   const { userId, token } = useContext(AuthContext);
   const { id: questionId } = useParams<{ id: string }>();
 
-  const [question, setQuestion] = useState<IQuestion | undefined>(undefined);
+  const [question, setQuestion] = useState<IQuestion>({
+    id: 0,
+    title: '',
+    content: '',
+    votes: 0,
+    numAnswers: 0,
+    comments: [],
+    user: {
+      id: 0,
+      username: '',
+    },
+    currVote: 0,
+    createdAt: '',
+    updatedAt: '',
+  });
   const [answers, setAnswers] = useState<IAnswer[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddAnswerForm, setShowAddAnswerForm] = useState(false);
-  const [errorLoadingAnswers, setErrorLoadingAnswers] = useState(false);
+  const [error, setError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -33,6 +47,7 @@ export default function QuestionPage() {
       },
       () => {
         setLoading(false);
+        setError(true);
       }
     );
     AnswerService.getAnswersByQuestionId(Number(questionId), token).then(
@@ -51,7 +66,8 @@ export default function QuestionPage() {
         }
       },
       () => {
-        setErrorLoadingAnswers(true);
+        setLoading(false);
+        setError(true);
       }
     );
   }, []);
@@ -78,32 +94,23 @@ export default function QuestionPage() {
   if (loading) {
     return <LoadingSpinner />;
   }
-  if (!question || errorLoadingAnswers) {
+  if (error) {
     return <div>An error has occured</div>;
   }
 
   return (
     <div>
-      <CustomCard
-        card={{
-          questionId: question.id,
-          title: question.title,
-          content: question.content,
-          votes: question.votes,
-          comments: question.comments,
-          user: question.user,
-          currVote: question.currVote,
-          createdAt: question.createdAt,
-          updatedAt: question.updatedAt,
-        }}
-        onDeleteSuccess={onDeleteQuestionSuccess}
+      <QuestionCard
+        question={question}
+        onDeleteQuestionSuccess={onDeleteQuestionSuccess}
+        setQuestion={setQuestion}
       />
       {answers.length ? (
         <h3 className="fw-normal">
           {answers.length + ' Answer' + (answers.length === 1 ? '' : 's')}
         </h3>
       ) : null}
-      {answers.map((answer, i) => (
+      {/* {answers.map((answer, i) => (
         <CustomCard
           onDeleteSuccess={() => onDeleteAnswerSuccess(i)}
           className="mt-1"
@@ -119,7 +126,7 @@ export default function QuestionPage() {
             updatedAt: answer.updatedAt,
           }}
         />
-      ))}
+      ))} */}
       {showAddAnswerForm ? (
         <AnswerForm
           className="mt-1"

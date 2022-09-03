@@ -26,6 +26,11 @@ interface CustomCardProps {
     updatedAt: string;
   };
   onDeleteSuccess: () => void;
+  setCurrVote: (currVote: number) => void;
+  setVotes: (votes: number) => void;
+  setContent: (content: string) => void;
+  setComments: (comments: IComment[]) => void;
+  setUpdatedAt: (updatedAt: string) => void;
   className?: string;
 }
 
@@ -35,24 +40,24 @@ export default function CustomCard(props: CustomCardProps) {
       questionId,
       answerId,
       title,
-      content: initialContent,
-      votes: initialVotes,
-      comments: initialComments,
+      content,
+      votes,
+      comments,
       user: { id: questionUserId, username },
-      currVote: initialCurrVote,
+      currVote,
       createdAt,
-      updatedAt: initialUpdatedAt,
+      updatedAt,
     },
     onDeleteSuccess,
+    setCurrVote,
+    setVotes,
+    setContent,
+    setComments,
+    setUpdatedAt,
     className,
   } = props;
   const { token, userId } = useContext(AuthContext);
 
-  const [currVote, setCurrVote] = useState(initialCurrVote);
-  const [votes, setVotes] = useState(initialVotes);
-  const [content, setContent] = useState(initialContent);
-  const [comments, setComments] = useState(initialComments);
-  const [updatedAt, setUpdatedAt] = useState(initialUpdatedAt);
   const [showCommentForm, setShowCommentForm] = useState(false);
 
   useEffect(() => {
