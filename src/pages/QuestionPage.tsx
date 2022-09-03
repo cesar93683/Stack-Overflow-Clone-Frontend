@@ -76,22 +76,6 @@ export default function QuestionPage() {
   const onDeleteQuestionSuccess = () => {
     navigate('/');
   };
-
-  const onDeleteAnswerSuccess = (index: number) => {
-    const newAnswer = [...answers];
-    newAnswer.splice(index, 1);
-    setAnswers(newAnswer);
-  };
-
-  const onAddAnswerSuccess = (answer: IAnswer) => {
-    setShowAddAnswerForm(false);
-    if (answers) {
-      setAnswers([...answers, answer]);
-    } else {
-      setAnswers([answer]);
-    }
-  };
-
   const setQuestionCurrVote = (currVote: number) => {
     setQuestion((prevState: IQuestion) => {
       return {
@@ -133,6 +117,70 @@ export default function QuestionPage() {
     });
   };
 
+  const onAddAnswerSuccess = (answer: IAnswer) => {
+    setShowAddAnswerForm(false);
+    if (answers) {
+      setAnswers([...answers, answer]);
+    } else {
+      setAnswers([answer]);
+    }
+  };
+  const onDeleteAnswerSuccess = (index: number) => {
+    const newAnswer = [...answers];
+    newAnswer.splice(index, 1);
+    setAnswers(newAnswer);
+  };
+  const setAnswerCurrVote = (currVote: number, index: number) => {
+    setAnswers((prevState: IAnswer[]) => {
+      const newState = [...prevState];
+      newState[index] = {
+        ...newState[index],
+        currVote,
+      };
+      return newState;
+    });
+  };
+  const setAnswerVotes = (votes: number, index: number) => {
+    setAnswers((prevState: IAnswer[]) => {
+      const newState = [...prevState];
+      newState[index] = {
+        ...newState[index],
+        votes,
+      };
+      return newState;
+    });
+  };
+  const setAnswerContent = (content: string, index: number) => {
+    setAnswers((prevState: IAnswer[]) => {
+      const newState = [...prevState];
+      newState[index] = {
+        ...newState[index],
+        content,
+      };
+      return newState;
+    });
+  };
+  const setAnswerComments = (comments: IComment[], index: number) => {
+    setAnswers((prevState: IAnswer[]) => {
+      const newState = [...prevState];
+      newState[index] = {
+        ...newState[index],
+        comments,
+      };
+      return newState;
+    });
+  };
+  const setAnswerUpdatedAt = (updatedAt: string, index: number) => {
+    setAnswers((prevState: IAnswer[]) => {
+      const newState = [...prevState];
+      newState[index] = {
+        ...newState[index],
+        updatedAt,
+      };
+      return newState;
+    });
+  };
+
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -166,7 +214,7 @@ export default function QuestionPage() {
           {answers.length + ' Answer' + (answers.length === 1 ? '' : 's')}
         </h3>
       ) : null}
-      {/* {answers.map((answer, i) => (
+      {answers.map((answer, i) => (
         <CustomCard
           onDeleteSuccess={() => onDeleteAnswerSuccess(i)}
           className="mt-1"
@@ -181,8 +229,13 @@ export default function QuestionPage() {
             createdAt: answer.createdAt,
             updatedAt: answer.updatedAt,
           }}
+          setCurrVote={(currVote: number) => setAnswerCurrVote(currVote, i)}
+          setVotes={(votes: number) => setAnswerVotes(votes, i)}
+          setContent={(updatedAt: string) => setAnswerContent(updatedAt, i)}
+          setComments={(comments: IComment[]) => setAnswerComments(comments, i)}
+          setUpdatedAt={(updatedAt: string) => setAnswerUpdatedAt(updatedAt, i)}
         />
-      ))} */}
+      ))}
       {showAddAnswerForm ? (
         <AnswerForm
           className="mt-1"
