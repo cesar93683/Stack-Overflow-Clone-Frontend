@@ -1,7 +1,6 @@
 import { useContext, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { AuthContext } from '../utils/auth-context';
-import DateUtils from '../utils/DateUtils';
 import IComment from '../utils/interfaces/IComment';
 import IUser from '../utils/interfaces/IUser';
 import VoteUtils from '../utils/VoteUtils';
@@ -28,7 +27,6 @@ interface CustomCardProps {
   onDeleteSuccess: () => void;
   setVote: (currVote: number, votes: number) => void;
   setContent: (content: string) => void;
-  setUpdatedAt: (updatedAt: string) => void;
   onAddCommentSuccess: (comment: IComment) => void;
   className?: string;
 }
@@ -50,7 +48,6 @@ export default function CustomCard(props: CustomCardProps) {
     onDeleteSuccess,
     setVote,
     setContent,
-    setUpdatedAt,
     onAddCommentSuccess,
     className,
   } = props;
@@ -73,7 +70,6 @@ export default function CustomCard(props: CustomCardProps) {
 
   const onUpdateSuccess = (newContent: string) => {
     setContent(newContent);
-    setUpdatedAt(DateUtils.getLocaleDateString(new Date()));
   };
 
   return (

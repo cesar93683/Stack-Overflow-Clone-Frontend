@@ -6,6 +6,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import AnswerService from '../service/AnswerService';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
+import DateUtils from '../utils/DateUtils';
 import IAnswer from '../utils/interfaces/IAnswer';
 import IComment from '../utils/interfaces/IComment';
 import IQuestion from '../utils/interfaces/IQuestion';
@@ -108,14 +109,7 @@ export default function QuestionPage() {
       return {
         ...prevState,
         content,
-      };
-    });
-  };
-  const setQuestionUpdatedAt = (updatedAt: string) => {
-    setQuestion((prevState: IQuestion) => {
-      return {
-        ...prevState,
-        updatedAt,
+        updatedAt: DateUtils.getLocaleDateString(new Date()),
       };
     });
   };
@@ -158,16 +152,7 @@ export default function QuestionPage() {
       newState[index] = {
         ...newState[index],
         content,
-      };
-      return newState;
-    });
-  };
-  const setAnswerUpdatedAt = (updatedAt: string, index: number) => {
-    setAnswers((prevState: IAnswer[]) => {
-      const newState = [...prevState];
-      newState[index] = {
-        ...newState[index],
-        updatedAt,
+        updatedAt: DateUtils.getLocaleDateString(new Date()),
       };
       return newState;
     });
@@ -208,7 +193,6 @@ export default function QuestionPage() {
         setVote={setQuestionVote}
         setContent={setQuestionContent}
         onAddCommentSuccess={onAddQuestionCommentSuccess}
-        setUpdatedAt={setQuestionUpdatedAt}
       />
       {answers.length ? (
         <h3 className="fw-normal">
@@ -237,7 +221,6 @@ export default function QuestionPage() {
           onAddCommentSuccess={(comment: IComment) =>
             onAddAnswerCommentSuccess(comment, i)
           }
-          setUpdatedAt={(updatedAt: string) => setAnswerUpdatedAt(updatedAt, i)}
         />
       ))}
       {showAddAnswerForm ? (
