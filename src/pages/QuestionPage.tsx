@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AnswerForm from '../components/AnswerForm';
 import CustomCard from '../components/CustomCard';
 import LoadingSpinner from '../components/LoadingSpinner';
+import SortDropdown from '../components/SortDropdown';
 import AnswerService from '../service/AnswerService';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
@@ -33,6 +34,7 @@ export default function QuestionPage() {
   });
   const [answers, setAnswers] = useState<IAnswer[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sortedByVotes, setSortedByVotes] = useState(true);
   const [showAddAnswerForm, setShowAddAnswerForm] = useState(false);
   const [error, setError] = useState(false);
 
@@ -55,6 +57,7 @@ export default function QuestionPage() {
     );
     AnswerService.getAnswersByQuestionId(Number(questionId), token).then(
       (data) => {
+        data = data.sort((a, b) => b.votes - a.votes);
         setAnswers(data);
         setLoading(false);
         if (token) {
@@ -97,6 +100,16 @@ export default function QuestionPage() {
       );
     }
   }, [token]);
+
+  useEffect(() => {
+    setAnswers((prevState) =>
+      [...prevState].sort((a, b) =>
+        sortedByVotes
+          ? b.votes - a.votes
+          : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      )
+    );
+  }, [sortedByVotes]);
 
   const deleteQuestion = () => {
     navigate('/');
@@ -239,9 +252,15 @@ export default function QuestionPage() {
         setCommentVote={setCommentQuestionVote}
       />
       {answers.length ? (
-        <h3 className="fw-normal">
-          {answers.length + ' Answer' + (answers.length === 1 ? '' : 's')}
-        </h3>
+        <div className="d-flex justify-content-between align-items-center mt-1">
+          <h3 className="fw-normal">
+            {answers.length + ' Answer' + (answers.length === 1 ? '' : 's')}
+          </h3>
+          <SortDropdown
+            sortedByVotes={sortedByVotes}
+            setSortedByVotes={setSortedByVotes}
+          />
+        </div>
       ) : null}
       {answers.map((answer, answerIndex) => (
         <CustomCard
