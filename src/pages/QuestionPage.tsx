@@ -77,26 +77,24 @@ export default function QuestionPage() {
 
   useEffect(() => {
     if (!token) {
-      setQuestion((prevState: IQuestion) => {
-        return {
-          ...prevState,
+      setQuestion((prevState: IQuestion) => ({
+        ...prevState,
+        currVote: 0,
+        comments: prevState.comments.map((comment) => ({
+          ...comment,
           currVote: 0,
-          comments: prevState.comments.map((comment) => ({
-            ...comment,
-            currVote: 0,
-          })),
-        };
-      });
-      setAnswers((prevState: IAnswer[]) => {
-        return prevState.map((answer) => ({
+        })),
+      }));
+      setAnswers((prevState: IAnswer[]) =>
+        prevState.map((answer) => ({
           ...answer,
           currVote: 0,
           comments: answer.comments.map((comment) => ({
             ...comment,
             currVote: 0,
           })),
-        }));
-      });
+        }))
+      );
     }
   }, [token]);
 
@@ -104,49 +102,41 @@ export default function QuestionPage() {
     navigate('/');
   };
   const setQuestionVote = (newVote: number) => {
-    setQuestion((prevState: IQuestion) => {
-      return {
-        ...prevState,
-        currVote: newVote,
-        votes:
-          prevState.votes + VoteUtils.getVoteDiff(prevState.currVote, newVote),
-      };
-    });
+    setQuestion((prevState: IQuestion) => ({
+      ...prevState,
+      currVote: newVote,
+      votes:
+        prevState.votes + VoteUtils.getVoteDiff(prevState.currVote, newVote),
+    }));
   };
   const setQuestionContent = (content: string) => {
-    setQuestion((prevState: IQuestion) => {
-      return {
-        ...prevState,
-        content,
-        updatedAt: DateUtils.getLocaleDateString(new Date()),
-      };
-    });
+    setQuestion((prevState: IQuestion) => ({
+      ...prevState,
+      content,
+      updatedAt: DateUtils.getLocaleDateString(new Date()),
+    }));
   };
   const addQuestionComment = (comment: IComment) => {
-    setQuestion((prevState: IQuestion) => {
-      return {
-        ...prevState,
-        comments: [...prevState.comments, comment],
-      };
-    });
+    setQuestion((prevState: IQuestion) => ({
+      ...prevState,
+      comments: [...prevState.comments, comment],
+    }));
   };
   const setCommentQuestionVote = (newVote: number, index: number) => {
-    setQuestion((prevState: IQuestion) => {
-      return {
-        ...prevState,
-        comments: prevState.comments.map((comment: IComment, i: number) =>
-          i === index
-            ? {
-                ...comment,
-                currVote: newVote,
-                votes:
-                  comment.votes +
-                  VoteUtils.getVoteDiff(comment.currVote, newVote),
-              }
-            : comment
-        ),
-      };
-    });
+    setQuestion((prevState: IQuestion) => ({
+      ...prevState,
+      comments: prevState.comments.map((comment: IComment, i: number) =>
+        i === index
+          ? {
+              ...comment,
+              currVote: newVote,
+              votes:
+                comment.votes +
+                VoteUtils.getVoteDiff(comment.currVote, newVote),
+            }
+          : comment
+      ),
+    }));
   };
 
   const addAnswer = (answer: IAnswer) => {
@@ -158,13 +148,13 @@ export default function QuestionPage() {
     }
   };
   const deleteAnswer = (index: number) => {
-    setAnswers((prevState: IAnswer[]) => {
-      return prevState.filter((_, i) => i !== index);
-    });
+    setAnswers((prevState: IAnswer[]) =>
+      prevState.filter((_, i) => i !== index)
+    );
   };
   const setAnswerVote = (newVote: number, index: number) => {
-    setAnswers((prevState: IAnswer[]) => {
-      return prevState.map((answer, i) =>
+    setAnswers((prevState: IAnswer[]) =>
+      prevState.map((answer, i) =>
         i === index
           ? {
               ...answer,
@@ -173,12 +163,12 @@ export default function QuestionPage() {
                 answer.votes + VoteUtils.getVoteDiff(answer.currVote, newVote),
             }
           : answer
-      );
-    });
+      )
+    );
   };
   const setAnswerContent = (content: string, index: number) => {
-    setAnswers((prevState: IAnswer[]) => {
-      return prevState.map((answer, i) =>
+    setAnswers((prevState: IAnswer[]) =>
+      prevState.map((answer, i) =>
         i === index
           ? {
               ...answer,
@@ -186,25 +176,25 @@ export default function QuestionPage() {
               updatedAt: DateUtils.getLocaleDateString(new Date()),
             }
           : answer
-      );
-    });
+      )
+    );
   };
   const addAnswerComment = (comment: IComment, index: number) => {
-    setAnswers((prevState: IAnswer[]) => {
-      return prevState.map((answer, i) =>
+    setAnswers((prevState: IAnswer[]) =>
+      prevState.map((answer, i) =>
         i === index
           ? { ...answer, comments: [...answer.comments, comment] }
           : answer
-      );
-    });
+      )
+    );
   };
   const setCommentAnswerVote = (
     newVote: number,
     commentIndex: number,
     answerIndex: number
   ) => {
-    setAnswers((prevState: IAnswer[]) => {
-      return prevState.map((answer, i) =>
+    setAnswers((prevState: IAnswer[]) =>
+      prevState.map((answer, i) =>
         i === answerIndex
           ? {
               ...answer,
@@ -221,8 +211,8 @@ export default function QuestionPage() {
               ),
             }
           : answer
-      );
-    });
+      )
+    );
   };
 
   if (loading) {
