@@ -21,13 +21,13 @@ export default function CustomCardSubtitle(props: CustomCardSubtitleProps) {
   }
 
   return (
-    <div className="d-flex">
+    <div className="d-flex flex-column flex-md-row">
       <Link className="text-decoration-none" to={'/users/' + userId}>
         {username}
       </Link>
-      <div className="ms-1">{action + ' ' + createdAtLocaleString}</div>
+      <div className="ms-0 ms-md-1">{action + ' ' + createdAtLocaleString}</div>
       {updatedAt && createdAt !== updatedAt ? (
-        <div className="ms-1 fst-italic">
+        <div className="ms-0 ms-md-1 fst-italic">
           {'edited ' + updatedAtLocaleString}
         </div>
       ) : null}
