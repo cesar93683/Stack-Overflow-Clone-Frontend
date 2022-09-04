@@ -3,13 +3,14 @@ import { Dropdown } from 'react-bootstrap';
 interface SortDropdownProps {
   sortedByVotes: boolean;
   setSortedByVotes: (state: boolean) => void;
+  className?: string;
 }
 
 export default function SortDropdown(props: SortDropdownProps) {
-  const { sortedByVotes, setSortedByVotes } = props;
+  const { sortedByVotes, setSortedByVotes, className } = props;
 
   return (
-    <Dropdown>
+    <Dropdown className={className}>
       <Dropdown.Toggle variant="primary" id="dropdown-basic">
         {sortedByVotes ? 'Score' : 'Newest'}
       </Dropdown.Toggle>

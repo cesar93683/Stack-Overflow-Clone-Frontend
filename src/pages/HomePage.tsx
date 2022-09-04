@@ -41,6 +41,7 @@ export default function HomePage() {
       <SortDropdown
         sortedByVotes={sortedByVotes}
         setSortedByVotes={setSortedByVotes}
+        className="ms-auto w-fit-content"
       />
       <div>
         {questions.map((question, i) => (
