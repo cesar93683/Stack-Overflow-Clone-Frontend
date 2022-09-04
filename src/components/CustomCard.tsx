@@ -92,7 +92,7 @@ export default function CustomCard(props: CustomCardProps) {
               username={username}
             />
             {userId === questionUserId ? (
-              <div>
+              <div className="d-flex flex-column flex-md-row">
                 <EditButtonWithModal
                   onUpdateSuccess={onUpdateSuccess}
                   questionId={questionId}
@@ -101,6 +101,7 @@ export default function CustomCard(props: CustomCardProps) {
                   className="me-2"
                 />
                 <DeleteButtonWithModal
+                  className="mt-1 mt-md-0"
                   questionId={questionId}
                   answerId={answerId}
                   type="question"
