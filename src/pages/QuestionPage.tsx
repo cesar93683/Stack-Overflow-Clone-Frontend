@@ -4,7 +4,6 @@ import AnswerForm from '../components/AnswerForm';
 import CustomCard from '../components/CustomCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SortDropdown from '../components/SortDropdown';
-import AnswerService from '../service/AnswerService';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import DateUtils from '../utils/DateUtils';
@@ -23,6 +22,7 @@ export default function QuestionPage() {
     content: '',
     votes: 0,
     numAnswers: 0,
+    answers: [],
     comments: [],
     user: {
       id: 0,
@@ -49,20 +49,11 @@ export default function QuestionPage() {
       (data) => {
         setQuestion(data);
         setLoading(false);
-      },
-      () => {
-        setLoading(false);
-        setError(true);
-      }
-    );
-    AnswerService.getAnswersByQuestionId(Number(questionId), token).then(
-      (data) => {
-        data = data.sort((a, b) => b.votes - a.votes);
-        setAnswers(data);
-        setLoading(false);
+        data.answers.sort((a, b) => b.votes - a.votes);
+        setAnswers(data.answers);
         if (token) {
           let hasCreatedAnswer = false;
-          for (const answer of data) {
+          for (const answer of data.answers) {
             if (answer.user.id === userId) {
               hasCreatedAnswer = true;
               break;

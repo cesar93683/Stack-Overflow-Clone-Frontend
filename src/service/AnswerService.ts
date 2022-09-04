@@ -7,14 +7,6 @@ import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 const API_URL = 'http://localhost:8080/api/answers/';
 
 class AnswerService {
-  async getAnswersByQuestionId(questionId: number, token: string) {
-    const response = await axios.get<IAnswer[]>(
-      API_URL + questionId,
-      getAuthHeader(token)
-    );
-    return response.data;
-  }
-
   async createAnswer(content: string, questionId: number, token: string) {
     const response = await axios.post<IAnswer>(
       API_URL,
