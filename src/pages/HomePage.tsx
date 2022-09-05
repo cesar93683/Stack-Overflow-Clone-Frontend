@@ -50,7 +50,7 @@ export default function HomePage() {
   }
 
   let nextButton = null;
-  if ((page && page < totalPages) || (!page && totalPages > 0)) {
+  if ((page && page < totalPages) || (!page && totalPages > 1)) {
     nextButton = (
       <Link
         to={

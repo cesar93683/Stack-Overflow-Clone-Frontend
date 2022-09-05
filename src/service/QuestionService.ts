@@ -20,7 +20,7 @@ class QuestionService {
     page: number,
     sortedByVotes: boolean
   ) {
-    const response = await axios.get<IQuestion[]>(
+    const response = await axios.get<IQuestions>(
       API_URL +
         'users/' +
         userId +
@@ -37,7 +37,7 @@ class QuestionService {
     page: number,
     sortedByVotes: boolean
   ) {
-    const response = await axios.get<IQuestion[]>(
+    const response = await axios.get<IQuestions>(
       API_URL +
         'users/answered/' +
         userId +

@@ -1,6 +1,11 @@
 import { useMemo, useState } from 'react';
-import { Tab, Tabs } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Button, Tab, Tabs } from 'react-bootstrap';
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionCardUser from '../components/QuestionCardUser';
 import SortDropdown from '../components/SortDropdown';
@@ -9,56 +14,103 @@ import IQuestion from '../utils/interfaces/IQuestion';
 
 export default function UserPage() {
   const { id } = useParams<{ id: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = Number(searchParams.get('page'));
+  const sortedByVotes = searchParams.get('sortedByVotes') === 'true';
+  const questionsTab = searchParams.get('tab') !== 'answers';
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const navigate = useNavigate();
+
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [questionsAnswered, setQuestionsAnswered] = useState<IQuestion[]>([]);
-  const [questionsSortedByVotes, setQuestionsSortedByVotes] = useState(false);
-  const [answersSortedByVotes, setAnswersSortedByVotes] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const setSortedByVotes = (state: boolean) => {
+    navigate(
+      '/users/' +
+        id +
+        '?sortedByVotes=' +
+        state +
+        '&tab=' +
+        (questionsTab ? 'questions' : 'answers')
+    );
+  };
+
+  const onTabClick = (eventKey: string | null) => {
+    navigate(
+      '/users/' + id + '?sortedByVotes=' + sortedByVotes + '&tab=' + eventKey
+    );
+  };
 
   useMemo(() => {
     setLoading(true);
-    QuestionService.getQuestionsByUserId(
-      Number(id),
-      0,
-      questionsSortedByVotes
-    ).then(
-      (data) => {
-        setQuestions(data);
-        setLoading(false);
-      },
-      () => {
-        setLoading(false);
-        setError(true);
-      }
-    );
-  }, [questionsSortedByVotes]);
+    if (questionsTab) {
+      QuestionService.getQuestionsByUserId(
+        Number(id),
+        !page ? 0 : page - 1,
+        sortedByVotes
+      ).then(
+        (data) => {
+          setQuestions(data.questions);
+          setTotalPages(data.totalPages);
+          setLoading(false);
+        },
+        () => {
+          setLoading(false);
+          setError(true);
+        }
+      );
+    } else {
+      QuestionService.getQuestionsAnsweredByUserId(
+        Number(id),
+        !page ? 0 : page - 1,
+        sortedByVotes
+      ).then(
+        (data) => {
+          setQuestionsAnswered(data.questions);
+          setTotalPages(data.totalPages);
+          setLoading(false);
+        },
+        () => {
+          setLoading(false);
+          setError(true);
+        }
+      );
+    }
+  }, [page, sortedByVotes, questionsTab]);
 
-  useMemo(() => {
-    setLoading(true);
-    QuestionService.getQuestionsAnsweredByUserId(
-      Number(id),
-      0,
-      answersSortedByVotes
-    ).then(
-      (data) => {
-        setQuestionsAnswered(data);
-        setLoading(false);
-      },
-      () => {
-        setLoading(false);
-        setError(true);
-      }
-    );
-  }, [answersSortedByVotes]);
   if (error) {
     return <div>An error has occured</div>;
   }
 
+  let nextButton = null;
+  if ((page && page < totalPages) || (!page && totalPages > 1)) {
+    nextButton = (
+      <Link
+        to={
+          '/users/' +
+          id +
+          '?sortedByVotes=' +
+          sortedByVotes +
+          '&tab=' +
+          (questionsTab ? 'questions' : 'answers') +
+          '&page=' +
+          (!page ? 2 : page + 1)
+        }
+      >
+        <Button className="ms-auto d-block mt-2">Next</Button>
+      </Link>
+    );
+  }
+
   return (
     <div>
-      <Tabs>
+      <Tabs
+        defaultActiveKey={questionsTab ? 'questions' : 'answers'}
+        onSelect={onTabClick}
+      >
         <Tab eventKey="questions" title="Questions">
           {loading ? (
             <LoadingSpinner />
@@ -67,8 +119,8 @@ export default function UserPage() {
           ) : (
             <>
               <SortDropdown
-                sortedByVotes={questionsSortedByVotes}
-                setSortedByVotes={setQuestionsSortedByVotes}
+                sortedByVotes={sortedByVotes}
+                setSortedByVotes={setSortedByVotes}
                 className="mt-2 ms-auto w-fit-content"
               />
               {questions.map((question, i) => (
@@ -78,6 +130,7 @@ export default function UserPage() {
                   className="mt-2"
                 />
               ))}
+              {nextButton ? nextButton : null}
             </>
           )}
         </Tab>
@@ -89,8 +142,8 @@ export default function UserPage() {
           ) : (
             <>
               <SortDropdown
-                sortedByVotes={answersSortedByVotes}
-                setSortedByVotes={setAnswersSortedByVotes}
+                sortedByVotes={sortedByVotes}
+                setSortedByVotes={setSortedByVotes}
                 className="mt-2 ms-auto w-fit-content"
               />
               {questionsAnswered.map((question, i) => (
@@ -100,6 +153,7 @@ export default function UserPage() {
                   className="my-2"
                 />
               ))}
+              {nextButton ? nextButton : null}
             </>
           )}
         </Tab>
