@@ -22,7 +22,6 @@ export default function UserPage() {
   const navigate = useNavigate();
 
   const [questions, setQuestions] = useState<IQuestion[]>([]);
-  const [questionsAnswered, setQuestionsAnswered] = useState<IQuestion[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -69,7 +68,7 @@ export default function UserPage() {
         sortedByVotes
       ).then(
         (data) => {
-          setQuestionsAnswered(data.questions);
+          setQuestions(data.questions);
           setTotalPages(data.totalPages);
           setLoading(false);
         },
@@ -137,7 +136,7 @@ export default function UserPage() {
         <Tab eventKey="answers" title="Answers">
           {loading ? (
             <LoadingSpinner />
-          ) : questionsAnswered.length === 0 ? (
+          ) : questions.length === 0 ? (
             <h1>No Questions Answered</h1>
           ) : (
             <>
@@ -146,7 +145,7 @@ export default function UserPage() {
                 setSortedByVotes={setSortedByVotes}
                 className="mt-2 ms-auto w-fit-content"
               />
-              {questionsAnswered.map((question, i) => (
+              {questions.map((question, i) => (
                 <QuestionCardUser
                   question={question}
                   key={i}
