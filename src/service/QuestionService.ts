@@ -2,13 +2,14 @@ import axios from 'axios';
 import getAuthHeader from '../utils/getAuthHeader';
 import IComment from '../utils/interfaces/IComment';
 import IQuestion from '../utils/interfaces/IQuestion';
+import IQuestions from '../utils/interfaces/IQuestions';
 import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 
 const API_URL = 'http://localhost:8080/api/questions/';
 
 class QuestionService {
   async getQuestions(page: number, sortedByVotes: boolean) {
-    const response = await axios.get<IQuestion[]>(
+    const response = await axios.get<IQuestions>(
       API_URL + '?page=' + page + '&sortedByVotes=' + sortedByVotes
     );
     return response.data;

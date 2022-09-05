@@ -14,7 +14,7 @@ export default function HomePage() {
   useEffect(() => {
     QuestionService.getQuestions(0, sortedByVotes).then(
       (data) => {
-        setQuestions(data);
+        setQuestions(data.questions);
         setLoading(false);
       },
       () => {
@@ -45,7 +45,7 @@ export default function HomePage() {
       />
       <div>
         {questions.map((question, i) => (
-          <QuestionCardSmall question={question} key={i} className="my-2" />
+          <QuestionCardSmall question={question} key={i} className="mt-2" />
         ))}
       </div>
     </div>
