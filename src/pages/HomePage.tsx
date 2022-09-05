@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionCardSmall from '../components/QuestionCardSmall';
 import SortDropdown from '../components/SortDropdown';
@@ -10,11 +10,14 @@ import IQuestion from '../utils/interfaces/IQuestion';
 export default function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get('page'));
+  const sortedByVotes = searchParams.get('sortedByVotes') !== 'false';
+
+  const navigate = useNavigate();
+
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [sortedByVotes, setSortedByVotes] = useState(false);
 
   useEffect(() => {
     QuestionService.getQuestions(!page ? 0 : page - 1, sortedByVotes).then(
@@ -29,6 +32,10 @@ export default function HomePage() {
       }
     );
   }, [page, sortedByVotes]);
+
+  const setSortedByVotes = (state: boolean) => {
+    navigate('/?sortedByVotes=' + state);
+  };
 
   if (loading) {
     return <LoadingSpinner />;
@@ -45,7 +52,11 @@ export default function HomePage() {
   let nextButton = null;
   if ((page && page < totalPages) || (!page && totalPages > 0)) {
     nextButton = (
-      <Link to={'/?page=' + (!page ? 2 : page + 1)}>
+      <Link
+        to={
+          '/?sortedByVotes=' + sortedByVotes + '&page=' + (!page ? 2 : page + 1)
+        }
+      >
         <Button className="ms-auto d-block mt-2">Next</Button>
       </Link>
     );
