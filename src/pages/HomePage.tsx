@@ -71,15 +71,19 @@ export default function HomePage() {
     );
   }
 
-  const navButtons =
-    nextButton && !prevButton ? (
+  let navButtons = null;
+  if (nextButton && !prevButton) {
+    navButtons = (
       <div className="d-flex justify-content-end mt-2">{nextButton}</div>
-    ) : (
+    );
+  } else if (nextButton && prevButton) {
+    navButtons = (
       <div className="d-flex justify-content-between mt-1">
         {prevButton ? prevButton : null}
         {nextButton ? nextButton : null}
       </div>
     );
+  }
 
   return (
     <div>
