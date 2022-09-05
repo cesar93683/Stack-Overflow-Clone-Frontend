@@ -57,10 +57,29 @@ export default function HomePage() {
           '/?sortedByVotes=' + sortedByVotes + '&page=' + (!page ? 2 : page + 1)
         }
       >
-        <Button className="ms-auto d-block mt-2">Next</Button>
+        <Button>Next</Button>
       </Link>
     );
   }
+
+  let prevButton = null;
+  if (page > 1) {
+    prevButton = (
+      <Link to={'/?sortedByVotes=' + sortedByVotes + '&page=' + (page - 1)}>
+        <Button>Prev</Button>
+      </Link>
+    );
+  }
+
+  const navButtons =
+    nextButton && !prevButton ? (
+      <div className="d-flex justify-content-end mt-2">{nextButton}</div>
+    ) : (
+      <div className="d-flex justify-content-between mt-1">
+        {prevButton ? prevButton : null}
+        {nextButton ? nextButton : null}
+      </div>
+    );
 
   return (
     <div>
@@ -72,7 +91,7 @@ export default function HomePage() {
       {questions.map((question, i) => (
         <QuestionCardSmall question={question} key={i} className="mt-2" />
       ))}
-      {nextButton ? nextButton : null}
+      {navButtons}
     </div>
   );
 }
