@@ -133,7 +133,6 @@ export default function VoteSection(props: VoteSectionProps) {
           variant={currVote === -1 ? 'primary' : 'secondary'}
           disabled={!enabled}
           size="sm"
-          className="w-100"
         >
           v
         </Button>
