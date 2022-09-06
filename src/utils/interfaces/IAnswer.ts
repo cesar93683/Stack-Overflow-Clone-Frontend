@@ -5,7 +5,7 @@ export default interface IAnswer {
   id: number;
   content: string;
   votes: number;
-  answered: number;
+  accepted: number;
   comments: IComment[];
   user: IUser;
   currVote: number;
