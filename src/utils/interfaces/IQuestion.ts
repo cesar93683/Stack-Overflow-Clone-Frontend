@@ -8,6 +8,7 @@ export default interface IQuestion {
   content: string;
   votes: number;
   numAnswers: number;
+  answered: number;
   answers: IAnswer[];
   comments: IComment[];
   user: IUser;
