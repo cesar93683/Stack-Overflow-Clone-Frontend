@@ -17,6 +17,7 @@ export default function QuestionCardSmall(props: QuestionCardSmallProps) {
       content,
       votes,
       numAnswers,
+      answered,
       user: { id: userId, username },
       createdAt,
     },
@@ -30,6 +31,7 @@ export default function QuestionCardSmall(props: QuestionCardSmallProps) {
           className="me-2 flex-shrink-0"
           votes={votes}
           numAnswers={numAnswers}
+          answered={answered}
         />
         <div className="w-100">
           <Card.Title>
