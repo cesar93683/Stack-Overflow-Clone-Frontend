@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import { AuthContext } from '../utils/auth-context';
 import IComment from '../utils/interfaces/IComment';
 import IUser from '../utils/interfaces/IUser';
@@ -11,9 +11,11 @@ import EditButtonWithModal from './EditButtonWithModal';
 import VoteSection from './VoteSection';
 
 interface CustomCardProps {
+  questionUserId: number;
   card: {
     questionId?: number;
     answerId?: number;
+    accepted?: boolean;
     title?: string;
     content: string;
     votes: number;
@@ -33,14 +35,16 @@ interface CustomCardProps {
 
 export default function CustomCard(props: CustomCardProps) {
   const {
+    questionUserId,
     card: {
       questionId,
       answerId,
+      accepted,
       title,
       content,
       votes,
       comments,
-      user: { id: questionUserId, username },
+      user: { id: cardUserId, username },
       currVote,
       createdAt,
       updatedAt,
@@ -71,27 +75,39 @@ export default function CustomCard(props: CustomCardProps) {
   return (
     <Card className={className}>
       <Card.Body className="d-flex">
-        <VoteSection
-          votes={votes}
-          className="me-2"
-          setVote={setVote}
-          questionId={questionId}
-          answerId={answerId}
-          currVote={currVote}
-          enabled={!!userId}
-        />
+        <div className="me-2">
+          <VoteSection
+            votes={votes}
+            setVote={setVote}
+            questionId={questionId}
+            answerId={answerId}
+            currVote={currVote}
+            enabled={!!userId}
+          />
+          {answerId ? (
+            accepted ? (
+              <Button className="mt-3" variant="success" size="sm" disabled>
+                A
+              </Button>
+            ) : userId === questionUserId ? (
+              <Button className="mt-3" variant="outline-secondary" size="sm">
+                A
+              </Button>
+            ) : null
+          ) : null}
+        </div>
         <div className="w-100">
           {title ? <Card.Title>{title}</Card.Title> : null}
           <Card.Text>{content}</Card.Text>
           <div className="d-flex flex-row-reverse justify-content-between align-items-center">
             <CustomCardSubtitle
               action={questionId ? 'asked' : 'answered'}
-              userId={questionUserId}
+              userId={cardUserId}
               createdAt={createdAt}
               updatedAt={updatedAt}
               username={username}
             />
-            {userId === questionUserId ? (
+            {userId === cardUserId ? (
               <div className="d-flex flex-column flex-md-row me-1">
                 <EditButtonWithModal
                   onUpdateSuccess={onUpdateSuccess}

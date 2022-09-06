@@ -226,6 +226,7 @@ export default function QuestionPage() {
   return (
     <div>
       <CustomCard
+        questionUserId={question.user.id}
         card={{
           questionId: question.id,
           title: question.title,
@@ -256,11 +257,13 @@ export default function QuestionPage() {
       ) : null}
       {answers.map((answer, answerIndex) => (
         <CustomCard
+          questionUserId={question.user.id}
           onDelete={() => deleteAnswer(answerIndex)}
           className="mt-1"
           key={answerIndex}
           card={{
             answerId: answer.id,
+            accepted: answer.accepted === 1,
             content: answer.content,
             votes: answer.votes,
             comments: answer.comments,
