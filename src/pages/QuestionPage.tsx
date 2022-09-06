@@ -22,6 +22,7 @@ export default function QuestionPage() {
     content: '',
     votes: 0,
     numAnswers: 0,
+    answered: 0,
     answers: [],
     comments: [],
     user: {
