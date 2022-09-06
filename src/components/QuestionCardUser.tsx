@@ -1,4 +1,4 @@
-import { Card, Col, Row } from 'react-bootstrap';
+import { Alert, Card, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import IQuestion from '../utils/interfaces/IQuestion';
 
@@ -9,7 +9,7 @@ interface QuestionCardUserProps {
 
 export default function QuestionCardUser(props: QuestionCardUserProps) {
   const {
-    question: { id, title, votes, createdAt },
+    question: { id, title, votes, answered, createdAt },
     className,
   } = props;
 
@@ -19,8 +19,13 @@ export default function QuestionCardUser(props: QuestionCardUserProps) {
     <Card className={className}>
       <Card.Body className="w-100">
         <Row>
-          <Col xs="2" md="1">
-            {votes}
+          <Col xs="2" md="1" className="d-flex">
+            <Alert
+              className="m-0 py-0 px-1 text-end"
+              variant={answered ? 'success' : 'secondary'}
+            >
+              {votes}
+            </Alert>
           </Col>
           <Col xs="7" md="9" xxl="10">
             <Link className="text-decoration-none" to={'/questions/' + id}>
