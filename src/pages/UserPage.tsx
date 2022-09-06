@@ -138,6 +138,20 @@ export default function UserPage() {
     );
   }
 
+  const tabContent = (
+    <>
+      <SortDropdown
+        sortedByVotes={sortedByVotes}
+        setSortedByVotes={setSortedByVotes}
+        className="mt-2 ms-auto w-fit-content"
+      />
+      {questions.map((question, i) => (
+        <QuestionCardUser question={question} key={i} className="mt-2" />
+      ))}
+      {navButtons}
+    </>
+  );
+
   return (
     <div>
       <Tabs
@@ -150,21 +164,7 @@ export default function UserPage() {
           ) : questions.length === 0 ? (
             <h1>No Questions</h1>
           ) : (
-            <>
-              <SortDropdown
-                sortedByVotes={sortedByVotes}
-                setSortedByVotes={setSortedByVotes}
-                className="mt-2 ms-auto w-fit-content"
-              />
-              {questions.map((question, i) => (
-                <QuestionCardUser
-                  question={question}
-                  key={i}
-                  className="mt-2"
-                />
-              ))}
-              {navButtons}
-            </>
+            tabContent
           )}
         </Tab>
         <Tab eventKey="answers" title="Answers">
@@ -173,21 +173,7 @@ export default function UserPage() {
           ) : questions.length === 0 ? (
             <h1>No Questions Answered</h1>
           ) : (
-            <>
-              <SortDropdown
-                sortedByVotes={sortedByVotes}
-                setSortedByVotes={setSortedByVotes}
-                className="mt-2 ms-auto w-fit-content"
-              />
-              {questions.map((question, i) => (
-                <QuestionCardUser
-                  question={question}
-                  key={i}
-                  className="my-2"
-                />
-              ))}
-              {navButtons}
-            </>
+            tabContent
           )}
         </Tab>
       </Tabs>
