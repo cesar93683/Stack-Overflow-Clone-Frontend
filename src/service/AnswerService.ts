@@ -41,6 +41,7 @@ class AnswerService {
   async acceptAnswer(id: number, token: string) {
     const response = await axios.post<IGenericResponse>(
       API_URL + 'accept/' + id,
+      {},
       getAuthHeader(token)
     );
     return response.data;

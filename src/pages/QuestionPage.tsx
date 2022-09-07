@@ -216,6 +216,10 @@ export default function QuestionPage() {
     );
   };
 
+  const acceptAnswer = (i: number) => {
+    // TODO
+  };
+
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -282,6 +286,7 @@ export default function QuestionPage() {
           setCommentVote={(newVote: number, commentIndex: number) =>
             setCommentAnswerVote(newVote, commentIndex, answerIndex)
           }
+          acceptAnswer={() => acceptAnswer(answerIndex)}
         />
       ))}
       {showAddAnswerForm ? (

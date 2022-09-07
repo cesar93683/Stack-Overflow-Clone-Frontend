@@ -1,8 +1,9 @@
 import { useContext, useState } from 'react';
-import { Button, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { AuthContext } from '../utils/auth-context';
 import IComment from '../utils/interfaces/IComment';
 import IUser from '../utils/interfaces/IUser';
+import AcceptedAnswer from './AcceptAnswer';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 import CustomCardSubtitle from './CustomCardSubtitle';
@@ -30,6 +31,7 @@ interface CustomCardProps {
   setContent: (content: string) => void;
   addComment: (comment: IComment) => void;
   setCommentVote: (newVote: number, index: number) => void;
+  acceptAnswer?: () => void;
   className?: string;
 }
 
@@ -54,6 +56,7 @@ export default function CustomCard(props: CustomCardProps) {
     setContent,
     addComment,
     setCommentVote,
+    acceptAnswer,
     className,
   } = props;
   const { userId } = useContext(AuthContext);
@@ -84,16 +87,13 @@ export default function CustomCard(props: CustomCardProps) {
             currVote={currVote}
             enabled={!!userId}
           />
-          {answerId ? (
-            accepted ? (
-              <Button className="mt-3" variant="success" size="sm" disabled>
-                A
-              </Button>
-            ) : userId === questionUserId ? (
-              <Button className="mt-3" variant="outline-secondary" size="sm">
-                A
-              </Button>
-            ) : null
+          {answerId && acceptAnswer ? (
+            <AcceptedAnswer
+              answerId={answerId}
+              questionUserId={questionUserId}
+              accepted={!!accepted}
+              acceptAnswer={acceptAnswer}
+            />
           ) : null}
         </div>
         <div className="w-100">
