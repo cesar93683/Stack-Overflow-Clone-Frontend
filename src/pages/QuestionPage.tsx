@@ -28,6 +28,7 @@ export default function QuestionPage() {
     user: {
       id: 0,
       username: '',
+      reputation: 0,
     },
     currVote: 0,
     createdAt: '',
