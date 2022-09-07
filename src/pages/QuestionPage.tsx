@@ -216,8 +216,20 @@ export default function QuestionPage() {
     );
   };
 
-  const acceptAnswer = (i: number) => {
-    // TODO
+  const acceptAnswer = (index: number) => {
+    setAnswers((prevState: IAnswer[]) =>
+      prevState.map((answer, i) =>
+        i === index
+          ? {
+              ...answer,
+              accepted: 1,
+            }
+          : {
+              ...answer,
+              accepted: 0,
+            }
+      )
+    );
   };
 
   if (loading) {
