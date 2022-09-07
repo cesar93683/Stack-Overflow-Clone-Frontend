@@ -10,7 +10,9 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionCardUser from '../components/QuestionCardUser';
 import SortDropdown from '../components/SortDropdown';
 import QuestionService from '../service/QuestionService';
+import UserService from '../service/UserService';
 import IQuestion from '../utils/interfaces/IQuestion';
+import IUser from '../utils/interfaces/IUser';
 
 export default function UserPage() {
   const { id } = useParams<{ id: string }>();
@@ -22,6 +24,11 @@ export default function UserPage() {
   const navigate = useNavigate();
 
   const [questions, setQuestions] = useState<IQuestion[]>([]);
+  const [user, setUser] = useState<IUser>({
+    id: 0,
+    username: '',
+    reputation: 0,
+  });
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -45,6 +52,15 @@ export default function UserPage() {
 
   useMemo(() => {
     setLoading(true);
+    UserService.getUserById(Number(id)).then(
+      (data) => {
+        setUser(data);
+      },
+      () => {
+        setLoading(false);
+        setError(true);
+      }
+    );
     if (questionsTab) {
       QuestionService.getQuestionsByUserId(
         Number(id),
@@ -154,6 +170,10 @@ export default function UserPage() {
 
   return (
     <div>
+      <div>
+        <div>{user.username}</div>
+        <div>{user.reputation}</div>
+      </div>
       <Tabs
         defaultActiveKey={questionsTab ? 'questions' : 'answers'}
         onSelect={onTabClick}
