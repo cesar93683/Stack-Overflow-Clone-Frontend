@@ -46,7 +46,7 @@ export default function CustomCard(props: CustomCardProps) {
       content,
       votes,
       comments,
-      user: { id: cardUserId, username },
+      user: { id: cardUserId, username, reputation },
       currVote,
       createdAt,
       updatedAt,
@@ -103,6 +103,7 @@ export default function CustomCard(props: CustomCardProps) {
             <CustomCardSubtitle
               action={questionId ? 'asked' : 'answered'}
               userId={cardUserId}
+              reputation={reputation}
               createdAt={createdAt}
               updatedAt={updatedAt}
               username={username}

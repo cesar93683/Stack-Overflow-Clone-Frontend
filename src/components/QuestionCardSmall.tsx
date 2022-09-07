@@ -18,7 +18,7 @@ export default function QuestionCardSmall(props: QuestionCardSmallProps) {
       votes,
       numAnswers,
       answered,
-      user: { id: userId, username },
+      user: { id: userId, username, reputation },
       createdAt,
     },
     className,
@@ -49,6 +49,7 @@ export default function QuestionCardSmall(props: QuestionCardSmallProps) {
               userId={userId}
               createdAt={createdAt}
               username={username}
+              reputation={reputation}
             />
           </div>
         </div>
