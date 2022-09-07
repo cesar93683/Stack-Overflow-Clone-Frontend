@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import AnswerService from '../service/AnswerService';
 import { AuthContext } from '../utils/auth-context';
-import LoadingSpinner from './LoadingSpinner';
 
 interface AcceptedAnswerProps {
   answerId: number;
@@ -21,7 +20,6 @@ export default function AcceptedAnswer(props: AcceptedAnswerProps) {
     setLoading(true);
     AnswerService.acceptAnswer(answerId, token).then(
       (data) => {
-        setLoading(false);
         if (data) {
           acceptAnswer();
         } else {
@@ -37,10 +35,6 @@ export default function AcceptedAnswer(props: AcceptedAnswerProps) {
     );
   };
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
   return accepted ? (
     <Button className="mt-3" variant="success" size="sm" disabled>
       A
@@ -51,6 +45,7 @@ export default function AcceptedAnswer(props: AcceptedAnswerProps) {
       variant="outline-secondary"
       size="sm"
       onClick={onAcceptAnswer}
+      disabled={loading}
     >
       A
     </Button>
