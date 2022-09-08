@@ -98,7 +98,9 @@ export default function CustomCard(props: CustomCardProps) {
         </div>
         <div className="w-100">
           {title ? <Card.Title>{title}</Card.Title> : null}
-          <Card.Text>{content}</Card.Text>
+          {content.split('\n').map((part) => (
+            <p className="mb-1">{part}</p>
+          ))}
           <div className="d-flex flex-row-reverse justify-content-between align-items-center">
             <CustomCardSubtitle
               action={questionId ? 'asked' : 'answered'}
