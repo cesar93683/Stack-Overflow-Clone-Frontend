@@ -140,11 +140,7 @@ export default function VoteSection(props: VoteSectionProps) {
     );
   } else {
     return (
-      <div
-        className={
-          'h-fit-content d-flex flex-row align-items-start ' + className
-        }
-      >
+      <div className={'d-flex flex-row align-items-start ' + className}>
         <div className="my-auto me-1">{votes}</div>
         <Button
           onClick={onUpVote}

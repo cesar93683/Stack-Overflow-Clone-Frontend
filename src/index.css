@@ -1,9 +1,6 @@
 .w-fit-content {
   width: fit-content;
 }
-.h-fit-content {
-  height: fit-content;
-}
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
