@@ -6,6 +6,7 @@ import IUser from '../utils/interfaces/IUser';
 import AcceptedAnswer from './AcceptAnswer';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
+import Content from './Content';
 import CustomCardSubtitle from './CustomCardSubtitle';
 import DeleteButtonWithModal from './DeleteButtonWithModal';
 import EditButtonWithModal from './EditButtonWithModal';
@@ -98,9 +99,7 @@ export default function CustomCard(props: CustomCardProps) {
         </div>
         <div className="w-100">
           {title ? <Card.Title>{title}</Card.Title> : null}
-          {content.split('\n').map((part) => (
-            <p className="mb-1">{part}</p>
-          ))}
+          <Content content={content} />
           <div className="d-flex flex-row-reverse justify-content-between align-items-center">
             <CustomCardSubtitle
               action={questionId ? 'asked' : 'answered'}

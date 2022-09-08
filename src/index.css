@@ -7,3 +7,6 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.bg-light-gray {
+  background-color: #eeeeee;
+}
