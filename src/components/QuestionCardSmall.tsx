@@ -43,7 +43,7 @@ export default function QuestionCardSmall(props: QuestionCardSmallProps) {
             </Link>
           </Card.Title>
           <Card.Text className="mb-1">{content}</Card.Text>
-          <div className="ms-auto w-fit-content">
+          <div className="d-flex justify-content-end">
             <CustomCardSubtitle
               action="asked"
               userId={userId}

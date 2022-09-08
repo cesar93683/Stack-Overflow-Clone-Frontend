@@ -90,7 +90,7 @@ export default function HomePage() {
       <SortDropdown
         sortedByVotes={sortedByVotes}
         setSortedByVotes={setSortedByVotes}
-        className="ms-auto w-fit-content"
+        className="d-flex justify-content-end"
       />
       {questions.map((question, i) => (
         <QuestionCardSmall question={question} key={i} className="mt-2" />

@@ -152,7 +152,7 @@ export default function UserPage() {
       <SortDropdown
         sortedByVotes={sortedByVotes}
         setSortedByVotes={setSortedByVotes}
-        className="mt-2 ms-auto w-fit-content"
+        className="mt-2 d-flex justify-content-end"
       />
       {questions.map((question, i) => (
         <QuestionCardUser question={question} key={i} className="mt-2" />
