@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionCardUser from '../components/QuestionCardUser';
+import ReputationScore from '../components/ReputationScore';
 import SortDropdown from '../components/SortDropdown';
 import QuestionService from '../service/QuestionService';
 import IQuestion from '../utils/interfaces/IQuestion';
@@ -162,9 +163,9 @@ export default function UserPage() {
 
   return (
     <div>
-      <div>
+      <div className="d-flex">
         <div>{user.username}</div>
-        <div>{user.reputation}</div>
+        <ReputationScore reputation={user.reputation} />
       </div>
       <Tabs
         defaultActiveKey={questionsTab ? 'questions' : 'answers'}

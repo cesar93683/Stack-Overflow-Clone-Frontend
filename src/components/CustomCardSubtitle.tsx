@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import DateUtils from '../utils/DateUtils';
+import ReputationScore from './ReputationScore';
 
 interface CustomCardSubtitleProps {
   userId: number;
@@ -31,7 +32,7 @@ export default function CustomCardSubtitle(props: CustomCardSubtitleProps) {
         <Link className="text-decoration-none" to={'/users/' + userId}>
           {username}
         </Link>
-        <div className="ms-1 fw-bold">{reputation}</div>
+        <ReputationScore reputation={reputation} />
       </div>
       <div className={showUpdatedAt ? 'ms-0 ms-md-1' : 'ms-1'}>
         {action + ' ' + createdAtLocaleString}
