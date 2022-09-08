@@ -10,7 +10,6 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionCardUser from '../components/QuestionCardUser';
 import SortDropdown from '../components/SortDropdown';
 import QuestionService from '../service/QuestionService';
-import UserService from '../service/UserService';
 import IQuestion from '../utils/interfaces/IQuestion';
 import IUser from '../utils/interfaces/IUser';
 
@@ -52,15 +51,6 @@ export default function UserPage() {
 
   useMemo(() => {
     setLoading(true);
-    UserService.getUserById(Number(id)).then(
-      (data) => {
-        setUser(data);
-      },
-      () => {
-        setLoading(false);
-        setError(true);
-      }
-    );
     if (questionsTab) {
       QuestionService.getQuestionsByUserId(
         Number(id),
@@ -68,8 +58,9 @@ export default function UserPage() {
         sortedByVotes
       ).then(
         (data) => {
-          setQuestions(data.questions);
-          setTotalPages(data.totalPages);
+          setQuestions(data.questions.questions);
+          setTotalPages(data.questions.totalPages);
+          setUser(data.user);
           setLoading(false);
         },
         () => {
@@ -84,8 +75,9 @@ export default function UserPage() {
         sortedByVotes
       ).then(
         (data) => {
-          setQuestions(data.questions);
-          setTotalPages(data.totalPages);
+          setQuestions(data.questions.questions);
+          setTotalPages(data.questions.totalPages);
+          setUser(data.user);
           setLoading(false);
         },
         () => {

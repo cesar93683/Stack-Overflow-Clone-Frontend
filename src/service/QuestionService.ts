@@ -4,6 +4,7 @@ import IComment from '../utils/interfaces/IComment';
 import IQuestion from '../utils/interfaces/IQuestion';
 import IQuestions from '../utils/interfaces/IQuestions';
 import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
+import IGetQuestionsByUserIdResponse from '../utils/interfaces/service/IGetQuestionsByUserIdResponse';
 
 const API_URL = 'http://localhost:8080/api/questions/';
 
@@ -20,7 +21,7 @@ class QuestionService {
     page: number,
     sortedByVotes: boolean
   ) {
-    const response = await axios.get<IQuestions>(
+    const response = await axios.get<IGetQuestionsByUserIdResponse>(
       API_URL +
         'users/' +
         userId +
@@ -37,7 +38,7 @@ class QuestionService {
     page: number,
     sortedByVotes: boolean
   ) {
-    const response = await axios.get<IQuestions>(
+    const response = await axios.get<IGetQuestionsByUserIdResponse>(
       API_URL +
         'users/answered/' +
         userId +
