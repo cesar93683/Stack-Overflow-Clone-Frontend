@@ -78,7 +78,7 @@ export default function NewQuestion() {
           minLength={3}
           maxLength={500}
           as="textarea"
-          rows={3}
+          rows={8}
           placeholder="Enter content"
           value={content}
           onChange={onContentChange}
@@ -89,7 +89,9 @@ export default function NewQuestion() {
           {error}
         </Alert>
       ) : null}
-      {loading ? <LoadingSpinner /> : <Button type="submit">Submit</Button>}
+      <div className="d-flex justify-content-end">
+        {loading ? <LoadingSpinner /> : <Button type="submit">Submit</Button>}
+      </div>
     </Form>
   );
 }

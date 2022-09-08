@@ -57,26 +57,35 @@ export default function AnswerForm(props: AnswerFormProps) {
   };
 
   return (
-    <Form onSubmit={onSubmitClick} className={className}>
-      <Form.Control
-        value={content}
-        onChange={onContentChange}
-        placeholder={'Enter Response'}
-      />
-      {error ? (
-        <Alert className="ms-auto mt-1 mb-0 p-1 w-fit-content" variant="danger">
-          {error}
-        </Alert>
-      ) : null}
-      <div className="d-flex justify-content-end mt-1">
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
-          <>
-            <Button type="submit">Submit</Button>
-          </>
-        )}
-      </div>
-    </Form>
+    <div>
+      <h4 className="mt-2 fw-normal">Your Answer</h4>
+      <Form onSubmit={onSubmitClick} className={className}>
+        <Form.Control
+          minLength={3}
+          maxLength={500}
+          as="textarea"
+          rows={8}
+          value={content}
+          onChange={onContentChange}
+        />
+        {error ? (
+          <Alert
+            className="ms-auto mt-1 mb-0 p-1 w-fit-content"
+            variant="danger"
+          >
+            {error}
+          </Alert>
+        ) : null}
+        <div className="d-flex justify-content-end mt-1">
+          {loading ? (
+            <LoadingSpinner />
+          ) : (
+            <>
+              <Button type="submit">Post Your Answer</Button>
+            </>
+          )}
+        </div>
+      </Form>
+    </div>
   );
 }
