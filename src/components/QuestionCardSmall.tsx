@@ -42,7 +42,7 @@ export default function QuestionCardSmall(props: QuestionCardSmallProps) {
               {title}
             </Link>
           </Card.Title>
-          <Card.Text className="mb-1">{content}</Card.Text>
+          <Card.Text className="mb-1 line-clamp-2">{content}</Card.Text>
           <div className="d-flex justify-content-end">
             <CustomCardSubtitle
               action="asked"
