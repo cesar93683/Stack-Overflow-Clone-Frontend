@@ -11,7 +11,7 @@ export default function Content({ content }: ContentProps) {
   let startIndex = 0;
   let isCode = false;
   const contentParts: Array<ContentPart> = [];
-  for (let i = 0; i < content.length - 3; i++) {
+  for (let i = 0; i < content.length - 2; i++) {
     if (content.substring(i, i + 3) == '```') {
       if (startIndex !== -1) {
         contentParts.push({
