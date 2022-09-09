@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
+import Content from '../components/Content';
 import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
@@ -92,6 +93,7 @@ export default function NewQuestion() {
       <div className="d-flex justify-content-end">
         {loading ? <LoadingSpinner /> : <Button type="submit">Submit</Button>}
       </div>
+      <Content className="mt-2" content={content} />
     </Form>
   );
 }

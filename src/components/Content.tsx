@@ -1,5 +1,6 @@
 interface ContentProps {
   content: string;
+  className?: string;
 }
 
 interface ContentPart {
@@ -7,7 +8,7 @@ interface ContentPart {
   content: string;
 }
 
-export default function Content({ content }: ContentProps) {
+export default function Content({ content, className }: ContentProps) {
   let startIndex = 0;
   let isCode = false;
   const contentParts: Array<ContentPart> = [];
@@ -28,7 +29,7 @@ export default function Content({ content }: ContentProps) {
   }
 
   return (
-    <div>
+    <div className={className}>
       {contentParts.map((part, i) =>
         part.isCode ? (
           <div className="p-2 bg-light-gray" key={i}>
