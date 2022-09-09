@@ -103,7 +103,7 @@ export default function EditButtonWithModal(props: EditButtonWithModalProps) {
                 minLength={3}
                 maxLength={500}
                 as="textarea"
-                rows={3}
+                rows={8}
                 placeholder="Enter content"
                 value={content}
                 onChange={onContentChange}
