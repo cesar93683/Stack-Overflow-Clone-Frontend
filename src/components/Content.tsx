@@ -14,12 +14,10 @@ export default function Content({ content, className }: ContentProps) {
   const contentParts: Array<ContentPart> = [];
   for (let i = 0; i < content.length - 2; i++) {
     if (content.substring(i, i + 3) == '```') {
-      if (startIndex !== -1) {
-        contentParts.push({
-          isCode,
-          content: content.substring(startIndex, i),
-        });
-      }
+      contentParts.push({
+        isCode,
+        content: content.substring(startIndex, i),
+      });
       isCode = !isCode;
       startIndex = i + 3;
     }
