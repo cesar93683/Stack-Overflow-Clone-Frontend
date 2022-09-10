@@ -5,7 +5,7 @@ run 'npm install' in terminal
 run 'npm start' in terminal
 
 VSCode setup:  
-Install plugins "ESLint" and "Prettier"  
+Install extensions "ESLint" and "Prettier"  
 Go to File -> Preferences -> Settings -> Open settings.json and add
 
 ```
@@ -18,3 +18,7 @@ Go to File -> Preferences -> Settings -> Open settings.json and add
   }
 }
 ```
+
+Run the following to update git username and email  
+git config --global user.email "48188267+cesar93683@users.noreply.github.com"  
+git config --global user.name "cesar93683"
