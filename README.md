@@ -15,8 +15,10 @@ Go to File -> Preferences -> Settings -> Open settings.json and add
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.organizeImports": true
-  }
+  },
+  "git.enableSmartCommit": true
 }
+
 ```
 
 Run the following to update git username and email  
