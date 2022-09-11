@@ -24,6 +24,13 @@ export default function QuestionCardSmall(props: QuestionCardSmallProps) {
     className,
   } = props;
 
+  const removeMarkDown = (content: string) => {
+    return content
+      .replaceAll(/~~~[a-zA-Z]+/g, '')
+      .replaceAll('~~~', '')
+      .replaceAll('```', '');
+  };
+
   return (
     <Card className={className}>
       <Card.Body className="d-flex flex-md-row flex-column">
@@ -42,7 +49,9 @@ export default function QuestionCardSmall(props: QuestionCardSmallProps) {
               {title}
             </Link>
           </Card.Title>
-          <Card.Text className="mb-1 line-clamp-2">{content}</Card.Text>
+          <Card.Text className="mb-1 line-clamp-2">
+            {removeMarkDown(content)}
+          </Card.Text>
           <div className="d-flex justify-content-end">
             <CustomCardSubtitle
               action="asked"
