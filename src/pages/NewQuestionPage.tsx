@@ -15,6 +15,7 @@ export default function NewQuestion() {
   const [content, setContent] = useState('');
   const [submitLoading, setSubmitLoading] = useState(false);
   const [tagsLoading, setTagsLoading] = useState(true);
+  const [tagsError, setTagsError] = useState(false);
   const [tags, setTags] = useState<ITag[]>([]);
   const navigate = useNavigate();
 
@@ -26,7 +27,7 @@ export default function NewQuestion() {
       },
       () => {
         setTagsLoading(false);
-        // error
+        setTagsError(true);
       }
     );
   }, []);
@@ -37,6 +38,10 @@ export default function NewQuestion() {
 
   if (tagsLoading) {
     return <LoadingSpinner />;
+  }
+
+  if (tagsError) {
+    return <div>An error has occured</div>;
   }
 
   const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
