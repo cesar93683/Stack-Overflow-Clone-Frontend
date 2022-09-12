@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Content from '../components/Content';
 import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
+import ITag from '../utils/interfaces/ITag';
 import ValidateUtils from '../utils/ValidateUtils';
 
 export default function NewQuestion() {
@@ -12,11 +13,30 @@ export default function NewQuestion() {
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [tagsLoading, setTagsLoading] = useState(true);
+  const [tags, setTags] = useState<ITag[]>([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    QuestionService.getTags().then(
+      (data) => {
+        setTagsLoading(false);
+        setTags(data);
+      },
+      () => {
+        setTagsLoading(false);
+        // error
+      }
+    );
+  }, []);
 
   if (!token) {
     return <Navigate to="/" />;
+  }
+
+  if (tagsLoading) {
+    return <LoadingSpinner />;
   }
 
   const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +62,7 @@ export default function NewQuestion() {
       return;
     }
 
-    setLoading(true);
+    setSubmitLoading(true);
 
     QuestionService.createQuestion(titleTrimmed, contentTrimmed, token).then(
       (data) => {
@@ -50,12 +70,12 @@ export default function NewQuestion() {
           navigate(`/questions/${data.id}`);
         } else {
           setError('An error occured');
-          setLoading(false);
+          setSubmitLoading(false);
         }
       },
       () => {
         setError('An error occured');
-        setLoading(false);
+        setSubmitLoading(false);
       }
     );
   };
@@ -91,7 +111,11 @@ export default function NewQuestion() {
         </Alert>
       ) : null}
       <div className="d-flex justify-content-end">
-        {loading ? <LoadingSpinner /> : <Button type="submit">Submit</Button>}
+        {submitLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <Button type="submit">Submit</Button>
+        )}
       </div>
       <Content className="mt-2" content={content} />
     </Form>

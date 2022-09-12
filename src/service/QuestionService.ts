@@ -3,6 +3,7 @@ import getAuthHeader from '../utils/getAuthHeader';
 import IComment from '../utils/interfaces/IComment';
 import IQuestion from '../utils/interfaces/IQuestion';
 import IQuestions from '../utils/interfaces/IQuestions';
+import ITag from '../utils/interfaces/ITag';
 import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 import IGetQuestionsByUserIdResponse from '../utils/interfaces/service/IGetQuestionsByUserIdResponse';
 
@@ -107,6 +108,10 @@ class QuestionService {
       },
       getAuthHeader(token)
     );
+    return response.data;
+  }
+  async getTags() {
+    const response = await axios.get<ITag[]>(API_URL + 'tags');
     return response.data;
   }
 }
