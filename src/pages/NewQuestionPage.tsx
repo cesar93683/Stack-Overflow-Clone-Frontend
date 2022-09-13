@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
+import SelectSearch, { fuzzySearch } from 'react-select-search';
+import 'react-select-search/style.css';
 import Content from '../components/Content';
 import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionService from '../service/QuestionService';
@@ -16,6 +18,7 @@ export default function NewQuestion() {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [tagsLoading, setTagsLoading] = useState(true);
   const [tagsError, setTagsError] = useState(false);
+  const [allTags, setAllTags] = useState<ITag[]>([]);
   const [tags, setTags] = useState<ITag[]>([]);
   const navigate = useNavigate();
 
@@ -23,7 +26,7 @@ export default function NewQuestion() {
     QuestionService.getTags().then(
       (data) => {
         setTagsLoading(false);
-        setTags(data);
+        setAllTags(data);
       },
       () => {
         setTagsLoading(false);
@@ -85,6 +88,10 @@ export default function NewQuestion() {
     );
   };
 
+  const getOptionTags = () => {
+    return allTags.map((tag) => ({ name: tag.tag, value: tag.tag }));
+  };
+
   return (
     <Form onSubmit={onQuestionSubmit}>
       <Form.Group>
@@ -108,6 +115,18 @@ export default function NewQuestion() {
           placeholder="Enter content"
           value={content}
           onChange={onContentChange}
+        />
+      </Form.Group>
+      <Form.Group className="mb-2">
+        <Form.Label className="mb-0">Tags</Form.Label>
+        <Form.Text className="d-block text-muted">
+          Add up to 5 tags to describe what your question is about
+        </Form.Text>
+        <SelectSearch
+          options={getOptionTags()}
+          search
+          placeholder="Tags"
+          filterOptions={fuzzySearch}
         />
       </Form.Group>
       {error ? (
