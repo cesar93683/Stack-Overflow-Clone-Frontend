@@ -10,7 +10,6 @@ import Content from '../components/Content';
 import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
-import ITag from '../utils/interfaces/ITag';
 import ValidateUtils from '../utils/ValidateUtils';
 
 export default function NewQuestion() {
@@ -21,7 +20,7 @@ export default function NewQuestion() {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [tagsLoading, setTagsLoading] = useState(true);
   const [tagsError, setTagsError] = useState(false);
-  const [allTags, setAllTags] = useState<ITag[]>([]);
+  const [allTags, setAllTags] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const navigate = useNavigate();
 
@@ -29,7 +28,7 @@ export default function NewQuestion() {
     QuestionService.getTags().then(
       (data) => {
         setTagsLoading(false);
-        setAllTags(data);
+        setAllTags(data.map((tag) => tag.tag));
       },
       () => {
         setTagsLoading(false);
@@ -92,7 +91,7 @@ export default function NewQuestion() {
   };
 
   const getOptionTags = () => {
-    return allTags.map((tag) => ({ name: tag.tag, value: tag.tag }));
+    return allTags.map((tag) => ({ name: tag, value: tag }));
   };
 
   const onSelectTags = (
@@ -100,8 +99,14 @@ export default function NewQuestion() {
   ) => {
     if (typeof selectedValue === 'string') {
       setTags((value) => [...value, selectedValue]);
-      setAllTags((value) => value.filter((item) => item.tag !== selectedValue));
+      setAllTags((value) => value.filter((item) => item !== selectedValue));
     }
+  };
+
+  const removeTag = (i: number) => {
+    const tag = tags[i];
+    setTags((value) => value.filter((item) => item !== tag));
+    setAllTags((value) => [...value, tag]);
   };
 
   return (
@@ -136,7 +141,14 @@ export default function NewQuestion() {
         </Form.Text>
         <div>
           {tags.map((tag, i) => (
-            <div key={i}>{tag}</div>
+            <Alert
+              key={i}
+              variant="danger"
+              onClose={() => removeTag(i)}
+              dismissible
+            >
+              {tag}
+            </Alert>
           ))}
         </div>
         <SelectSearch
