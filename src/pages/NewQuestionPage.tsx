@@ -8,6 +8,7 @@ import SelectSearch, {
 import 'react-select-search/style.css';
 import Content from '../components/Content';
 import LoadingSpinner from '../components/LoadingSpinner';
+import Tag from '../components/Tag';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import ValidateUtils from '../utils/ValidateUtils';
@@ -103,8 +104,7 @@ export default function NewQuestion() {
     }
   };
 
-  const removeTag = (i: number) => {
-    const tag = tags[i];
+  const removeTag = (tag: string) => {
     setTags((value) => value.filter((item) => item !== tag));
     setAllTags((value) => [...value, tag]);
   };
@@ -139,16 +139,14 @@ export default function NewQuestion() {
         <Form.Text className="d-block text-muted">
           Add up to 5 tags to describe what your question is about
         </Form.Text>
-        <div>
-          {tags.map((tag, i) => (
-            <Alert
-              key={i}
-              variant="danger"
-              onClose={() => removeTag(i)}
-              dismissible
-            >
-              {tag}
-            </Alert>
+        <div className="d-flex flex-row">
+          {tags.map((tag) => (
+            <Tag
+              className="me-1"
+              tag={tag}
+              key={tag}
+              onClose={() => removeTag(tag)}
+            />
           ))}
         </div>
         <SelectSearch
