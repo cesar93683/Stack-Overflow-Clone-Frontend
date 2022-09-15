@@ -139,7 +139,7 @@ export default function NewQuestion() {
         <Form.Text className="d-block text-muted">
           Add up to 5 tags to describe what your question is about
         </Form.Text>
-        <div className="d-flex flex-row">
+        <div className="d-flex flex-row mb-1">
           {tags.map((tag) => (
             <Tag
               className="me-1"
