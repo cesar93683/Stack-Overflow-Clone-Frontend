@@ -30,6 +30,7 @@ export default function QuestionPage() {
       username: '',
       reputation: 0,
     },
+    tags: [],
     currVote: 0,
     createdAt: '',
     updatedAt: '',
