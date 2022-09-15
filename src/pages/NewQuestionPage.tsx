@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Alert, Button, Form } from 'react-bootstrap';
+import { Alert, Button, CloseButton, Form } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
 import SelectSearch, {
   fuzzySearch,
@@ -8,7 +8,6 @@ import SelectSearch, {
 import 'react-select-search/style.css';
 import Content from '../components/Content';
 import LoadingSpinner from '../components/LoadingSpinner';
-import Tag from '../components/Tag';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import ValidateUtils from '../utils/ValidateUtils';
@@ -100,12 +99,10 @@ export default function NewQuestion() {
     return allTags.map((tag) => ({ name: tag, value: tag }));
   };
 
-  const onSelectTags = (
-    selectedValue: SelectedOptionValue | SelectedOptionValue[]
-  ) => {
-    if (typeof selectedValue === 'string') {
-      setTags((value) => [...value, selectedValue]);
-      setAllTags((value) => value.filter((item) => item !== selectedValue));
+  const onSelectTag = (tag: SelectedOptionValue | SelectedOptionValue[]) => {
+    if (typeof tag === 'string') {
+      setTags((value) => [...value, tag]);
+      setAllTags((value) => value.filter((item) => item !== tag));
     }
   };
 
@@ -146,12 +143,13 @@ export default function NewQuestion() {
         </Form.Text>
         <div className="d-flex flex-row mb-1">
           {tags.map((tag) => (
-            <Tag
-              className="me-1"
-              tag={tag}
+            <div
               key={tag}
-              onClose={() => removeTag(tag)}
-            />
+              className="me-1 w-fit-content border rounded p-1 d-flex flex-row"
+            >
+              <div className="me-1">{tag}</div>
+              <CloseButton onClick={() => removeTag(tag)} />
+            </div>
           ))}
         </div>
         <SelectSearch
@@ -159,7 +157,7 @@ export default function NewQuestion() {
           search
           placeholder="Tags"
           filterOptions={fuzzySearch}
-          onChange={onSelectTags}
+          onChange={onSelectTag}
         />
       </Form.Group>
       {error ? (
