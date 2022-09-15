@@ -1,7 +1,8 @@
-import { Button, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import IQuestion from '../utils/interfaces/IQuestion';
 import CustomCardSubtitle from './CustomCardSubtitle';
+import Tag from './Tag';
 import VotesAndAnswers from './VotesAndAnswers';
 
 interface QuestionCardSmallProps {
@@ -53,17 +54,7 @@ export default function QuestionCardSmall(props: QuestionCardSmallProps) {
           <Card.Text className="mb-1 line-clamp-2">
             {removeMarkDown(content)}
           </Card.Text>
-          <div className="d-flex flex-row">
-            {tags.map((tag) => (
-              <Button
-                key={tag.tag}
-                className="py-0 px-2 me-1"
-                variant="outline-secondary"
-              >
-                {tag.tag}
-              </Button>
-            ))}
-          </div>
+          <Tag tags={tags} />
           <div className="d-flex justify-content-end">
             <CustomCardSubtitle
               action="asked"
