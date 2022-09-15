@@ -75,7 +75,12 @@ export default function NewQuestion() {
 
     setSubmitLoading(true);
 
-    QuestionService.createQuestion(titleTrimmed, contentTrimmed, token).then(
+    QuestionService.createQuestion(
+      titleTrimmed,
+      contentTrimmed,
+      tags,
+      token
+    ).then(
       (data) => {
         if (data?.id) {
           navigate(`/questions/${data.id}`);

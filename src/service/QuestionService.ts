@@ -59,12 +59,18 @@ class QuestionService {
     return response.data;
   }
 
-  async createQuestion(title: string, content: string, token: string) {
+  async createQuestion(
+    title: string,
+    content: string,
+    tags: string[],
+    token: string
+  ) {
     const response = await axios.post<IQuestion>(
       API_URL,
       {
         title,
         content,
+        tags,
       },
       getAuthHeader(token)
     );
