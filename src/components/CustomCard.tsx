@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { AuthContext } from '../utils/auth-context';
 import IComment from '../utils/interfaces/IComment';
+import ITag from '../utils/interfaces/ITag';
 import IUser from '../utils/interfaces/IUser';
 import AcceptedAnswer from './AcceptAnswer';
 import Comment from './Comment';
@@ -10,6 +11,7 @@ import Content from './Content';
 import CustomCardSubtitle from './CustomCardSubtitle';
 import DeleteButtonWithModal from './DeleteButtonWithModal';
 import EditButtonWithModal from './EditButtonWithModal';
+import Tags from './Tag';
 import VoteSection from './VoteSection';
 
 interface CustomCardProps {
@@ -23,6 +25,7 @@ interface CustomCardProps {
     votes: number;
     comments: IComment[];
     user: IUser;
+    tags?: ITag[];
     currVote: number;
     createdAt: string;
     updatedAt: string;
@@ -48,6 +51,7 @@ export default function CustomCard(props: CustomCardProps) {
       votes,
       comments,
       user: { id: cardUserId, username, reputation },
+      tags,
       currVote,
       createdAt,
       updatedAt,
@@ -128,6 +132,8 @@ export default function CustomCard(props: CustomCardProps) {
               </div>
             ) : null}
           </div>
+
+          {tags ? <Tags tags={tags} className="mt-1" /> : null}
           <div>
             {comments.map((comment, i) => (
               <Comment

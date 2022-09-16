@@ -3,13 +3,14 @@ import ITag from '../utils/interfaces/ITag';
 
 interface TagProps {
   tags: ITag[];
+  className?: string;
 }
 
 export default function Tag(props: TagProps) {
-  const { tags } = props;
+  const { tags, className } = props;
 
   return (
-    <div className="d-flex flex-row">
+    <div className={'d-flex flex-row ' + className}>
       {tags.map((tag) => (
         <Button
           key={tag.tag}

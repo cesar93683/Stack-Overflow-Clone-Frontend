@@ -252,6 +252,7 @@ export default function QuestionPage() {
           votes: question.votes,
           comments: question.comments,
           user: question.user,
+          tags: question.tags,
           currVote: question.currVote,
           createdAt: question.createdAt,
           updatedAt: question.updatedAt,
