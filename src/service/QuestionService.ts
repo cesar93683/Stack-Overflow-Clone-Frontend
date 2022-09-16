@@ -120,5 +120,17 @@ class QuestionService {
     const response = await axios.get<ITag[]>(API_URL + 'tags');
     return response.data;
   }
+  async getQuestionsByTag(tag: string, page: number, sortedByVotes: boolean) {
+    const response = await axios.get<IQuestions>(
+      API_URL +
+        'questions/tagged/' +
+        tag +
+        '?page=' +
+        page +
+        '&sortedByVotes=' +
+        sortedByVotes
+    );
+    return response.data;
+  }
 }
 export default new QuestionService();
