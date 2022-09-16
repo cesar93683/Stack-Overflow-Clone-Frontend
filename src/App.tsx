@@ -23,7 +23,7 @@ export default function BasicExample() {
             <Route path="/questions/new" element={<NewQuestionPage />} />
             <Route path="/questions/:id" element={<QuestionPage />} />
             <Route path="/users/:id" element={<UserPage />} />
-            <Route path="/tags/:id" element={<TagPage />} />
+            <Route path="/questions/tagged/:id" element={<TagPage />} />
           </Routes>
         </Container>
       </AuthProvider>
