@@ -123,7 +123,7 @@ class QuestionService {
   async getQuestionsByTag(tag: string, page: number, sortedByVotes: boolean) {
     const response = await axios.get<IQuestions>(
       API_URL +
-        'questions/tagged/' +
+        'tagged/' +
         tag +
         '?page=' +
         page +
