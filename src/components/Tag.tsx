@@ -1,4 +1,5 @@
 import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import ITag from '../utils/interfaces/ITag';
 
 interface TagProps {
@@ -12,13 +13,15 @@ export default function Tag(props: TagProps) {
   return (
     <div className={'d-flex flex-row ' + className}>
       {tags.map((tag) => (
-        <Button
-          key={tag.tag}
-          className="py-0 px-2 me-1"
-          variant="outline-secondary"
-        >
-          {tag.tag}
-        </Button>
+        <Link to={'/questions/tagged/' + tag.tag}>
+          <Button
+            key={tag.tag}
+            className="py-0 px-2 me-1"
+            variant="outline-secondary"
+          >
+            {tag.tag}
+          </Button>
+        </Link>
       ))}
     </div>
   );
