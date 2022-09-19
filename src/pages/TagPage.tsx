@@ -46,7 +46,7 @@ export default function TagPage() {
       page={page}
       sortedByVotes={sortedByVotes}
       totalPages={totalPages}
-      apiLink="/"
+      apiLink={'/questions/tagged/' + tag + '/'}
     />
   );
 }
