@@ -12,7 +12,7 @@ import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import ValidateUtils from '../utils/ValidateUtils';
 
-export default function NewQuestion() {
+export default function NewQuestionPage() {
   const { token } = useContext(AuthContext);
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
