@@ -1,6 +1,7 @@
 import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import EditQuestionPage from './pages/EditQuestionPage';
 import HomePage from './pages/HomePage';
 import LogInPage from './pages/LogInPage';
 import NewQuestionPage from './pages/NewQuestionPage';
@@ -24,6 +25,7 @@ export default function BasicExample() {
             <Route path="/questions/:id" element={<QuestionPage />} />
             <Route path="/users/:id" element={<UserPage />} />
             <Route path="/questions/tagged/:id" element={<TagPage />} />
+            <Route path="/questions/edit/:id" element={<EditQuestionPage />} />
           </Routes>
         </Container>
       </AuthProvider>

@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { Alert, Button, Form, Modal } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import AnswerService from '../service/AnswerService';
-import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
 import ValidateUtils from '../utils/ValidateUtils';
 import LoadingSpinner from './LoadingSpinner';
@@ -28,9 +28,16 @@ export default function EditButtonWithModal(props: EditButtonWithModalProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [content, setContent] = useState(initialContent);
+  const navigate = useNavigate();
 
   const onCloseEditModal = () => setShowEditModal(false);
-  const onShowEditModal = () => setShowEditModal(true);
+  const onEditClick = () => {
+    if (questionId) {
+      navigate('/questions/edit/' + questionId);
+    } else {
+      setShowEditModal(true);
+    }
+  };
 
   const onContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
@@ -44,28 +51,9 @@ export default function EditButtonWithModal(props: EditButtonWithModalProps) {
       return;
     }
 
-    setLoading(true);
-    setError('');
-
-    // TODO refactor
-    if (questionId) {
-      QuestionService.updateQuestion(contentTrimmed, questionId, token).then(
-        (data) => {
-          setLoading(false);
-          setShowEditModal(false);
-          if (data?.code === 0) {
-            onUpdateSuccess(contentTrimmed);
-          } else {
-            setError('An error occured');
-          }
-        },
-        () => {
-          setLoading(false);
-          setShowEditModal(false);
-          setError('An error occured');
-        }
-      );
-    } else if (answerId) {
+    if (answerId) {
+      setLoading(true);
+      setError('');
       AnswerService.updateAnswer(contentTrimmed, answerId, token).then(
         (data) => {
           setLoading(false);
@@ -90,7 +78,7 @@ export default function EditButtonWithModal(props: EditButtonWithModalProps) {
       <Button
         className={className}
         variant="outline-primary"
-        onClick={onShowEditModal}
+        onClick={onEditClick}
         size="sm"
       >
         EDIT

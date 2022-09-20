@@ -77,11 +77,17 @@ class QuestionService {
     return response.data;
   }
 
-  async updateQuestion(content: string, id: number, token: string) {
+  async updateQuestion(
+    content: string,
+    tags: string[],
+    id: number,
+    token: string
+  ) {
     const response = await axios.put<IGenericResponse>(
       API_URL + id,
       {
         content,
+        tags,
       },
       getAuthHeader(token)
     );
