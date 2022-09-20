@@ -13,12 +13,8 @@ export default function Tag(props: TagProps) {
   return (
     <div className={'d-flex flex-row ' + className}>
       {tags.map((tag) => (
-        <Link to={'/questions/tagged/' + tag.tag}>
-          <Button
-            key={tag.tag}
-            className="py-0 px-2 me-1"
-            variant="outline-secondary"
-          >
+        <Link key={tag.tag} to={'/questions/tagged/' + tag.tag}>
+          <Button className="py-0 px-2 me-1" variant="outline-secondary">
             {tag.tag}
           </Button>
         </Link>
