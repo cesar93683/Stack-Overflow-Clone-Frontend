@@ -15,14 +15,16 @@ import ValidateUtils from '../utils/ValidateUtils';
 export default function EditQuestionPage() {
   const { id: questionId } = useParams<{ id: string }>();
   const { token } = useContext(AuthContext);
+
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
+
   const [submitLoading, setSubmitLoading] = useState(false);
   const [questionLoading, setQuestionLoading] = useState(true);
   const [tagsLoading, setTagsLoading] = useState(true);
   const [error, setError] = useState('');
   const [allTags, setAllTags] = useState<string[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,7 +61,7 @@ export default function EditQuestionPage() {
     return <Navigate to="/" />;
   }
 
-  if (tagsLoading && questionLoading) {
+  if (tagsLoading || questionLoading) {
     return <LoadingSpinner />;
   }
 

@@ -14,14 +14,16 @@ import ValidateUtils from '../utils/ValidateUtils';
 
 export default function NewQuestionPage() {
   const { token } = useContext(AuthContext);
-  const [error, setError] = useState('');
+
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
+
   const [submitLoading, setSubmitLoading] = useState(false);
   const [tagsLoading, setTagsLoading] = useState(true);
   const [tagsError, setTagsError] = useState(false);
+  const [formError, setFormError] = useState('');
   const [allTags, setAllTags] = useState<string[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,14 +63,14 @@ export default function NewQuestionPage() {
     const titleTrimmed = title.trim();
     const validateTitle = ValidateUtils.validateTitle(titleTrimmed);
     if (validateTitle) {
-      setError(validateTitle);
+      setFormError(validateTitle);
       return;
     }
 
     const contentTrimmed = content.trim();
     const validateContent = ValidateUtils.validateContent(contentTrimmed);
     if (validateContent) {
-      setError(validateContent);
+      setFormError(validateContent);
       return;
     }
 
@@ -84,12 +86,12 @@ export default function NewQuestionPage() {
         if (data?.id) {
           navigate(`/questions/${data.id}`);
         } else {
-          setError('An error occured');
+          setFormError('An error occured');
           setSubmitLoading(false);
         }
       },
       () => {
-        setError('An error occured');
+        setFormError('An error occured');
         setSubmitLoading(false);
       }
     );
@@ -160,9 +162,9 @@ export default function NewQuestionPage() {
           onChange={onSelectTag}
         />
       </Form.Group>
-      {error ? (
+      {formError ? (
         <Alert className="w-fit-content p-1 mb-2" variant="danger">
-          {error}
+          {formError}
         </Alert>
       ) : null}
       <div className="d-flex justify-content-end">
