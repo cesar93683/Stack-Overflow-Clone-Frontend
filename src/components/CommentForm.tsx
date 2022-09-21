@@ -48,26 +48,20 @@ export default function CommentForm(props: CommentFormProps) {
     setError('');
     setLoading(true);
 
+    let response = null;
+
     if (questionId) {
-      // TODO refactor this
-      QuestionService.createComment(commentTrimmed, questionId, token).then(
-        (data) => {
-          setShowCommentForm(false);
-          setLoading(false);
-          if (data) {
-            addComment(data);
-          } else {
-            setError('An error occured');
-          }
-        },
-        () => {
-          setShowCommentForm(false);
-          setLoading(false);
-          setError('An error occured');
-        }
+      response = QuestionService.createComment(
+        commentTrimmed,
+        questionId,
+        token
       );
     } else if (answerId) {
-      AnswerService.createComment(commentTrimmed, answerId, token).then(
+      response = AnswerService.createComment(commentTrimmed, answerId, token);
+    }
+
+    if (response) {
+      response.then(
         (data) => {
           setShowCommentForm(false);
           setLoading(false);
