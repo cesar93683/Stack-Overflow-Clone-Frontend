@@ -8,6 +8,7 @@ import NewQuestionPage from './pages/NewQuestionPage';
 import QuestionPage from './pages/QuestionPage';
 import SignUpPage from './pages/SignUpPage';
 import TagPage from './pages/TagPage';
+import TagsPage from './pages/TagsPage';
 import UserPage from './pages/UserPage';
 import { AuthProvider } from './utils/auth-context';
 
@@ -26,6 +27,7 @@ export default function BasicExample() {
             <Route path="/users/:id" element={<UserPage />} />
             <Route path="/questions/tagged/:id" element={<TagPage />} />
             <Route path="/questions/edit/:id" element={<EditQuestionPage />} />
+            <Route path="/tags" element={<TagsPage />} />
           </Routes>
         </Container>
       </AuthProvider>
