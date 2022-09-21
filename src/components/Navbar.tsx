@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Button, Container, Navbar } from 'react-bootstrap';
+import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../utils/auth-context';
 
@@ -9,32 +9,43 @@ export default function NavBar() {
   return (
     <Navbar bg="light" variant="light">
       <Container>
-        <Link to="/" className="me-auto text-decoration-none">
-          <Navbar.Brand>Home</Navbar.Brand>
-        </Link>
-        {userId ? (
-          <>
-            <Link to="/questions/new">
-              <Button variant="primary" className="me-1">
-                New Question
+        <Nav className="me-auto">
+          <Nav.Link>
+            <Link className="text-decoration-none text-dark" to="/">
+              Questions
+            </Link>
+          </Nav.Link>
+          <Nav.Link>
+            <Link className="text-decoration-none text-dark" to="/tags">
+              Tags
+            </Link>
+          </Nav.Link>
+        </Nav>
+        <Nav>
+          {userId ? (
+            <>
+              <Link to="/questions/new">
+                <Button variant="primary" className="me-1">
+                  New Question
+                </Button>
+              </Link>
+              <Button variant="secondary" onClick={logout}>
+                Log Out
               </Button>
-            </Link>
-            <Button variant="secondary" onClick={logout}>
-              Log Out
-            </Button>
-          </>
-        ) : (
-          <>
-            <Link to="/login">
-              <Button variant="primary" className="me-1">
-                Log In
-              </Button>
-            </Link>
-            <Link to="/signup">
-              <Button variant="outline-primary">Sign Up</Button>
-            </Link>
-          </>
-        )}
+            </>
+          ) : (
+            <>
+              <Link to="/login">
+                <Button variant="primary" className="me-1">
+                  Log In
+                </Button>
+              </Link>
+              <Link to="/signup">
+                <Button variant="outline-primary">Sign Up</Button>
+              </Link>
+            </>
+          )}
+        </Nav>
       </Container>
     </Navbar>
   );
