@@ -10,16 +10,12 @@ export default function NavBar() {
     <Navbar bg="light" variant="light">
       <Container>
         <Nav className="me-auto">
-          <Nav.Link>
-            <Link className="text-decoration-none text-dark" to="/">
-              Questions
-            </Link>
-          </Nav.Link>
-          <Nav.Link>
-            <Link className="text-decoration-none text-dark" to="/tags">
-              Tags
-            </Link>
-          </Nav.Link>
+          <Link className="text-decoration-none text-dark me-2" to="/">
+            Questions
+          </Link>
+          <Link className="text-decoration-none text-dark" to="/tags">
+            Tags
+          </Link>
         </Nav>
         <Nav>
           {userId ? (
