@@ -77,6 +77,10 @@ export default function CommentForm(props: CommentFormProps) {
           setError('An error occured');
         }
       );
+    } else {
+      setShowCommentForm(false);
+      setLoading(false);
+      setError('An error occured');
     }
   };
 

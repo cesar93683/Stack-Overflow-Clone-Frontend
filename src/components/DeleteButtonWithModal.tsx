@@ -32,39 +32,19 @@ export default function DeleteButtonWithModal(
   const onDelete = () => {
     setLoading(true);
     setHasError(false);
-    // TODO refactor
+
+    let response = null;
+
     if (commentId) {
-      CommentService.deleteComment(commentId, token).then(
-        (data) => {
-          setLoading(false);
-          if (data?.code === 0) {
-            onDeleteSuccess();
-          } else {
-            setHasError(true);
-          }
-        },
-        () => {
-          setLoading(false);
-          setHasError(true);
-        }
-      );
+      response = CommentService.deleteComment(commentId, token);
     } else if (questionId) {
-      QuestionService.deleteQuestion(questionId, token).then(
-        (data) => {
-          setLoading(false);
-          if (data?.code === 0) {
-            onDeleteSuccess();
-          } else {
-            setHasError(true);
-          }
-        },
-        () => {
-          setLoading(false);
-          setHasError(true);
-        }
-      );
+      response = QuestionService.deleteQuestion(questionId, token);
     } else if (answerId) {
-      AnswerService.deleteAnswer(answerId, token).then(
+      response = AnswerService.deleteAnswer(answerId, token);
+    }
+
+    if (response) {
+      response.then(
         (data) => {
           setLoading(false);
           if (data?.code === 0) {
@@ -78,6 +58,9 @@ export default function DeleteButtonWithModal(
           setHasError(true);
         }
       );
+    } else {
+      setLoading(false);
+      setHasError(true);
     }
   };
 
