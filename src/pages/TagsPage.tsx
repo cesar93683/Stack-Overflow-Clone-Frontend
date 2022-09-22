@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionService from '../service/QuestionService';
@@ -32,18 +32,20 @@ export default function HomePage() {
   }
 
   return (
-    <div>
+    <Row className="row-cols-4 mt-2">
       {tags.map((tag) => (
-        <Card>
-          <Card.Body>
-            <Card.Title>
-              <Link to={'/questions/tagged/' + tag.tag}>{tag.tag}</Link>
-            </Card.Title>
-            <Card.Text>{tag.description}</Card.Text>
-            <Card.Text>{tag.numQuestions + ' questions'}</Card.Text>
-          </Card.Body>
-        </Card>
+        <Col className="ps-0 pt-0 pb-2 pe-2" key={tag.tag}>
+          <Card>
+            <Card.Body>
+              <Card.Title>
+                <Link to={'/questions/tagged/' + tag.tag}>{tag.tag}</Link>
+              </Card.Title>
+              <Card.Text className="line-clamp-5">{tag.description}</Card.Text>
+              <Card.Text>{tag.numQuestions + ' questions'}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
       ))}
-    </div>
+    </Row>
   );
 }
