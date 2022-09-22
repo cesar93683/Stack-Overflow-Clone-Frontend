@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import QuestionService from '../service/QuestionService';
 import ITag from '../utils/interfaces/ITag';
@@ -32,7 +34,15 @@ export default function HomePage() {
   return (
     <div>
       {tags.map((tag) => (
-        <div>{tag.tag}</div>
+        <Card>
+          <Card.Body>
+            <Card.Title>
+              <Link to={'/questions/tagged/' + tag.tag}>{tag.tag}</Link>
+            </Card.Title>
+            <Card.Text>{tag.description}</Card.Text>
+            <Card.Text>{tag.numQuestions + ' questions'}</Card.Text>
+          </Card.Body>
+        </Card>
       ))}
     </div>
   );
