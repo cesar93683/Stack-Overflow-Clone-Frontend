@@ -131,7 +131,7 @@ class QuestionService {
     const response = await axios.get<IQuestionsAndTag>(
       API_URL +
         'tagged/' +
-        tag +
+        encodeURIComponent(tag) +
         '?page=' +
         page +
         '&sortedByVotes=' +

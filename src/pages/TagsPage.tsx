@@ -38,7 +38,9 @@ export default function HomePage() {
           <Card>
             <Card.Body>
               <Card.Title>
-                <Link to={'/questions/tagged/' + tag.tag}>{tag.tag}</Link>
+                <Link to={'/questions/tagged/' + encodeURIComponent(tag.tag)}>
+                  {tag.tag}
+                </Link>
               </Card.Title>
               <Card.Text className="line-clamp-5">{tag.description}</Card.Text>
               <Card.Text>{tag.numQuestions + ' questions'}</Card.Text>
