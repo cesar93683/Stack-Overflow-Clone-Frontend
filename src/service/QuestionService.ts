@@ -3,6 +3,7 @@ import getAuthHeader from '../utils/getAuthHeader';
 import IComment from '../utils/interfaces/IComment';
 import IQuestion from '../utils/interfaces/IQuestion';
 import IQuestions from '../utils/interfaces/IQuestions';
+import IQuestionsAndTag from '../utils/interfaces/IQuestionsAndTag';
 import ITag from '../utils/interfaces/ITag';
 import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 import IGetQuestionsByUserIdResponse from '../utils/interfaces/service/IGetQuestionsByUserIdResponse';
@@ -127,7 +128,7 @@ class QuestionService {
     return response.data;
   }
   async getQuestionsByTag(tag: string, page: number, sortedByVotes: boolean) {
-    const response = await axios.get<IQuestions>(
+    const response = await axios.get<IQuestionsAndTag>(
       API_URL +
         'tagged/' +
         tag +

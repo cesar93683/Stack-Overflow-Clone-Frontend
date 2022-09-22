@@ -3,32 +3,39 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import Questions from '../components/Questions';
 import QuestionService from '../service/QuestionService';
 import IQuestion from '../utils/interfaces/IQuestion';
+import ITag from '../utils/interfaces/ITag';
 
 export default function TagPage() {
-  const { id: tag } = useParams<{ id: string }>();
+  const { id: tagType } = useParams<{ id: string }>();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get('page'));
   const sortedByVotes = searchParams.get('sortedByVotes') !== 'false';
 
+  const [tag, setTag] = useState<ITag>({
+    tag: '',
+    description: '',
+    numQuestions: 0,
+  });
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
   const [errorOccurred, setErrorOccurred] = useState(false);
 
   useEffect(() => {
-    if (!tag) {
+    if (!tagType) {
       setErrorOccurred(true);
       return;
     }
     QuestionService.getQuestionsByTag(
-      tag,
+      tagType,
       !page ? 0 : page - 1,
       sortedByVotes
     ).then(
       (data) => {
-        setQuestions(data.questions);
-        setTotalPages(data.totalPages);
+        setTag(data.tag);
+        setQuestions(data.questions.questions);
+        setTotalPages(data.questions.totalPages);
         setLoading(false);
       },
       () => {
@@ -36,17 +43,23 @@ export default function TagPage() {
         setErrorOccurred(true);
       }
     );
-  }, [tag, page, sortedByVotes]);
+  }, [tagType, page, sortedByVotes]);
 
   return (
-    <Questions
-      loading={loading}
-      errorOccurred={errorOccurred}
-      questions={questions}
-      page={page}
-      sortedByVotes={sortedByVotes}
-      totalPages={totalPages}
-      apiLink={'/questions/tagged/' + tag + '/'}
-    />
+    <div>
+      <div>
+        <h4>{'Questions tagged [' + tag.tag + ']'}</h4>
+        <p>{tag.description}</p>
+      </div>
+      <Questions
+        loading={loading}
+        errorOccurred={errorOccurred}
+        questions={questions}
+        page={page}
+        sortedByVotes={sortedByVotes}
+        totalPages={totalPages}
+        apiLink={'/questions/tagged/' + tag + '/'}
+      />
+    </div>
   );
 }
