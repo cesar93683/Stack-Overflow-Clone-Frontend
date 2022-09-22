@@ -36,7 +36,7 @@ export default function TagPage() {
         setErrorOccurred(true);
       }
     );
-  }, [page, sortedByVotes]);
+  }, [tag, page, sortedByVotes]);
 
   return (
     <Questions
