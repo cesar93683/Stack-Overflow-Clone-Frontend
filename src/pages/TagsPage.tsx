@@ -32,7 +32,7 @@ export default function HomePage() {
   }
 
   return (
-    <Row className="row-cols-4 mt-2">
+    <Row className="row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mt-2">
       {tags.map((tag) => (
         <Col className="ps-0 pt-0 pb-2 pe-2" key={tag.tag}>
           <Card>
