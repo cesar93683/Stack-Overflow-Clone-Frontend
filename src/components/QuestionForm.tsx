@@ -100,6 +100,7 @@ export default function QuestionForm(props: QuestionFormTags) {
           placeholder="Tags"
           filterOptions={fuzzySearch}
           onChange={onSelectTag}
+          disabled={tags.length === 5}
         />
       </Form.Group>
       {error ? (
