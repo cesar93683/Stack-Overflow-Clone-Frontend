@@ -34,8 +34,8 @@ class ValidateUtils {
       return 'Please enter a comment';
     } else if (comment.length < 3) {
       return 'Comment must be at least 3 characters';
-    } else if (comment.length > 100) {
-      return 'Comment must be no longer than 100 characters';
+    } else if (comment.length > 500) {
+      return 'Comment must be no longer than 500 characters';
     }
     return null;
   }
