@@ -62,7 +62,7 @@ export default function AnswerForm(props: AnswerFormProps) {
       <Form onSubmit={onSubmitClick} className={className}>
         <Form.Control
           minLength={3}
-          maxLength={500}
+          maxLength={5000}
           as="textarea"
           rows={8}
           value={content}
