@@ -58,7 +58,7 @@ export default function QuestionForm(props: QuestionFormTags) {
         <Form.Label>Title</Form.Label>
         <Form.Control
           minLength={3}
-          maxLength={50}
+          maxLength={200}
           type="text"
           placeholder="Enter title"
           value={title}

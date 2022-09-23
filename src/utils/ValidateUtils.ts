@@ -44,8 +44,8 @@ class ValidateUtils {
       return 'Please enter a title';
     } else if (title.length < 3) {
       return 'Title must be at least 3 characters';
-    } else if (title.length > 50) {
-      return 'Title must be no longer than 50 characters';
+    } else if (title.length > 200) {
+      return 'Title must be no longer than 200 characters';
     }
     return null;
   }
