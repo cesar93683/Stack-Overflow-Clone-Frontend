@@ -4,6 +4,7 @@ import AnswerService from '../service/AnswerService';
 import { AuthContext } from '../utils/auth-context';
 import IAnswer from '../utils/interfaces/IAnswer';
 import ValidateUtils from '../utils/ValidateUtils';
+import Content from './Content';
 import LoadingSpinner from './LoadingSpinner';
 
 interface AnswerFormProps {
@@ -86,6 +87,7 @@ export default function AnswerForm(props: AnswerFormProps) {
           )}
         </div>
       </Form>
+      <Content content={content} />
     </div>
   );
 }
