@@ -54,8 +54,8 @@ class ValidateUtils {
       return 'Please enter some content';
     } else if (content.length < 3) {
       return 'Content must be at least 3 characters';
-    } else if (content.length > 5000) {
-      return 'Content must be no longer than 5000 characters';
+    } else if (content.length > 10000) {
+      return 'Content must be no longer than 10000 characters';
     }
     return null;
   }

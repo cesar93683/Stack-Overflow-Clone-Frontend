@@ -89,7 +89,7 @@ export default function EditButtonWithModal(props: EditButtonWithModalProps) {
             <Form.Group className="mb-2">
               <Form.Control
                 minLength={3}
-                maxLength={5000}
+                maxLength={10000}
                 as="textarea"
                 rows={8}
                 placeholder="Enter content"
