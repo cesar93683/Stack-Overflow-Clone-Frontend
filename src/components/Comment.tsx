@@ -56,7 +56,10 @@ export default function Comment(props: CommentProps) {
           <div className="d-inline">{content}</div>
           <div className="ms-1 d-inline-flex">
             <div>{' - '}</div>
-            <Link className="ms-1 text-decoration-none" to={'/users/' + userId}>
+            <Link
+              className="ms-1 text-decoration-none"
+              to={'/users/' + commentUserId}
+            >
               {username}
             </Link>
           </div>
