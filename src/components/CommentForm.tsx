@@ -91,7 +91,7 @@ export default function CommentForm(props: CommentFormProps) {
         onChange={onContentChange}
         placeholder={'Enter Comment'}
         minLength={3}
-        maxLength={500}
+        maxLength={1000}
       />
       {error ? (
         <Alert className="ms-auto mt-1 mb-0 p-1 w-fit-content" variant="danger">
