@@ -46,24 +46,18 @@ export default function Comment(props: CommentProps) {
       <div className="p-2 d-flex">
         <VoteSection
           votes={votes}
-          className="me-2"
           commentId={id}
           setVote={setVote}
           currVote={currVote}
           enabled={!!userId}
         />
-        <div className="my-auto">
-          <div className="d-inline">{content}</div>
-          <div className="ms-1 d-inline-flex">
-            <div>{' - '}</div>
-            <Link
-              className="ms-1 text-decoration-none"
-              to={'/users/' + commentUserId}
-            >
-              {username}
-            </Link>
-          </div>
-          <div className="ms-1 d-inline">{createdAtLocaleString}</div>
+        <div>
+          <span className="ms-1">{content}</span>
+          <span className="ms-1">{'-'}</span>
+          <Link className="ms-1 text-decoration-none" to={'/users/' + userId}>
+            {username}
+          </Link>
+          <span className="ms-1">{createdAtLocaleString}</span>
           {userId === commentUserId ? (
             <div className="d-inline">
               <DeleteButtonWithModal
