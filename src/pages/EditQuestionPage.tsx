@@ -42,7 +42,7 @@ export default function EditQuestionPage() {
       (data) => {
         setTitle(data.title);
         setContent(data.content);
-        setTags(data.tags.map((tag) => tag.tag));
+        setTags(data.tags);
         setQuestionLoading(false);
       },
       () => {

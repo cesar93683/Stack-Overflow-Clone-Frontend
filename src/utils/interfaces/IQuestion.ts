@@ -1,6 +1,5 @@
 import IAnswer from './IAnswer';
 import IComment from './IComment';
-import ITag from './ITag';
 import IUser from './IUser';
 
 export default interface IQuestion {
@@ -13,7 +12,7 @@ export default interface IQuestion {
   answers: IAnswer[];
   comments: IComment[];
   user: IUser;
-  tags: ITag[];
+  tags: string[];
   currVote: number;
   createdAt: string;
   updatedAt: string;

@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { AuthContext } from '../utils/auth-context';
 import IComment from '../utils/interfaces/IComment';
-import ITag from '../utils/interfaces/ITag';
 import IUser from '../utils/interfaces/IUser';
 import AcceptedAnswer from './AcceptAnswer';
 import Comment from './Comment';
@@ -25,7 +24,7 @@ interface CustomCardProps {
     votes: number;
     comments: IComment[];
     user: IUser;
-    tags?: ITag[];
+    tags?: string[];
     currVote: number;
     createdAt: string;
     updatedAt: string;
