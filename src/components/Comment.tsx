@@ -43,7 +43,7 @@ export default function Comment(props: CommentProps) {
 
   return (
     <div className={className}>
-      <div className="p-2 d-flex">
+      <div className="mt-2 d-flex">
         <VoteSection
           votes={votes}
           commentId={id}

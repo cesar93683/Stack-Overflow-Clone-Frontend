@@ -81,26 +81,29 @@ export default function CustomCard(props: CustomCardProps) {
 
   return (
     <Card className={className}>
-      <Card.Body className="d-flex">
-        <div className="me-2">
-          <VoteSection
-            votes={votes}
-            setVote={setVote}
-            questionId={questionId}
-            answerId={answerId}
-            currVote={currVote}
-            enabled={!!userId}
-          />
-          {answerId && acceptAnswer ? (
-            <AcceptedAnswer
+      <Card.Body className="row">
+        <div className="col-2 col-sm-1">
+          <div className="w-fit-content mx-auto">
+            <VoteSection
+              votes={votes}
+              setVote={setVote}
+              questionId={questionId}
               answerId={answerId}
-              questionUserId={questionUserId}
-              accepted={!!accepted}
-              acceptAnswer={acceptAnswer}
+              currVote={currVote}
+              enabled={!!userId}
             />
-          ) : null}
+            {answerId && acceptAnswer ? (
+              <AcceptedAnswer
+                className="mt-2 d-block"
+                answerId={answerId}
+                questionUserId={questionUserId}
+                accepted={!!accepted}
+                acceptAnswer={acceptAnswer}
+              />
+            ) : null}
+          </div>
         </div>
-        <div className="w-100">
+        <div className="col-10 col-sm-11">
           {title ? <Card.Title>{title}</Card.Title> : null}
           <Content content={content} />
           <div className="d-flex flex-row-reverse justify-content-between align-items-center">

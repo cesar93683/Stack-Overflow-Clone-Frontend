@@ -123,7 +123,6 @@ export default function VoteSection(props: VoteSectionProps) {
           onClick={onUpVote}
           variant={currVote === 1 ? 'primary' : 'secondary'}
           disabled={!enabled}
-          size="sm"
         >
           ^
         </Button>
@@ -132,7 +131,6 @@ export default function VoteSection(props: VoteSectionProps) {
           onClick={onDownVote}
           variant={currVote === -1 ? 'primary' : 'secondary'}
           disabled={!enabled}
-          size="sm"
         >
           v
         </Button>

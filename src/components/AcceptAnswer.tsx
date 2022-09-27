@@ -8,10 +8,11 @@ interface AcceptedAnswerProps {
   questionUserId: number;
   accepted: boolean;
   acceptAnswer: () => void;
+  className?: string;
 }
 
 export default function AcceptedAnswer(props: AcceptedAnswerProps) {
-  const { answerId, questionUserId, accepted, acceptAnswer } = props;
+  const { answerId, questionUserId, accepted, acceptAnswer, className } = props;
   const { userId, token } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
@@ -36,14 +37,13 @@ export default function AcceptedAnswer(props: AcceptedAnswerProps) {
   };
 
   return accepted ? (
-    <Button className="mt-3" variant="success" size="sm" disabled>
+    <Button className={className} variant="success" disabled>
       A
     </Button>
   ) : userId === questionUserId ? (
     <Button
-      className="mt-3"
+      className={className}
       variant="outline-secondary"
-      size="sm"
       onClick={onAcceptAnswer}
       disabled={loading}
     >
