@@ -5,7 +5,7 @@ import QuestionService from '../service/QuestionService';
 import IQuestion from '../utils/interfaces/IQuestion';
 
 export default function HomePage() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const page = Number(searchParams.get('page'));
   const sortedByVotes = searchParams.get('sortedByVotes') !== 'false';
 

@@ -16,7 +16,7 @@ import IUser from '../utils/interfaces/IUser';
 
 export default function UserPage() {
   const { id } = useParams<{ id: string }>();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const page = Number(searchParams.get('page'));
   const sortedByVotes = searchParams.get('sortedByVotes') === 'true';
   const questionsTab = searchParams.get('tab') !== 'answers';

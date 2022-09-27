@@ -8,7 +8,7 @@ import ITag from '../utils/interfaces/ITag';
 export default function TagPage() {
   const { id: tagType } = useParams<{ id: string }>();
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const page = Number(searchParams.get('page'));
   const sortedByVotes = searchParams.get('sortedByVotes') !== 'false';
 
