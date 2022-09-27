@@ -4,12 +4,13 @@ import AnswerForm from '../components/AnswerForm';
 import CustomCard from '../components/CustomCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SortDropdown from '../components/SortDropdown';
+import AnswerService from '../service/AnswerService';
 import QuestionService from '../service/QuestionService';
 import { AuthContext } from '../utils/auth-context';
-import DateUtils from '../utils/DateUtils';
 import IAnswer from '../utils/interfaces/IAnswer';
 import IComment from '../utils/interfaces/IComment';
 import IQuestion from '../utils/interfaces/IQuestion';
+import ValidateUtils from '../utils/ValidateUtils';
 import VoteUtils from '../utils/VoteUtils';
 
 export default function QuestionPage() {
@@ -36,6 +37,9 @@ export default function QuestionPage() {
     updatedAt: '',
   });
   const [answers, setAnswers] = useState<IAnswer[]>([]);
+  const [answerFormContent, setAnswerFormContent] = useState('');
+  const [answerAddSubmitLoading, setAnswerAddSubmitLoading] = useState(false);
+  const [answerAddError, setAnswerAddError] = useState('');
   const [loading, setLoading] = useState(true);
   const [sortedByVotes, setSortedByVotes] = useState(true);
   const [showAddAnswerForm, setShowAddAnswerForm] = useState(false);
@@ -108,19 +112,15 @@ export default function QuestionPage() {
   const deleteQuestion = () => {
     navigate('/');
   };
+  const onEditQuestionClick = () => {
+    navigate('/questions/edit/' + questionId);
+  };
   const setQuestionVote = (newVote: number) => {
     setQuestion((prevState: IQuestion) => ({
       ...prevState,
       currVote: newVote,
       votes:
         prevState.votes + VoteUtils.getVoteDiff(prevState.currVote, newVote),
-    }));
-  };
-  const setQuestionContent = (content: string) => {
-    setQuestion((prevState: IQuestion) => ({
-      ...prevState,
-      content,
-      updatedAt: DateUtils.getLocaleDateString(new Date()),
     }));
   };
   const addQuestionComment = (comment: IComment) => {
@@ -155,6 +155,9 @@ export default function QuestionPage() {
       prevState.filter((_, i) => i !== index)
     );
   };
+  const onEditAnswerClick = (answerId: number) => {
+    navigate('/questions/answers/edit/' + answerId);
+  };
   const setAnswerVote = (newVote: number, index: number) => {
     setAnswers((prevState: IAnswer[]) =>
       prevState.map((answer, i) =>
@@ -164,19 +167,6 @@ export default function QuestionPage() {
               currVote: newVote,
               votes:
                 answer.votes + VoteUtils.getVoteDiff(answer.currVote, newVote),
-            }
-          : answer
-      )
-    );
-  };
-  const setAnswerContent = (content: string, index: number) => {
-    setAnswers((prevState: IAnswer[]) =>
-      prevState.map((answer, i) =>
-        i === index
-          ? {
-              ...answer,
-              content,
-              updatedAt: DateUtils.getLocaleDateString(new Date()),
             }
           : answer
       )
@@ -234,6 +224,40 @@ export default function QuestionPage() {
     );
   };
 
+  const onAnswerFormContentChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setAnswerFormContent(event.target.value);
+  };
+
+  const onAnswerAddSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const contentTrimmed = answerFormContent.trim();
+    const contentValidate = ValidateUtils.validateContent(contentTrimmed);
+    if (contentValidate) {
+      setAnswerAddError(contentValidate);
+      return;
+    }
+    setAnswerAddError('');
+
+    setAnswerAddSubmitLoading(true);
+    AnswerService.createAnswer(contentTrimmed, Number(questionId), token).then(
+      (data) => {
+        setAnswerAddSubmitLoading(false);
+        if (data) {
+          addAnswer(data);
+        } else {
+          setAnswerAddError('An error occured');
+        }
+      },
+      () => {
+        setAnswerAddSubmitLoading(false);
+        setAnswerAddError('An error occured');
+      }
+    );
+  };
+
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -258,8 +282,8 @@ export default function QuestionPage() {
           updatedAt: question.updatedAt,
         }}
         onDelete={deleteQuestion}
+        onEditClick={onEditQuestionClick}
         setVote={setQuestionVote}
-        setContent={setQuestionContent}
         addComment={addQuestionComment}
         setCommentVote={setCommentQuestionVote}
       />
@@ -278,6 +302,7 @@ export default function QuestionPage() {
         <CustomCard
           questionUserId={question.user.id}
           onDelete={() => deleteAnswer(answerIndex)}
+          onEditClick={() => onEditAnswerClick(answer.id)}
           className="mt-1"
           key={answerIndex}
           card={{
@@ -292,9 +317,6 @@ export default function QuestionPage() {
             updatedAt: answer.updatedAt,
           }}
           setVote={(newVote: number) => setAnswerVote(newVote, answerIndex)}
-          setContent={(updatedAt: string) =>
-            setAnswerContent(updatedAt, answerIndex)
-          }
           addComment={(comment: IComment) =>
             addAnswerComment(comment, answerIndex)
           }
@@ -305,11 +327,17 @@ export default function QuestionPage() {
         />
       ))}
       {showAddAnswerForm ? (
-        <AnswerForm
-          className="mt-1"
-          questionId={Number(questionId)}
-          onAddAnswerSuccess={addAnswer}
-        />
+        <>
+          <h4 className="mt-2 fw-normal">Your Answer</h4>
+          <AnswerForm
+            content={answerFormContent}
+            onContentChange={onAnswerFormContentChange}
+            className="mt-1"
+            onSubmit={onAnswerAddSubmit}
+            submitLoading={answerAddSubmitLoading}
+            error={answerAddError}
+          />
+        </>
       ) : null}
     </div>
   );

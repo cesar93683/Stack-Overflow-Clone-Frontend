@@ -19,6 +19,11 @@ class AnswerService {
     return response.data;
   }
 
+  async getAnswer(id: number) {
+    const response = await axios.get<IAnswer>(API_URL + id);
+    return response.data;
+  }
+
   async updateAnswer(content: string, id: number, token: string) {
     const response = await axios.put<IGenericResponse>(
       API_URL + id,

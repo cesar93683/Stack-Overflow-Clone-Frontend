@@ -11,7 +11,7 @@ interface AcceptedAnswerProps {
   className?: string;
 }
 
-export default function AcceptedAnswer(props: AcceptedAnswerProps) {
+export default function AnswerAccept(props: AcceptedAnswerProps) {
   const { answerId, questionUserId, accepted, acceptAnswer, className } = props;
   const { userId, token } = useContext(AuthContext);
 

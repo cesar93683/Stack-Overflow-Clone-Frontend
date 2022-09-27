@@ -1,66 +1,30 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
-import AnswerService from '../service/AnswerService';
-import { AuthContext } from '../utils/auth-context';
-import IAnswer from '../utils/interfaces/IAnswer';
-import ValidateUtils from '../utils/ValidateUtils';
 import Content from './Content';
 import LoadingSpinner from './LoadingSpinner';
 
-interface AnswerFormProps {
-  questionId: number;
-  onAddAnswerSuccess: (answer: IAnswer) => void;
+interface AddAnswerFormProps {
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  content: string;
+  onContentChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  error: string;
+  submitLoading: boolean;
   className?: string;
 }
 
-export default function AnswerForm(props: AnswerFormProps) {
+export default function AddAnswerForm(props: AddAnswerFormProps) {
   const {
-    questionId,
-    onAddAnswerSuccess: onAddAnswerSuccess,
+    onSubmit,
+    content,
+    onContentChange,
+    error,
+    submitLoading,
     className,
   } = props;
-  const { token } = useContext(AuthContext);
-
-  const [content, setContent] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const onContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(event.target.value);
-  };
-
-  const onSubmitClick = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const contentTrimmed = content.trim();
-    const contentValidate = ValidateUtils.validateContent(contentTrimmed);
-    if (contentValidate) {
-      setError(contentValidate);
-      return;
-    }
-    setError('');
-
-    setLoading(true);
-    AnswerService.createAnswer(content, questionId, token).then(
-      (data) => {
-        setLoading(false);
-        if (data) {
-          onAddAnswerSuccess(data);
-        } else {
-          setError('An error occured');
-        }
-      },
-      () => {
-        setLoading(false);
-        setError('An error occured');
-      }
-    );
-  };
 
   return (
     <div>
-      <h4 className="mt-2 fw-normal">Your Answer</h4>
-      <Form onSubmit={onSubmitClick} className={className}>
+      <Form onSubmit={onSubmit} className={className}>
         <Form.Control
           minLength={3}
           maxLength={10000}
@@ -78,11 +42,11 @@ export default function AnswerForm(props: AnswerFormProps) {
           </Alert>
         ) : null}
         <div className="d-flex justify-content-end mt-1">
-          {loading ? (
+          {submitLoading ? (
             <LoadingSpinner />
           ) : (
             <>
-              <Button type="submit">Post Your Answer</Button>
+              <Button type="submit">Submit</Button>
             </>
           )}
         </div>

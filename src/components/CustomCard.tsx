@@ -1,15 +1,14 @@
 import { useContext, useState } from 'react';
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import { AuthContext } from '../utils/auth-context';
 import IComment from '../utils/interfaces/IComment';
 import IUser from '../utils/interfaces/IUser';
-import AcceptedAnswer from './AcceptAnswer';
+import AnswerAccept from './AnswerAccept';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 import Content from './Content';
 import CustomCardSubtitle from './CustomCardSubtitle';
 import DeleteButtonWithModal from './DeleteButtonWithModal';
-import EditButtonWithModal from './EditButtonWithModal';
 import Tags from './Tag';
 import VoteSection from './VoteSection';
 
@@ -29,9 +28,9 @@ interface CustomCardProps {
     createdAt: string;
     updatedAt: string;
   };
+  onEditClick: () => void;
   onDelete: () => void;
   setVote: (newVote: number) => void;
-  setContent: (content: string) => void;
   addComment: (comment: IComment) => void;
   setCommentVote: (newVote: number, index: number) => void;
   acceptAnswer?: () => void;
@@ -55,9 +54,9 @@ export default function CustomCard(props: CustomCardProps) {
       createdAt,
       updatedAt,
     },
+    onEditClick,
     onDelete,
     setVote,
-    setContent,
     addComment,
     setCommentVote,
     acceptAnswer,
@@ -75,10 +74,6 @@ export default function CustomCard(props: CustomCardProps) {
     setShowCommentForm(false);
   };
 
-  const onUpdateSuccess = (newContent: string) => {
-    setContent(newContent);
-  };
-
   return (
     <Card className={className}>
       <Card.Body className="row">
@@ -93,7 +88,7 @@ export default function CustomCard(props: CustomCardProps) {
               enabled={!!userId}
             />
             {answerId && acceptAnswer ? (
-              <AcceptedAnswer
+              <AnswerAccept
                 className="mt-2 d-block"
                 answerId={answerId}
                 questionUserId={questionUserId}
@@ -117,13 +112,14 @@ export default function CustomCard(props: CustomCardProps) {
             />
             {userId === cardUserId ? (
               <div className="d-flex flex-column flex-md-row me-1">
-                <EditButtonWithModal
-                  onUpdateSuccess={onUpdateSuccess}
-                  questionId={questionId}
-                  answerId={answerId}
-                  content={content}
+                <Button
                   className="me-0 me-md-1"
-                />
+                  variant="outline-primary"
+                  onClick={onEditClick}
+                  size="sm"
+                >
+                  EDIT
+                </Button>
                 <DeleteButtonWithModal
                   className="mt-1 mt-md-0"
                   questionId={questionId}
