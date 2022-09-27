@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import AnswerService from '../service/AnswerService';
 import { AuthContext } from '../utils/auth-context';
 
-interface AcceptedAnswerProps {
+interface AnswerAcceptProps {
   answerId: number;
   questionUserId: number;
   accepted: boolean;
@@ -11,7 +11,7 @@ interface AcceptedAnswerProps {
   className?: string;
 }
 
-export default function AnswerAccept(props: AcceptedAnswerProps) {
+export default function AnswerAccept(props: AnswerAcceptProps) {
   const { answerId, questionUserId, accepted, acceptAnswer, className } = props;
   const { userId, token } = useContext(AuthContext);
 

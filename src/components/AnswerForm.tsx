@@ -3,7 +3,7 @@ import { Alert, Button, Form } from 'react-bootstrap';
 import Content from './Content';
 import LoadingSpinner from './LoadingSpinner';
 
-interface AddAnswerFormProps {
+interface AnswerFormProps {
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   content: string;
   onContentChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -12,7 +12,7 @@ interface AddAnswerFormProps {
   className?: string;
 }
 
-export default function AddAnswerForm(props: AddAnswerFormProps) {
+export default function AnswerForm(props: AnswerFormProps) {
   const {
     onSubmit,
     content,
