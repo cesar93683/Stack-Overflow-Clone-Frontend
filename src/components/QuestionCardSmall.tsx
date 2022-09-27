@@ -1,5 +1,6 @@
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import removeMd from 'remove-markdown';
 import IQuestion from '../utils/interfaces/IQuestion';
 import CustomCardSubtitle from './CustomCardSubtitle';
 import Tag from './Tag';
@@ -26,13 +27,6 @@ export default function QuestionCardSmall(props: QuestionCardSmallProps) {
     className,
   } = props;
 
-  const removeMarkDown = (content: string) => {
-    return content
-      .replaceAll(/~~~[a-zA-Z]+/g, '')
-      .replaceAll('~~~', '')
-      .replaceAll('```', '');
-  };
-
   return (
     <Card className={className}>
       <Card.Body className="d-flex flex-md-row flex-column">
@@ -52,7 +46,7 @@ export default function QuestionCardSmall(props: QuestionCardSmallProps) {
             </Link>
           </Card.Title>
           <Card.Text className="mb-1 line-clamp-2">
-            {removeMarkDown(content)}
+            {removeMd(content)}
           </Card.Text>
           <Tag tags={tags} />
           <div className="d-flex justify-content-end">
