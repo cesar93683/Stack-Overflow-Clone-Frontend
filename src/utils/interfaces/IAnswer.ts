@@ -9,6 +9,7 @@ export default interface IAnswer {
   comments: IComment[];
   user: IUser;
   currVote: number;
+  questionId: number;
   createdAt: string;
   updatedAt: string;
 }

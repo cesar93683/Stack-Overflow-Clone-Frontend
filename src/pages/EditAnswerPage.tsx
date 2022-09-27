@@ -12,6 +12,7 @@ export default function AnswerEditPage() {
   const { token } = useContext(AuthContext);
 
   const [content, setContent] = useState('');
+  const [questionId, setQuestionId] = useState(0);
 
   const [submitLoading, setSubmitLoading] = useState(false);
   const [answerLoading, setAnswerLoading] = useState(true);
@@ -26,6 +27,7 @@ export default function AnswerEditPage() {
     AnswerService.getAnswer(Number(answerId)).then(
       (data) => {
         setContent(data.content);
+        setQuestionId(data.questionId);
         setAnswerLoading(false);
       },
       () => {
@@ -64,7 +66,7 @@ export default function AnswerEditPage() {
       (data) => {
         setSubmitLoading(true);
         if (data?.code === 0) {
-          navigate(`/questions/${answerId}`);
+          navigate(`/questions/${questionId}`);
         } else {
           setError('An error occured');
           setSubmitLoading(false);
