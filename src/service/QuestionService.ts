@@ -66,7 +66,7 @@ class QuestionService {
     tags: string[],
     token: string
   ) {
-    const response = await axios.post<IQuestion>(
+    const response = await axios.put<IQuestion>(
       API_URL,
       {
         title,
@@ -84,7 +84,7 @@ class QuestionService {
     id: number,
     token: string
   ) {
-    const response = await axios.put<IGenericResponse>(
+    const response = await axios.post<IGenericResponse>(
       API_URL + id,
       {
         content,
@@ -113,7 +113,7 @@ class QuestionService {
   }
 
   async createComment(content: string, id: number, token: string) {
-    const response = await axios.post<IComment>(
+    const response = await axios.put<IComment>(
       API_URL + 'comments',
       {
         content,
