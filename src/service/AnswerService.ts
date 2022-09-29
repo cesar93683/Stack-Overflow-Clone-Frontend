@@ -8,7 +8,7 @@ const API_URL = 'http://localhost:8080/api/answers/';
 
 class AnswerService {
   async createAnswer(content: string, questionId: number, token: string) {
-    const response = await axios.post<IAnswer>(
+    const response = await axios.put<IAnswer>(
       API_URL,
       {
         questionId,
@@ -25,7 +25,7 @@ class AnswerService {
   }
 
   async updateAnswer(content: string, id: number, token: string) {
-    const response = await axios.put<IGenericResponse>(
+    const response = await axios.post<IGenericResponse>(
       API_URL + id,
       {
         content,
@@ -62,7 +62,7 @@ class AnswerService {
   }
 
   async createComment(content: string, id: number, token: string) {
-    const response = await axios.post<IComment>(
+    const response = await axios.put<IComment>(
       API_URL + 'comments',
       {
         content,
