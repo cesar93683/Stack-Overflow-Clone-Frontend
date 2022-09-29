@@ -77,8 +77,8 @@ export default function CustomCard(props: CustomCardProps) {
   return (
     <Card className={className}>
       <Card.Body className="row">
-        <div className="col-2 col-sm-1">
-          <div className="w-fit-content mx-auto">
+        <div className="col-12 col-sm-1 p-0 m-0 ms-1 ms-sm-0">
+          <div className="w-fit-content mx-sm-auto d-flex flex-sm-column">
             <VoteSection
               votes={votes}
               setVote={setVote}
@@ -89,7 +89,7 @@ export default function CustomCard(props: CustomCardProps) {
             />
             {answerId && acceptAnswer ? (
               <AnswerAccept
-                className="mt-2 d-block"
+                className="mt-sm-2 ms-2 ms-sm-0 d-block"
                 answerId={answerId}
                 questionUserId={questionUserId}
                 accepted={!!accepted}
@@ -98,7 +98,7 @@ export default function CustomCard(props: CustomCardProps) {
             ) : null}
           </div>
         </div>
-        <div className="col-10 col-sm-11">
+        <div className="col-12 col-sm-11 p-1">
           {title ? <Card.Title>{title}</Card.Title> : null}
           <Content content={content} />
           <div className="d-flex flex-row-reverse justify-content-between align-items-center">

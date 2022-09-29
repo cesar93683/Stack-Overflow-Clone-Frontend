@@ -118,7 +118,7 @@ export default function VoteSection(props: VoteSectionProps) {
 
   if (questionId || answerId) {
     return (
-      <div className={'d-flex flex-column align-items-center ' + className}>
+      <div className={'d-flex align-items-center flex-sm-column ' + className}>
         <Button
           onClick={onUpVote}
           variant={currVote === 1 ? 'primary' : 'secondary'}
@@ -126,7 +126,7 @@ export default function VoteSection(props: VoteSectionProps) {
         >
           ^
         </Button>
-        <div>{votes}</div>
+        <div className="mx-1 mx-sm-0">{votes}</div>
         <Button
           onClick={onDownVote}
           variant={currVote === -1 ? 'primary' : 'secondary'}
