@@ -18,7 +18,7 @@ export default function BasicExample() {
     <Router>
       <AuthProvider>
         <Navbar />
-        <Container>
+        <Container className="mb-5">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LogInPage />} />
