@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Card, Col, Row } from 'react-bootstrap';
+import { Card, Col, Placeholder, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import LoadingEllipsis from '../components/LoadingEllipsis';
 import QuestionService from '../service/QuestionService';
 import ITag from '../utils/interfaces/ITag';
 
@@ -32,7 +31,19 @@ export default function HomePage() {
       <Col className={colClassName}>
         <Card>
           <Card.Body>
-            <LoadingEllipsis />
+            <Placeholder as={Card.Title} animation="glow">
+              <Placeholder xs={6} />
+            </Placeholder>
+            <Placeholder as={Card.Text} animation="glow">
+              <Placeholder xs={5} md={7} /> <Placeholder xs={3} md={4} />
+              <Placeholder xs={2} md={4} /> <Placeholder xs={4} md={6} />
+              <Placeholder xs={5} md={8} /> <Placeholder xs={2} md={3} />
+              <Placeholder xs={2} md={3} /> <Placeholder xs={6} md={8} />
+              <Placeholder xs={3} md={4} /> <Placeholder xs={6} md={6} />
+            </Placeholder>
+            <Placeholder as={Card.Text} animation="glow">
+              <Placeholder xs={5} />
+            </Placeholder>
           </Card.Body>
         </Card>
       </Col>
