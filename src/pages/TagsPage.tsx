@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingEllipsis from '../components/LoadingEllipsis';
 import QuestionService from '../service/QuestionService';
 import ITag from '../utils/interfaces/ITag';
 
@@ -9,6 +9,10 @@ export default function HomePage() {
   const [tags, setTags] = useState<ITag[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorOccurred, setErrorOccurred] = useState(false);
+
+  const rowClassName =
+    'row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mt-2';
+  const colClassName = 'ps-0 pt-0 pb-2 pe-2';
 
   useEffect(() => {
     QuestionService.getTags().then(
@@ -24,7 +28,23 @@ export default function HomePage() {
   }, []);
 
   if (loading) {
-    return <LoadingSpinner />;
+    const loadingCol = (
+      <Col className={colClassName}>
+        <Card>
+          <Card.Body>
+            <LoadingEllipsis />
+          </Card.Body>
+        </Card>
+      </Col>
+    );
+    return (
+      <Row className={rowClassName}>
+        {loadingCol}
+        {loadingCol}
+        {loadingCol}
+        {loadingCol}
+      </Row>
+    );
   }
 
   if (errorOccurred) {
@@ -32,9 +52,9 @@ export default function HomePage() {
   }
 
   return (
-    <Row className="row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mt-2">
+    <Row className={rowClassName}>
       {tags.map((tag) => (
-        <Col className="ps-0 pt-0 pb-2 pe-2" key={tag.tag}>
+        <Col className={colClassName} key={tag.tag}>
           <Card>
             <Card.Body>
               <Card.Title>
