@@ -31,18 +31,6 @@ export default function Questions(props: QuestionProps) {
     navigate(apiLink + '?sortedByVotes=' + state);
   };
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
-  if (errorOccurred) {
-    return <div>An error has occured</div>;
-  }
-
-  if (questions.length === 0) {
-    return <div>There are no questions</div>;
-  }
-
   let nextButton = null;
   if ((page && page < totalPages) || (!page && totalPages > 1)) {
     nextButton = (
@@ -84,6 +72,13 @@ export default function Questions(props: QuestionProps) {
       </div>
     );
   }
+  if (!loading && errorOccurred) {
+    return <div>An error has occured</div>;
+  }
+
+  if (!loading && questions.length === 0) {
+    return <div>There are no questions</div>;
+  }
 
   return (
     <div>
@@ -92,9 +87,13 @@ export default function Questions(props: QuestionProps) {
         setSortedByVotes={setSortedByVotes}
         className="d-flex justify-content-end"
       />
-      {questions.map((question, i) => (
-        <QuestionCardSmall question={question} key={i} className="mt-2" />
-      ))}
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        questions.map((question, i) => (
+          <QuestionCardSmall question={question} key={i} className="mt-2" />
+        ))
+      )}
       {navButtons}
     </div>
   );
