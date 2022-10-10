@@ -7,8 +7,9 @@ import IQuestionsAndTag from '../utils/interfaces/IQuestionsAndTag';
 import ITag from '../utils/interfaces/ITag';
 import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 import IGetQuestionsByUserIdResponse from '../utils/interfaces/service/IGetQuestionsByUserIdResponse';
+import { API_HOST_URL } from './Constants';
 
-const API_URL = 'http://localhost:8080/api/questions/';
+const API_URL = API_HOST_URL + 'api/questions/';
 
 class QuestionService {
   async getQuestions(page: number, sortedByVotes: boolean) {

@@ -1,8 +1,9 @@
 import axios from 'axios';
 import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
 import ILoginResponse from '../utils/interfaces/service/ILoginResponse';
+import { API_HOST_URL } from './Constants';
 
-const API_URL = 'http://localhost:8080/api/auth/';
+const API_URL = API_HOST_URL + 'api/auth/';
 
 class AuthService {
   async login(username: string, password: string) {

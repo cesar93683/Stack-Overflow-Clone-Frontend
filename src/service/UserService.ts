@@ -1,7 +1,8 @@
 import axios from 'axios';
 import IUser from '../utils/interfaces/IUser';
+import { API_HOST_URL } from './Constants';
 
-const API_URL = 'http://localhost:8080/api/users/';
+const API_URL = API_HOST_URL + 'api/users/';
 
 class UserService {
   async getUserById(userId: number) {

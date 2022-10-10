@@ -3,8 +3,9 @@ import getAuthHeader from '../utils/getAuthHeader';
 import IAnswer from '../utils/interfaces/IAnswer';
 import IComment from '../utils/interfaces/IComment';
 import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
+import { API_HOST_URL } from './Constants';
 
-const API_URL = 'http://localhost:8080/api/answers/';
+const API_URL = API_HOST_URL + 'api/answers/';
 
 class AnswerService {
   async createAnswer(content: string, questionId: number, token: string) {

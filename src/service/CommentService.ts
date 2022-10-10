@@ -1,8 +1,9 @@
 import axios from 'axios';
 import getAuthHeader from '../utils/getAuthHeader';
 import IGenericResponse from '../utils/interfaces/service/IGenericResponse';
+import { API_HOST_URL } from './Constants';
 
-const API_URL = 'http://localhost:8080/api/comments/';
+const API_URL = API_HOST_URL + 'api/comments/';
 
 class CommentService {
   async deleteComment(id: number, token: string) {
