@@ -5,7 +5,6 @@ run `npm install` in terminal
 run `npm run dev` in terminal
 
 To run build folder  
-run ` npm install --global serve` in terminal  
 run `npm build` in terminal  
 run `npm start` in terminal
 
