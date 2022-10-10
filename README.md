@@ -2,7 +2,7 @@ Install NodeJs
 Install VSCode
 
 run `npm install` in terminal  
-run `npm run start-local` in terminal
+run `npm run dev` in terminal
 
 To run build folder  
 run ` npm install --global serve` in terminal  
