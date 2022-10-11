@@ -54,7 +54,10 @@ export default function Comment(props: CommentProps) {
         <div>
           <span className="ms-1">{content}</span>
           <span className="ms-1">{'-'}</span>
-          <Link className="ms-1 text-decoration-none" to={'/users/' + userId}>
+          <Link
+            className="ms-1 text-decoration-none"
+            to={'/users/' + commentUserId}
+          >
             {username}
           </Link>
           <span className="ms-1">{createdAtLocaleString}</span>
