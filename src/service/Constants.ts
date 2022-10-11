@@ -1,3 +1,2 @@
-export const API_HOST_URL = process.env.backend_url
-  ? process.env.backend_url
-  : 'http://localhost:8080/';
+export const API_HOST_URL =
+  process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080/';
